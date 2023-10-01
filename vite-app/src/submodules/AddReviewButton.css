@@ -1,0 +1,18 @@
+/* CSS for hiding the modal initially */
+.modal {
+  position: fixed;
+  top: -100%; /* Start above the viewport */
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: top 0.3s ease; /* Drop-down transition */
+}
+
+/* CSS for showing the modal when it's visible */
+.modal.active {
+  top: 0; /* Drop down to the top of the viewport */
+}

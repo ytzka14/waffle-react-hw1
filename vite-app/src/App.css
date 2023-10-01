@@ -1,5 +1,9 @@
-body {
-	margin: 0px; /* for filling header to top */
+body, #root {
+	margin: 0; /* for filling header to top */
+	padding: 0;
+	width: 100%;
+	height: 100vh;
+	overflow: hidden;
 }
 
 .header {
@@ -86,6 +90,14 @@ textarea::placeholder { /* example text */
 	overflow: hidden; /* cut image at border */
 }
 
+.snackNameText {
+	font-weight: bold;
+}
+
+.greyText {
+	color: grey;
+}
+
 .snackImage {
 	width: 100%;
 	height: 100%;
@@ -95,4 +107,8 @@ textarea::placeholder { /* example text */
 .rateSpan {
 	font-weight: bold;
 	color: orange;
+}
+
+.reviewButton {
+	background-color: yellowgreen;
 }

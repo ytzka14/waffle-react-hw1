@@ -40,6 +40,10 @@ body, #root {
 	width: fit-content;
 }
 
+.invisibleLink:hover {
+	color: black;
+}
+
 .writingArea {
 	width: 450px;
 	margin: auto;

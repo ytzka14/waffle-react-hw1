@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "../App.css";
 
+/*
 async function isImageUrlValid(url: string): Promise<boolean> {
   try {
     const response = await fetch(url);
@@ -18,6 +19,7 @@ async function isImageUrlValid(url: string): Promise<boolean> {
 
   return false; // Not a valid image or an error occurred
 }
+*/
 
 function WriteReviewModal(props: {
   closeModal: (e: React.MouseEvent) => void;
@@ -33,15 +35,15 @@ function WriteReviewModal(props: {
   const [snackRate, setSnackRate] = useState(0);
   const [snackText, setSnackText] = useState("");
   const [preview, setPreview] = useState("");
-  const [writeButtonActive, setWriteButtonActive] = useState(true);
+  // const [writeButtonActive, setWriteButtonActive] = useState(true);
   const [nameError, setNameError] = useState("");
-  const [imageError, setImageError] = useState("");
+  // const [imageError, setImageError] = useState("");
   const [rateError, setRateError] = useState("");
   const [textError, setTextError] = useState("");
 
   const handleTimeout = () => {
     setPreview(snackImage);
-    setWriteButtonActive(true);
+    // setWriteButtonActive(true);
   };
 
   let previewTimeout = setTimeout(handleTimeout, 1000);
@@ -51,10 +53,10 @@ function WriteReviewModal(props: {
   };
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setWriteButtonActive(false);
+    // setWriteButtonActive(false);
     setSnackImage(e.target.value);
     clearTimeout(previewTimeout);
-    previewTimeout = setTimeout(handleTimeout, 3000);
+    previewTimeout = setTimeout(handleTimeout, 1000);
   };
 
   const handleRate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -65,32 +67,43 @@ function WriteReviewModal(props: {
     setSnackText(e.target.value);
   };
 
-  async function tryWrite() {
-    setSnackName(snackName.trim());
-    setSnackText(snackText.trim());
-    const isValidImage = await isImageUrlValid(snackImage);
+  function tryWrite() {
+    /*
+		const isValidImage = await isImageUrlValid(snackImage);
+		*/
+		let invalid: boolean = false;
     if (snackName.length < 1 || snackName.length > 20) {
-      setNameError("과자 이름은 1자 이상 20자 이하여야 합니다.");
-    } else {
+      setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
+			invalid = true;
+    } else if (snackName != snackName.trim()) {
+			setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
+			invalid = true;
+		} else {
       setNameError("");
-      if (!isValidImage) {
-        setImageError("유효한 이미지 URL이 아닙니다.");
-      } else {
-        setImageError("");
-        if (snackRate < 1 || snackRate > 5 || !Number.isInteger(snackRate)) {
-          setRateError("평점은 1 이상 5 이하의 정수여야 합니다.");
-        } else {
-          setRateError("");
-          if (snackText.length < 5 || snackText.length > 1000) {
-            setTextError("내용은 5자 이상 1000자 이하여야 합니다.");
-          } else {
-            setTextError("");
-            props.addReview(snackName, snackImage, snackRate, snackText);
-          }
-        }
-      }
-    }
+		}
+		
+		if (snackRate < 1 || snackRate > 5 || !Number.isInteger(snackRate)) {
+      setRateError("평점은 1 ~ 5 사이의 숫자로 써주세요");
+			invalid = true;
+    } else {
+      setRateError("");
+		} 
+		
+		if (snackText.length < 5 || snackText.length > 1000) {
+      setTextError("첫글자와 끝글자가 공백이 아닌 5~1000자 문자열로 써주세요");
+			invalid = true;
+    }	else if (snackText != snackText.trim()) {
+			setTextError("첫글자와 끝글자가 공백이 아닌 5~1000자 문자열로 써주세요");
+			invalid = true;
+		} else {
+      setTextError("");
+		}
+
+		if(!invalid) {
+			props.addReview(snackName, snackImage, snackRate, snackText);
+		}
   }
+
   return (
     <>
       <div className="modal-box" data-testid="write-review-modal">
@@ -111,12 +124,6 @@ function WriteReviewModal(props: {
             data-testid="image-input"
           ></input>
           <br />
-          {imageError != "" && (
-            <>
-              <span className="errorMessage">{imageError}</span>
-              <br />
-            </>
-          )}
           <label htmlFor="nameInput">과자 이름</label>
           <br />
           <input
@@ -127,14 +134,10 @@ function WriteReviewModal(props: {
             data-testid="name-input"
           ></input>
           <br />
-          {nameError != "" && (
-            <>
-              <span className="errorMessage" data-testid="name-input-message">
-                {nameError}
-              </span>
-              <br />
-            </>
-          )}
+					<span className="errorMessage" data-testid="name-input-message">
+						{nameError}
+					</span>
+					<br />
           <label htmlFor="rateInput">평점</label>
           <br />
           <input
@@ -145,14 +148,10 @@ function WriteReviewModal(props: {
             data-testid="rating-input"
           ></input>
           <br />
-          {rateError != "" && (
-            <>
-              <span className="errorMessage" data-testid="rating-input-message">
-                {rateError}
-              </span>
-              <br />
-            </>
-          )}
+					<span className="errorMessage" data-testid="rating-input-message">
+						{rateError}
+					</span>
+					<br />
           <label htmlFor="reviewtextInput">내용</label>
           <br />
           <textarea
@@ -162,37 +161,22 @@ function WriteReviewModal(props: {
             data-testid="content-input"
           ></textarea>
           <br />
-          {textError != "" && (
-            <>
-              <span
-                className="errorMessage"
-                data-testid="content-input-message"
-              >
-                {textError}
-              </span>
-              <br />
-            </>
-          )}
+					<span
+						className="errorMessage"
+						data-testid="content-input-message"
+					>
+						{textError}
+					</span>
+					<br />
         </div>
         <div className="modal-footer">
-          {writeButtonActive && (
-            <>
-              <button
-                className="writeReviewButton"
-                onClick={tryWrite}
-                data-testid="submit-review"
-              >
-                작성
-              </button>
-            </>
-          )}
-          {!writeButtonActive && (
-            <>
-              <button className="inactiveButton" data-testid="submit-review">
-                작성
-              </button>
-            </>
-          )}
+					<button
+						className="writeReviewButton"
+						onClick={tryWrite}
+						data-testid="submit-review"
+					>
+						작성
+					</button>
           <button
             className="closeModalButton"
             onClick={props.closeModal}

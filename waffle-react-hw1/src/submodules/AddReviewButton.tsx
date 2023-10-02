@@ -171,7 +171,7 @@ function AddReviewButton() {
   ) => {
     const newID = getNewId();
 
-    setItems([...items, [newID, snackName, snackImage, snackRate, snackText]]);
+    setItems([[newID, snackName, snackImage, snackRate, snackText], ...items]);
     setIsWriteModalVisible(false);
   };
 

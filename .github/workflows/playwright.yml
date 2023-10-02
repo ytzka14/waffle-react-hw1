@@ -16,6 +16,8 @@ jobs:
           node-version: '16.17.0'
 
       # 먼저 현재 프로젝트를 빌드하고 서버를 연다
+      - name: test
+        run: cd vite-app
       - name: Install Dependencies
         run: yarn
       - name: Build

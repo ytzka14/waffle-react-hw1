@@ -1,6 +1,11 @@
 import { useState } from 'react'
 import InitialData from './InitialData'
 import WriteReviewModal from './WriteReviewModal'
+import DeleteReviewModal from './DeleteReviewModal'
+import iconDelete from '../assets/icon_delete.png'
+import iconEdit from '../assets/icon_edit.png'
+import iconQuit from '../assets/icon_quit.png'
+import iconSave from '../assets/icon_save.png'
 import '../App.css'
 
 function createIncrementer() {
@@ -14,21 +19,62 @@ function createIncrementer() {
 const getNewId = createIncrementer();
 
 function AddReviewButton() {	
-	const [isModalVisible, setIsModalVisible] = useState(false);
+	const [isWriteModalVisible, setIsWriteModalVisible] = useState(false);
+	const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
 	const [items, setItems] = useState<[number, string, string, number, string][]>(InitialData());
+	const [editID, setEditID] = useState(0);
+	const [deleteID, setDeleteID] = useState(0);
+	const [snackText, setSnackText] = useState("");
 
-	const openModal = (e: React.MouseEvent) => {
+	const openWriteModal = (e: React.MouseEvent) => {
 		e.preventDefault();
-		setIsModalVisible(true);
-		console.log(isModalVisible);
+		setIsWriteModalVisible(true);
 	};
 
-	const closeModal = (e: React.MouseEvent) => {
+	const closeWriteModal = (e: React.MouseEvent) => {
 		e.preventDefault();
-		setIsModalVisible(false);
+		setIsWriteModalVisible(false);
 	};
 
-	function makeJSX(sName: string, sImage: string, sRate: number, sText: string) {
+	function openDeleteModal(id: number) {
+		return (e: React.MouseEvent) => {
+			setDeleteID(id);
+			e.preventDefault();
+			setIsDeleteModalVisible(true);
+		}
+	}
+
+	const closeDeleteModal = (e: React.MouseEvent) => {
+		e.preventDefault();
+		setDeleteID(0);
+		setIsDeleteModalVisible(false);
+	}
+
+	function makeJSX(sID: number, sName: string, sImage: string, sRate: number, sText: string) {
+		
+		const editText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+			setSnackText(e.target.value);
+		}
+
+		function saveEdit() {
+			let newItems: [number, string, string, number, string][] = [];
+			for (const [sID, sName, sImage, sRate, sText] of items) {
+				if (sID != editID) {
+					newItems = [...newItems, [sID, sName, sImage, sRate, sText]];
+				} else {
+					newItems = [...newItems, [sID, sName, sImage, sRate, snackText]];
+				}
+			}
+			setItems(newItems);
+			setEditID(0);
+			setSnackText("");
+		}
+
+		function quitEdit() {
+			setEditID(0);
+			setSnackText("");
+		}
+
 		return (
 			<>
 				<div className="imageBox">
@@ -38,8 +84,25 @@ function AddReviewButton() {
 					<span className="snackNameText">{sName}</span>
 					<span className="greyText"> / </span>
 					<span className="rateSpan">★{sRate.toFixed(1)}</span>
-					<p>{sText}</p>
+					{editID != sID && (
+						<p>{sText}</p>
+					)}
+					{editID == sID && (
+						<textarea rows={5} className="editTextarea" onChange={editText} value={snackText}></textarea>
+					)}
 				</div>
+				{editID == 0	&& (	
+					<div className="hoverBox">
+						<img src={iconEdit} className="smallIcon" onClick={(e: React.MouseEvent)=>{e.preventDefault; setEditID(sID); setSnackText(sText);}}/>
+						<img src={iconDelete} className="smallIcon" onClick={openDeleteModal(sID)}/>
+					</div>
+				)}
+				{editID == sID && (
+					<div className="alwaysHoverBox">
+						<img src={iconSave} className="smallIcon" onClick={(e: React.MouseEvent)=>{e.preventDefault; saveEdit()}}/>
+						<img src={iconQuit} className="smallIcon" onClick={(e: React.MouseEvent)=>{e.preventDefault; quitEdit()}}/>
+					</div>
+				)}
 			</>
 		)
 	}
@@ -48,20 +111,47 @@ function AddReviewButton() {
 		const newID = getNewId();
 		
 		setItems([...items, [newID, snackName, snackImage, snackRate, snackText]]);
-		setIsModalVisible(false);
+		setIsWriteModalVisible(false);
+	}
+
+	const deleteReview = () => {
+		let newItems: [number, string, string, number, string][] = [];
+		for (const [sID, sName, sImage, sRate, sText] of items) {
+			if (sID != deleteID) {
+				newItems = [...newItems, [sID, sName, sImage, sRate, sText]];
+			}
+		}
+		setItems(newItems);
+		setDeleteID(0);
+		setIsDeleteModalVisible(false);
+	}
+
+	function getDeleteName() {
+		if(deleteID == 0) return "";
+		for (const [sID, sName,,] of items) {
+			if (sID == deleteID) {
+				return sName;
+			}
+		}
+		return "";
 	}
 
 	return (
 		<>
 			<ul className="review-list" data-testid="review-list">
-				{items.map(item => <div className="block" key={item[0]}>{makeJSX(item[1], item[2], item[3], item[4])}</div>)}	
+				{items.map(item => <div className="block" key={item[0]}>{makeJSX(item[0], item[1], item[2], item[3], item[4])}</div>)}	
 			</ul>
-			{isModalVisible && (
+			{isWriteModalVisible && (
 				<div className="overlay">
-					<WriteReviewModal closeModal={closeModal} addReview={addReview}/>
+					<WriteReviewModal closeModal={closeWriteModal} addReview={addReview}/>
 				</div>
 			)}
-			<button className="addReviewButton" onClick={openModal}>
+			{isDeleteModalVisible && (
+				<div className="overlay">
+					<DeleteReviewModal closeModal={closeDeleteModal} deleteReview={deleteReview} deleteName={getDeleteName()}/>
+				</div>
+			)}
+			<button className="addReviewButton" onClick={openWriteModal}>
 				+
 			</button>
 		</>

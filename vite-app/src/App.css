@@ -88,6 +88,7 @@ textarea::placeholder { /* example text */
 	height: 160px;
 	text-align: center;
 	display: block;
+	position: relative;
 }
 
 .imageBox {
@@ -164,6 +165,21 @@ textarea::placeholder { /* example text */
 	z-index: 10000;
 }
 
+.modal-box-short {
+	width: 400px;
+	height: 200px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: none;
+	border-radius: 3px;
+	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
+	box-sizing: border-box;
+	background-color: white;
+	position: fixed;
+	z-index: 10000;
+}
+
 .backdrop {
 	width: 100vw;
 	height: 100vh;
@@ -201,14 +217,62 @@ textarea::placeholder { /* example text */
 .writeReviewButton {
 	background-color: yellowgreen;
 	margin: 10px;
+	margin-top: 20px;
 }
 
 .inactiveButton {
 	background-color: lightgray;
 	margin: 10px;
+	margin-top: 20px;
 }
 
 .closeModalButton {
 	background-color: lightcoral;
 	margin: 10px;
+	margin-top: 20px;
+}
+
+.hoverBox {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0px;
+	right: 0px;
+	display: block;
+	text-align: right;
+	opacity: 0;
+}
+
+.alwaysHoverBox {
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	display: block;
+	text-align: right;
+	opacity: 1;
+}
+
+.hoverBox:hover {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	display: block;
+	text-align: right;
+	opacity: 1;
+}
+
+.smallIcon {
+	top: 0px;
+	right: 0px;
+	width: 20px;
+	height: 20px;
+	margin: 5px;
+	cursor: pointer;
+}
+
+.editTextarea {
+	width: 60%;
+	min-height: 100%;
+	margin-top: 10px;
+	resize: none;
 }

@@ -71,37 +71,37 @@ function WriteReviewModal(props: {
     /*
 		const isValidImage = await isImageUrlValid(snackImage);
 		*/
-		let invalid: boolean = false;
+    let invalid: boolean = false;
     if (snackName.length < 1 || snackName.length > 20) {
       setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
-			invalid = true;
+      invalid = true;
     } else if (snackName != snackName.trim()) {
-			setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
-			invalid = true;
-		} else {
+      setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
+      invalid = true;
+    } else {
       setNameError("");
-		}
-		
-		if (snackRate < 1 || snackRate > 5 || !Number.isInteger(snackRate)) {
+    }
+
+    if (snackRate < 1 || snackRate > 5 || !Number.isInteger(snackRate)) {
       setRateError("평점은 1 ~ 5 사이의 숫자로 써주세요");
-			invalid = true;
+      invalid = true;
     } else {
       setRateError("");
-		} 
-		
-		if (snackText.length < 5 || snackText.length > 1000) {
-      setTextError("첫글자와 끝글자가 공백이 아닌 5~1000자 문자열로 써주세요");
-			invalid = true;
-    }	else if (snackText != snackText.trim()) {
-			setTextError("첫글자와 끝글자가 공백이 아닌 5~1000자 문자열로 써주세요");
-			invalid = true;
-		} else {
-      setTextError("");
-		}
+    }
 
-		if(!invalid) {
-			props.addReview(snackName, snackImage, snackRate, snackText);
-		}
+    if (snackText.length < 5 || snackText.length > 1000) {
+      setTextError("첫글자와 끝글자가 공백이 아닌 5~1000자 문자열로 써주세요");
+      invalid = true;
+    } else if (snackText != snackText.trim()) {
+      setTextError("첫글자와 끝글자가 공백이 아닌 5~1000자 문자열로 써주세요");
+      invalid = true;
+    } else {
+      setTextError("");
+    }
+
+    if (!invalid) {
+      props.addReview(snackName, snackImage, snackRate, snackText);
+    }
   }
 
   return (
@@ -134,10 +134,10 @@ function WriteReviewModal(props: {
             data-testid="name-input"
           ></input>
           <br />
-					<span className="errorMessage" data-testid="name-input-message">
-						{nameError}
-					</span>
-					<br />
+          <span className="errorMessage" data-testid="name-input-message">
+            {nameError}
+          </span>
+          <br />
           <label htmlFor="rateInput">평점</label>
           <br />
           <input
@@ -148,10 +148,10 @@ function WriteReviewModal(props: {
             data-testid="rating-input"
           ></input>
           <br />
-					<span className="errorMessage" data-testid="rating-input-message">
-						{rateError}
-					</span>
-					<br />
+          <span className="errorMessage" data-testid="rating-input-message">
+            {rateError}
+          </span>
+          <br />
           <label htmlFor="reviewtextInput">내용</label>
           <br />
           <textarea
@@ -161,22 +161,19 @@ function WriteReviewModal(props: {
             data-testid="content-input"
           ></textarea>
           <br />
-					<span
-						className="errorMessage"
-						data-testid="content-input-message"
-					>
-						{textError}
-					</span>
-					<br />
+          <span className="errorMessage" data-testid="content-input-message">
+            {textError}
+          </span>
+          <br />
         </div>
         <div className="modal-footer">
-					<button
-						className="writeReviewButton"
-						onClick={tryWrite}
-						data-testid="submit-review"
-					>
-						작성
-					</button>
+          <button
+            className="writeReviewButton"
+            onClick={tryWrite}
+            data-testid="submit-review"
+          >
+            작성
+          </button>
           <button
             className="closeModalButton"
             onClick={props.closeModal}

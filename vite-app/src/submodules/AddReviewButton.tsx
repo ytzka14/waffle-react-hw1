@@ -25,6 +25,7 @@ function AddReviewButton() {
 	const [editID, setEditID] = useState(0);
 	const [deleteID, setDeleteID] = useState(0);
 	const [snackText, setSnackText] = useState("");
+	const [editError, setEditError] = useState("");
 
 	const openWriteModal = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -57,6 +58,12 @@ function AddReviewButton() {
 		}
 
 		function saveEdit() {
+			setSnackText(snackText.trim());
+			if(snackText.length < 5 || snackText.length > 1000) {
+				setEditError("내용은 5자 이상 1000자 이하여야 합니다.");
+				return;
+			}
+			setEditError("");
 			let newItems: [number, string, string, number, string][] = [];
 			for (const [sID, sName, sImage, sRate, sText] of items) {
 				if (sID != editID) {
@@ -89,6 +96,9 @@ function AddReviewButton() {
 					)}
 					{editID == sID && (
 						<textarea rows={5} className="editTextarea" onChange={editText} value={snackText}></textarea>
+					)}
+					{editID == sID && editError != "" && (
+						<span className="errorMessage">{editError}</span>
 					)}
 				</div>
 				{editID == 0	&& (	

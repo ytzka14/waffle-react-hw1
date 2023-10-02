@@ -276,3 +276,7 @@ textarea::placeholder { /* example text */
 	margin-top: 10px;
 	resize: none;
 }
+
+.errorMessage {
+	color: red;
+}

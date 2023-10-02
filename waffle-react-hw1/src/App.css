@@ -1,282 +1,286 @@
-body, #root {
-	margin: 0; /* for filling header to top */
-	padding: 0;
-	width: 100%;
-	height: 100vh;
-	display: flex;
-	flex-direction: column;
-	overflow: hidden;
+body,
+#root {
+  margin: 0; /* for filling header to top */
+  padding: 0;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 
 .header {
-	background-color: bisque;
-	box-shadow: 0px 4px 2px 0px #a0a0a0;
-	margin: 0px; /* for filling header to top */
+  background-color: bisque;
+  box-shadow: 0px 4px 2px 0px #a0a0a0;
+  margin: 0px; /* for filling header to top */
 }
 
 .headerContent {
-	display: flex;
-	align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .icon {
-	width: 40px;
-	display: inline;
-	margin: 10px;
+  width: 40px;
+  display: inline;
+  margin: 10px;
 }
 
 .headerText {
-	vertical-align: middle;
-	display: inline;
-	font-weight: bolder;
-	margin: 10px;
+  vertical-align: middle;
+  display: inline;
+  font-weight: bolder;
+  margin: 10px;
 }
 
-.invisibleLink { /* hyperlink without changing color of text and underline */
-	text-decoration: none;
-	color: black;
-	display: inline-flex;
-	align-items: center;
-	width: fit-content;
+.invisibleLink {
+  /* hyperlink without changing color of text and underline */
+  text-decoration: none;
+  color: black;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
 }
 
 .invisibleLink:hover {
-	color: black;
+  color: black;
 }
 
 .writingArea {
-	width: 450px;
-	margin: auto;
-	text-align: left;
+  width: 450px;
+  margin: auto;
+  text-align: left;
 }
 
-textarea::placeholder { /* example text */
-	color: gray;
+textarea::placeholder {
+  /* example text */
+  color: gray;
 }
 
 .lineInput {
-	width: 350px;
-	resize: none;
-	overflow: hidden;
+  width: 350px;
+  resize: none;
+  overflow: hidden;
 }
 
-.scrollRight { /* scroll to right */
-	width: 350px;
-	resize: none;
-	white-space: pre;
+.scrollRight {
+  /* scroll to right */
+  width: 350px;
+  resize: none;
+  white-space: pre;
 }
 
 .scrollDown {
-	width: 350px;
-	resize: none;
-	overflow-y: auto;
+  width: 350px;
+  resize: none;
+  overflow-y: auto;
 }
 
 .button {
-	background-color: greenyellow;
-	border-radius: 5px;
-	border: none;
+  background-color: greenyellow;
+  border-radius: 5px;
+  border: none;
 }
 
 .block {
-	border: 2px solid darkgray; /* Add border to blocks */
-	box-shadow: 3px 6px 3px 0px #b0b0b0;
-	padding: 10px; /* Add padding for spacing */
-	margin: auto;
-	margin-bottom: 15px; /* Add margin between blocks */
-	width: 500px;
-	height: 160px;
-	text-align: center;
-	display: block;
-	position: relative;
+  border: 2px solid darkgray; /* Add border to blocks */
+  box-shadow: 3px 6px 3px 0px #b0b0b0;
+  padding: 10px; /* Add padding for spacing */
+  margin: auto;
+  margin-bottom: 15px; /* Add margin between blocks */
+  width: 500px;
+  height: 160px;
+  text-align: center;
+  display: block;
+  position: relative;
 }
 
 .imageBox {
-	border: 2px solid orange;
-	border-radius: 30px;
-	width: 150px;
-	height: 150px;
-	margin: auto;
-	margin-right: 30px;
-	overflow: hidden; /* cut image at border */
-	display: block;
-	float: left;
+  border: 2px solid orange;
+  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  margin-right: 30px;
+  overflow: hidden; /* cut image at border */
+  display: block;
+  float: left;
 }
 
 .modalImageBox {
-	border: 2px solid orange;
-	border-radius: 30px;
-	width: 150px;
-	height: 150px;
-	margin: auto;
-	overflow: hidden;
+  border: 2px solid orange;
+  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  overflow: hidden;
 }
 
 .textBox {
-	vertical-align: middle;
-	text-align: left;
-	margin-top: 10px;
+  vertical-align: middle;
+  text-align: left;
+  margin-top: 10px;
 }
 
 .snackNameText {
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .greyText {
-	color: grey;
+  color: grey;
 }
 
 .snackImage {
-	width: 100%;
-	height: 100%;
-	object-fit: cover; /* fit into imageBox */
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* fit into imageBox */
 }
 
 .rateSpan {
-	font-weight: bold;
-	color: orange;
+  font-weight: bold;
+  color: orange;
 }
 
 .reviewButton {
-	background-color: yellowgreen;
+  background-color: yellowgreen;
 }
 
 .overlay {
-	width: 100vw;
-	height: 100vh;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
 }
 
 .modal-box {
-	width: 400px;
-	height: 600px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	border: none;
-	border-radius: 3px;
-	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
-	box-sizing: border-box;
-	background-color: white;
-	position: fixed;
-	z-index: 10000;
+  width: 400px;
+  height: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
+  box-sizing: border-box;
+  background-color: white;
+  position: fixed;
+  z-index: 10000;
 }
 
 .modal-box-short {
-	width: 400px;
-	height: 200px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	border: none;
-	border-radius: 3px;
-	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
-	box-sizing: border-box;
-	background-color: white;
-	position: fixed;
-	z-index: 10000;
+  width: 400px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  border-radius: 3px;
+  box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
+  box-sizing: border-box;
+  background-color: white;
+  position: fixed;
+  z-index: 10000;
 }
 
 .backdrop {
-	width: 100vw;
-	height: 100vh;
-	position: fixed;
-	z-index: 9999;
-	top: 0;
-	background-color: rgba(0, 0, 0, 0.2);
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.2);
 }
 
 .review-list {
-	width: 100vw;
-	height: 100vh;
-	overflow: auto;
-	list-style: none;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  list-style: none;
 }
 
 .addReviewButton {
-	background-color: green;
-	color: white;
-	font-weight: bolder;
-	font-size: 35px;
-	padding: 0 3px 5px 3px;
-	vertical-align: middle;
-	text-align: center;
-	width: 50px;
-	height: 50px;
-	border-radius: 25px;
-	transform: translateY(0px);
-	position: fixed;	
-	bottom: 30px;
-	right: 30px;
-	z-index: 9995;
+  background-color: green;
+  color: white;
+  font-weight: bolder;
+  font-size: 35px;
+  padding: 0 3px 5px 3px;
+  vertical-align: middle;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  transform: translateY(0px);
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9995;
 }
 
 .writeReviewButton {
-	background-color: yellowgreen;
-	margin: 10px;
-	margin-top: 20px;
+  background-color: yellowgreen;
+  margin: 10px;
+  margin-top: 20px;
 }
 
 .inactiveButton {
-	background-color: lightgray;
-	margin: 10px;
-	margin-top: 20px;
+  background-color: lightgray;
+  margin: 10px;
+  margin-top: 20px;
 }
 
 .closeModalButton {
-	background-color: lightcoral;
-	margin: 10px;
-	margin-top: 20px;
+  background-color: lightcoral;
+  margin: 10px;
+  margin-top: 20px;
 }
 
 .hoverBox {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	top: 0px;
-	right: 0px;
-	display: block;
-	text-align: right;
-	opacity: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  right: 0px;
+  display: block;
+  text-align: right;
+  opacity: 0;
 }
 
 .alwaysHoverBox {
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	display: block;
-	text-align: right;
-	opacity: 1;
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  display: block;
+  text-align: right;
+  opacity: 1;
 }
 
 .hoverBox:hover {
-	position: absolute;
-	width: 100%;
-	height: 100%;
-	display: block;
-	text-align: right;
-	opacity: 1;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: block;
+  text-align: right;
+  opacity: 1;
 }
 
 .smallIcon {
-	top: 0px;
-	right: 0px;
-	width: 20px;
-	height: 20px;
-	margin: 5px;
-	cursor: pointer;
+  top: 0px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  cursor: pointer;
 }
 
 .editTextarea {
-	width: 60%;
-	min-height: 100%;
-	margin-top: 10px;
-	resize: none;
+  width: 60%;
+  min-height: 100%;
+  margin-top: 10px;
+  resize: none;
 }
 
 .errorMessage {
-	color: red;
+  color: red;
 }

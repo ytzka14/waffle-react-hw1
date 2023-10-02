@@ -86,7 +86,7 @@ function WriteReviewModal(props: {closeModal: (e: React.MouseEvent) => void, add
 	}
 	return (
 		<>
-			<div className="modal-box">
+			<div className="modal-box" data-testid="write-review-modal">
 				<div className="modal-header">
 					<h2>리뷰 쓰기</h2>
 				</div>
@@ -95,50 +95,50 @@ function WriteReviewModal(props: {closeModal: (e: React.MouseEvent) => void, add
 						<img src={preview} alt={snackName} className="snackImage"/>
 					</div>
 					<label htmlFor="imageURLInput">이미지</label><br/>
-					<input type="text" id="imageURLInput" className="scrollRight" onChange={handleImage}></input><br/>
+					<input type="text" id="imageURLInput" className="scrollRight" onChange={handleImage} data-testid="image-input"></input><br/>
 					{imageError != "" && (
 						<>
 							<span className="errorMessage">{imageError}</span><br/>
 						</>
 					)}
 					<label htmlFor="nameInput">과자 이름</label><br/>
-					<input type="text" id="nameInput" className="lineInput" onChange={handleName}></input><br/>
+					<input type="text" id="nameInput" className="lineInput" onChange={handleName} data-testid="name-input"></input><br/>
 					{nameError != "" && (
 						<>
-							<span className="errorMessage">{nameError}</span><br/>
+							<span className="errorMessage" data-testid="name-input-message">{nameError}</span><br/>
 						</>
 					)}
 					<label htmlFor="rateInput">평점</label><br/>
-					<input type="number" id="rateInput" className="lineInput" onChange={handleRate}></input><br/>
+					<input type="number" id="rateInput" className="lineInput" onChange={handleRate} data-testid="rating-input"></input><br/>
 					{rateError != "" && (
 						<>
-							<span className="errorMessage">{rateError}</span><br/>
+							<span className="errorMessage" data-testid="rating-input-message">{rateError}</span><br/>
 						</>
 					)}
 					<label htmlFor="reviewtextInput">내용</label><br/>
-					<textarea id="reviewtextInput" className="scrollDown" onChange={handleText}></textarea><br/>
+					<textarea id="reviewtextInput" className="scrollDown" onChange={handleText} data-testid="content-input"></textarea><br/>
 					{textError != "" && (
 						<>
-							<span className="errorMessage">{textError}</span><br/>
+							<span className="errorMessage" data-testid="content-input-message">{textError}</span><br/>
 						</>
 					)}
 				</div>
 				<div className="modal-footer">
 					{writeButtonActive && (
 						<>
-							<button className="writeReviewButton" onClick={tryWrite}>
+							<button className="writeReviewButton" onClick={tryWrite} data-testid="submit-review">
 								작성	
 							</button>
 						</>
 					)}
 					{!writeButtonActive && (
 						<>
-							<button className="inactiveButton">
+							<button className="inactiveButton" data-testid="submit-review">
 								작성
 							</button>
 						</>
 					)}
-					<button className="closeModalButton" onClick={props.closeModal}>
+					<button className="closeModalButton" onClick={props.closeModal} data-testid="cancel-review">
 						취소
 					</button>
 				</div>

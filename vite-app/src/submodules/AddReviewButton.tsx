@@ -85,7 +85,7 @@ function AddReviewButton() {
 		return (
 			<>
 				<div className="imageBox">
-					<img src={sImage} alt={sName} className="snackImage"/>
+					<img src={sImage} alt={sName} className="snackImage" data-testid="snack-image"/>
 				</div>
 				<div className="textBox">
 					<span className="snackNameText">{sName}</span>
@@ -95,7 +95,7 @@ function AddReviewButton() {
 						<p>{sText}</p>
 					)}
 					{editID == sID && (
-						<textarea rows={5} className="editTextarea" onChange={editText} value={snackText}></textarea>
+						<textarea rows={5} className="editTextarea" onChange={editText} value={snackText} data-testid="edit-review-content-input"></textarea>
 					)}
 					{editID == sID && editError != "" && (
 						<span className="errorMessage">{editError}</span>
@@ -103,14 +103,14 @@ function AddReviewButton() {
 				</div>
 				{editID == 0	&& (	
 					<div className="hoverBox">
-						<img src={iconEdit} className="smallIcon" onClick={(e: React.MouseEvent)=>{e.preventDefault; setEditID(sID); setSnackText(sText);}}/>
-						<img src={iconDelete} className="smallIcon" onClick={openDeleteModal(sID)}/>
+						<img src={iconEdit} className="smallIcon" onClick={(e: React.MouseEvent)=>{e.preventDefault; setEditID(sID); setSnackText(sText);}} data-testid="edit-review"/>
+						<img src={iconDelete} className="smallIcon" onClick={openDeleteModal(sID)} data-testid="delete-review"/>
 					</div>
 				)}
 				{editID == sID && (
 					<div className="alwaysHoverBox">
-						<img src={iconSave} className="smallIcon" onClick={(e: React.MouseEvent)=>{e.preventDefault; saveEdit()}}/>
-						<img src={iconQuit} className="smallIcon" onClick={(e: React.MouseEvent)=>{e.preventDefault; quitEdit()}}/>
+						<img src={iconSave} className="smallIcon" onClick={(e: React.MouseEvent)=>{e.preventDefault; saveEdit()}} data-testid="edit-review-save"/>
+						<img src={iconQuit} className="smallIcon" onClick={(e: React.MouseEvent)=>{e.preventDefault; quitEdit()}} data-testid="edit-review-cancel"/>
 					</div>
 				)}
 			</>
@@ -149,7 +149,7 @@ function AddReviewButton() {
 	return (
 		<>
 			<ul className="review-list" data-testid="review-list">
-				{items.map(item => <div className="block" key={item[0]}>{makeJSX(item[0], item[1], item[2], item[3], item[4])}</div>)}	
+				{items.map(item => <div className="block" key={item[0]} data-testid="review">{makeJSX(item[0], item[1], item[2], item[3], item[4])}</div>)}	
 			</ul>
 			{isWriteModalVisible && (
 				<div className="overlay">
@@ -161,7 +161,7 @@ function AddReviewButton() {
 					<DeleteReviewModal closeModal={closeDeleteModal} deleteReview={deleteReview} deleteName={getDeleteName()}/>
 				</div>
 			)}
-			<button className="addReviewButton" onClick={openWriteModal}>
+			<button className="addReviewButton" onClick={openWriteModal} data-testid="write-review">
 				+
 			</button>
 		</>

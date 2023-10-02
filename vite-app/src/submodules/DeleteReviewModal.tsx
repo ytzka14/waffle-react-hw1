@@ -12,10 +12,10 @@ function DeleteReviewModal(props: {closeModal: (e: React.MouseEvent) => void, de
 					<span className="text-with-margin-bottom">"{props.deleteName}"에 대한 리뷰를 삭제하시겠습니까?</span>
 				</div>
 				<div className="modal-footer">
-					<button className="closeModalButton" onClick={()=>props.deleteReview()}>
+					<button className="closeModalButton" onClick={()=>props.deleteReview()} data-testid="delete-review-delete">
 						삭제
 					</button>
-					<button className="inactiveButton" onClick={props.closeModal}>
+					<button className="inactiveButton" onClick={props.closeModal} data-testid="delete-review-cancel">
 						취소
 					</button>
 				</div>

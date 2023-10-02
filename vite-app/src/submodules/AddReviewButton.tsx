@@ -2,7 +2,6 @@ import { useState } from 'react'
 import InitialData from './InitialData'
 import WriteReviewModal from './WriteReviewModal'
 import '../App.css'
-import './AddReviewButton.css'
 
 function createIncrementer() {
 	let counter = 104;
@@ -36,12 +35,12 @@ function AddReviewButton() {
 				<div className="imageBox">
 					<img src={snackImage} alt={snackName} className="snackImage"/>
 				</div>
-				<br/>
-				<span className="snackNameText">{snackName}</span>
-				<span className="greyText">/</span>
-				<span className="rateSpan">★{snackRate.toFixed(1)}</span>
-				<br/>
-				<p>{snackText}</p>
+				<div className="textBox">
+					<span className="snackNameText">{snackName}</span>
+					<span className="greyText"> / </span>
+					<span className="rateSpan">★{snackRate.toFixed(1)}</span>
+					<p>{snackText}</p>
+				</div>
 			</>
 		)
 		const newID = getNewId();
@@ -53,7 +52,7 @@ function AddReviewButton() {
 	return (
 		<>
 			<ul className="review-list" data-testid="review-list">
-				{items.map(item => <div key={item[0]}>{item[1]}</div>)}	
+				{items.map(item => <div className="block" key={item[0]}>{item[1]}</div>)}	
 			</ul>
 			{isModalVisible && (
 				<div className="overlay">

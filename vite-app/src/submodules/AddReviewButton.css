@@ -1,18 +1,52 @@
-/* CSS for hiding the modal initially */
-.modal {
-  position: fixed;
-  top: -100%; /* Start above the viewport */
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  transition: top 0.3s ease; /* Drop-down transition */
+.overlay {
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: fixed;
 }
 
-/* CSS for showing the modal when it's visible */
-.modal.active {
-  top: 0; /* Drop down to the top of the viewport */
+.modal-box {
+	width: 800px;
+	height: 400px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border: none;
+	border-radius: 3px;
+	box-shadow: 0 0 30px rgba(30, 30, 30, 0.185);
+	box-sizing: border-box;
+	background-color: white;
+	position: fixed;
+	z-index: 10000;
+}
+
+.backdrop {
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	z-index: 9999;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.2);
+}
+
+.review-list {
+	width: 100vw;
+	height: 100vh;
+	overflow: auto;
+}
+
+.addReviewButton {
+	background-color: green;
+	color: white;
+	font-weight: bolder;
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	transform: translateY(0px);
+	position: fixed;	
+	bottom: 30px;
+	right: 30px;
+	z-index: 9995;
 }

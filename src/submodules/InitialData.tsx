@@ -1,5 +1,3 @@
-import "../App.css";
-
 const InitialData = () => {
   const data: [number, string, string, number, string][] = [
     [

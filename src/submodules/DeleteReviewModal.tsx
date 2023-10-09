@@ -1,5 +1,3 @@
-import "../App.css";
-
 function DeleteReviewModal(props: {
   closeModal: (e: React.MouseEvent) => void;
   deleteReview: () => void;

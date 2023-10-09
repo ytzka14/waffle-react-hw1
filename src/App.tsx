@@ -1,15 +1,13 @@
-// import { useState } from 'react'
 import Header from "./submodules/Header";
-import AddReviewButton from "./submodules/AddReviewButton";
+import ReviewAction from "./submodules/ReviewAction";
 import "./App.css";
 
 function App() {
-  // const [count, setCount] = useState(0)
 
   return (
     <>
       <Header />
-      <AddReviewButton />
+      <ReviewAction />
     </>
   );
 }

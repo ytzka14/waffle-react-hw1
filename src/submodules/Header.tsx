@@ -1,4 +1,3 @@
-import "../App.css";
 import waffleLogo from "../assets/icon_intro.svg";
 
 function Header() {

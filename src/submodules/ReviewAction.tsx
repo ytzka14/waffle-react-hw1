@@ -6,7 +6,6 @@ import iconDelete from "../assets/icon_delete.png";
 import iconEdit from "../assets/icon_edit.png";
 import iconQuit from "../assets/icon_quit.png";
 import iconSave from "../assets/icon_save.png";
-import "../App.css";
 
 function createIncrementer() {
   let counter = 104;
@@ -18,14 +17,13 @@ function createIncrementer() {
 
 const getNewId = createIncrementer();
 
-function AddReviewButton() {
+function ReviewAction() {
   const [isWriteModalVisible, setIsWriteModalVisible] = useState(false);
-  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const [items, setItems] = useState<
     [number, string, string, number, string][]
   >(InitialData());
-  const [editID, setEditID] = useState(0);
-  const [deleteID, setDeleteID] = useState(0);
+  const [editID, setEditID] = useState<number | null>(null);
+  const [deleteID, setDeleteID] = useState<number | null>(null);
   const [snackText, setSnackText] = useState("");
   const [editError, setEditError] = useState("");
 
@@ -43,14 +41,12 @@ function AddReviewButton() {
     return (e: React.MouseEvent) => {
       setDeleteID(id);
       e.preventDefault();
-      setIsDeleteModalVisible(true);
     };
   }
 
   const closeDeleteModal = (e: React.MouseEvent) => {
     e.preventDefault();
-    setDeleteID(0);
-    setIsDeleteModalVisible(false);
+    setDeleteID(null);
   };
 
   function makeJSX(
@@ -71,21 +67,13 @@ function AddReviewButton() {
         return;
       }
       setEditError("");
-      let newItems: [number, string, string, number, string][] = [];
-      for (const [sID, sName, sImage, sRate, sText] of items) {
-        if (sID != editID) {
-          newItems = [...newItems, [sID, sName, sImage, sRate, sText]];
-        } else {
-          newItems = [...newItems, [sID, sName, sImage, sRate, snackText]];
-        }
-      }
-      setItems(newItems);
-      setEditID(0);
+      setItems(items.map(it => it[0] === editID ? [it[0], it[1], it[2], it[3], sText] : it));
+      setEditID(null);
       setSnackText("");
     }
 
     function quitEdit() {
-      setEditID(0);
+      setEditID(null);
       setSnackText("");
     }
 
@@ -103,8 +91,8 @@ function AddReviewButton() {
           <span className="snackNameText">{sName}</span>
           <span className="greyText"> / </span>
           <span className="rateSpan">★{sRate.toFixed(1)}</span>
-          {editID != sID && <p>{sText}</p>}
-          {editID == sID && (
+          {editID !== sID && <p>{sText}</p>}
+          {editID === sID && (
             <textarea
               rows={5}
               className="editTextarea"
@@ -113,17 +101,16 @@ function AddReviewButton() {
               data-testid="edit-review-content-input"
             ></textarea>
           )}
-          {editID == sID && editError != "" && (
+          {editID === sID && editError !== "" && (
             <span className="errorMessage">{editError}</span>
           )}
         </div>
-        {editID == 0 && (
+        {editID === null && (
           <div className="hoverBox">
             <img
               src={iconEdit}
               className="smallIcon"
-              onClick={(e: React.MouseEvent) => {
-                e.preventDefault;
+              onClick={() => {
                 setEditID(sID);
                 setSnackText(sText);
               }}
@@ -137,24 +124,18 @@ function AddReviewButton() {
             />
           </div>
         )}
-        {editID == sID && (
+        {editID === sID && (
           <div className="alwaysHoverBox">
             <img
               src={iconSave}
               className="smallIcon"
-              onClick={(e: React.MouseEvent) => {
-                e.preventDefault;
-                saveEdit();
-              }}
+              onClick={saveEdit}
               data-testid="edit-review-save"
             />
             <img
               src={iconQuit}
               className="smallIcon"
-              onClick={(e: React.MouseEvent) => {
-                e.preventDefault;
-                quitEdit();
-              }}
+              onClick={quitEdit}
               data-testid="edit-review-cancel"
             />
           </div>
@@ -176,26 +157,9 @@ function AddReviewButton() {
   };
 
   const deleteReview = () => {
-    let newItems: [number, string, string, number, string][] = [];
-    for (const [sID, sName, sImage, sRate, sText] of items) {
-      if (sID != deleteID) {
-        newItems = [...newItems, [sID, sName, sImage, sRate, sText]];
-      }
-    }
-    setItems(newItems);
-    setDeleteID(0);
-    setIsDeleteModalVisible(false);
+    setItems(items.filter(([id]) => id !== deleteID));
+    setDeleteID(null);
   };
-
-  function getDeleteName() {
-    if (deleteID == 0) return "";
-    for (const [sID, sName, ,] of items) {
-      if (sID == deleteID) {
-        return sName;
-      }
-    }
-    return "";
-  }
 
   return (
     <>
@@ -214,12 +178,12 @@ function AddReviewButton() {
           />
         </div>
       )}
-      {isDeleteModalVisible && (
+      {deleteID !== null && (
         <div className="overlay">
           <DeleteReviewModal
             closeModal={closeDeleteModal}
             deleteReview={deleteReview}
-            deleteName={getDeleteName()}
+            deleteName={items.find(([id, _]) => id === deleteID)?.[1] ?? ""}
           />
         </div>
       )}
@@ -234,4 +198,4 @@ function AddReviewButton() {
   );
 }
 
-export default AddReviewButton;
+export default ReviewAction;

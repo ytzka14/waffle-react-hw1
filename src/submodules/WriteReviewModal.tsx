@@ -1,25 +1,4 @@
 import { useState } from "react";
-import "../App.css";
-
-/*
-async function isImageUrlValid(url: string): Promise<boolean> {
-  try {
-    const response = await fetch(url);
-
-    if (response.status === 200) {
-      const contentType = response.headers.get("Content-Type");
-      if (contentType && contentType.startsWith("image/")) {
-        return true; // It's a valid image
-      }
-    }
-  } catch (error) {
-    // Handle any fetch errors or network issues here
-    console.error("Error checking image URL:", error);
-  }
-
-  return false; // Not a valid image or an error occurred
-}
-*/
 
 function WriteReviewModal(props: {
   closeModal: (e: React.MouseEvent) => void;
@@ -34,29 +13,16 @@ function WriteReviewModal(props: {
   const [snackImage, setSnackImage] = useState("");
   const [snackRate, setSnackRate] = useState(0);
   const [snackText, setSnackText] = useState("");
-  const [preview, setPreview] = useState("");
-  // const [writeButtonActive, setWriteButtonActive] = useState(true);
   const [nameError, setNameError] = useState("");
-  // const [imageError, setImageError] = useState("");
   const [rateError, setRateError] = useState("");
   const [textError, setTextError] = useState("");
-
-  const handleTimeout = () => {
-    setPreview(snackImage);
-    // setWriteButtonActive(true);
-  };
-
-  let previewTimeout = setTimeout(handleTimeout, 1000);
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSnackName(e.target.value);
   };
 
   const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    // setWriteButtonActive(false);
     setSnackImage(e.target.value);
-    clearTimeout(previewTimeout);
-    previewTimeout = setTimeout(handleTimeout, 1000);
   };
 
   const handleRate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -68,14 +34,11 @@ function WriteReviewModal(props: {
   };
 
   function tryWrite() {
-    /*
-		const isValidImage = await isImageUrlValid(snackImage);
-		*/
-    let invalid: boolean = false;
+    let invalid = false;
     if (snackName.length < 1 || snackName.length > 20) {
       setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
       invalid = true;
-    } else if (snackName != snackName.trim()) {
+    } else if (snackName !== snackName.trim()) {
       setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
       invalid = true;
     } else {
@@ -92,7 +55,7 @@ function WriteReviewModal(props: {
     if (snackText.length < 5 || snackText.length > 1000) {
       setTextError("첫글자와 끝글자가 공백이 아닌 5~1000자 문자열로 써주세요");
       invalid = true;
-    } else if (snackText != snackText.trim()) {
+    } else if (snackText !== snackText.trim()) {
       setTextError("첫글자와 끝글자가 공백이 아닌 5~1000자 문자열로 써주세요");
       invalid = true;
     } else {
@@ -112,7 +75,7 @@ function WriteReviewModal(props: {
         </div>
         <div className="modal-content">
           <div className="modalImageBox">
-            <img src={preview} alt={snackName} className="snackImage" />
+            <img src={snackImage} alt={snackName} className="snackImage" />
           </div>
           <label htmlFor="imageURLInput">이미지</label>
           <br />

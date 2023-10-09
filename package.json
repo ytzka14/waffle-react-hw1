@@ -9,7 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
 		"deploy": "aws s3 sync ./dist s3://waffle-rookie --profile=waffle-rookie",
-		"invalidate": "aws cloudfront create-invalidation --profile=waffle-rookie --distribution-id E2VM0TUE4YC7E9 --paths / /index.html /error.html /service-worker.js /manifest.json /favicon.ico"
+		"invalidate": "aws cloudfront create-invalidation --profile=waffle-rookie --distribution-id E2VM0TUE4YC7E9 --paths /*"
   },
   "dependencies": {
     "react": "^18.2.0",

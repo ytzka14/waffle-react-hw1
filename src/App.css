@@ -7,6 +7,14 @@ body,
   display: flex;
   flex-direction: column;
   overflow: hidden;
+	background-color: white;
+	color: black;
+}
+
+input,
+textarea {
+	background-color: white;
+	color: black;
 }
 
 .header {

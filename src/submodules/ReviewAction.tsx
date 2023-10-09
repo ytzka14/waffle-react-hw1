@@ -2,10 +2,10 @@ import { useState } from "react";
 import InitialData from "./InitialData";
 import WriteReviewModal from "./WriteReviewModal";
 import DeleteReviewModal from "./DeleteReviewModal";
-import iconDelete from "../assets/icon_delete.png";
-import iconEdit from "../assets/icon_edit.png";
-import iconQuit from "../assets/icon_quit.png";
-import iconSave from "../assets/icon_save.png";
+import iconDelete from "../assets/icon_delete.svg";
+import iconEdit from "../assets/icon_edit.svg";
+import iconQuit from "../assets/icon_quit.svg";
+import iconSave from "../assets/icon_save.svg";
 
 function createIncrementer() {
   let counter = 104;

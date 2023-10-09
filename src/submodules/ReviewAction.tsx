@@ -67,7 +67,7 @@ function ReviewAction() {
         return;
       }
       setEditError("");
-      setItems(items.map(it => it[0] === editID ? [it[0], it[1], it[2], it[3], sText] : it));
+      setItems(items.map(it => it[0] === editID ? [it[0], it[1], it[2], it[3], snackText] : it));
       setEditID(null);
       setSnackText("");
     }

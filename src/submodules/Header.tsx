@@ -1,4 +1,5 @@
 import waffleLogo from "../assets/icon_intro.svg";
+import { Link } from "react-router-dom";
 
 function Header() {
   return (
@@ -21,7 +22,14 @@ function Header() {
               </span>
             </a>
           </div>
+					<Link to="/">
+						리뷰
+					</Link>
+					<Link to="/snacks">
+						과자
+					</Link>
         </h1>
+				<h4></h4>
       </header>
     </>
   );

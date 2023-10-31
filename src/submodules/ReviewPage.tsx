@@ -17,7 +17,7 @@ function createIncrementer() {
 
 const getNewId = createIncrementer();
 
-function ReviewAction() {
+function ReviewPage() {
   const [isWriteModalVisible, setIsWriteModalVisible] = useState(false);
   const [items, setItems] = useState<
     [number, string, string, number, string][]
@@ -198,4 +198,4 @@ function ReviewAction() {
   );
 }
 
-export default ReviewAction;
+export default ReviewPage;

@@ -2,10 +2,11 @@ import Header from "./Header.tsx";
 import { useSnackContext } from "../contexts/SnackContext.tsx";
 
 const SnacksPage = () => {
-	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews } = useSnackContext();
+	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
 
 	return (
 		<>
+			<Header />
 			<ul className="snack-list">
 				{
 					snacks.map((snack) => (

@@ -1,4 +1,5 @@
 import Header from "./Header.tsx";
+import DeleteReviewModal from "./DeleteReviewModal.tsx";
 import { useParams } from "react-router-dom";
 import { useSnackContext, Review } from "../contexts/SnackContext.tsx";
 import { useState } from "react";
@@ -10,6 +11,7 @@ import iconSave from "../assets/icon_save.svg";
 const SingleSnackPage = () => {
 	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
 	const [ editId, setEditId ] = useState<number | null>(null);
+	const [ deleteId, setDeleteId ] = useState<number | null>(null);
 	const [ editText, setEditText ] = useState("");
 	const [ editTextError, setEditTextError ] = useState("");
 
@@ -38,6 +40,18 @@ const SingleSnackPage = () => {
 		setEditId(null);
 		setEditText("");
 	}
+
+	const handleDelete = (review: Review) => {
+		return function (e: React.MouseEvent) {
+			e.preventDefault();
+			setDeleteId(review.reviewId);
+		}
+	}
+
+	const closeDeleteModal = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setDeleteId(null);
+  };
 
 	const rateBox = (review: Review) => {
 		return (
@@ -70,9 +84,7 @@ const SingleSnackPage = () => {
 					<img
 						src={iconDelete}
 						className="small-icon"
-						onClick={() => {
-							removeReview(review);
-						}}
+						onClick={handleDelete(review)}
 					/>
 				</div>
 			)}
@@ -108,6 +120,18 @@ const SingleSnackPage = () => {
 					<span className="rate-span">★{snack?.snackRate.toFixed(1)}</span>
 				</div>
 			</div>
+			<ul className="review-list">
+				{ reviews.filter((review) => (review.snackId === snack?.snackId)).map((review) => (rateBox(review))) }
+      </ul>
+      {deleteId && (
+        <div className="overlay">
+          <DeleteReviewModal
+            closeModal={closeDeleteModal}
+            deleteReviewId={deleteId}
+            deleteName={getSnackById(getReviewById(deleteId)!.snackId)!.snackName}
+          />
+        </div>
+      )}
 		</>
 	)
 };

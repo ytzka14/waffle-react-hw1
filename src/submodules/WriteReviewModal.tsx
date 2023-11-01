@@ -4,13 +4,11 @@ function WriteReviewModal(props: {
   closeModal: (e: React.MouseEvent) => void;
   addReview: (
     snackName: string,
-    snackImage: string,
     snackRate: number,
     snackText: string,
   ) => void;
 }) {
   const [snackName, setSnackName] = useState("");
-  const [snackImage, setSnackImage] = useState("");
   const [snackRate, setSnackRate] = useState(0);
   const [snackText, setSnackText] = useState("");
   const [nameError, setNameError] = useState("");
@@ -19,10 +17,6 @@ function WriteReviewModal(props: {
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSnackName(e.target.value);
-  };
-
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSnackImage(e.target.value);
   };
 
   const handleRate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -74,19 +68,6 @@ function WriteReviewModal(props: {
           <h2>리뷰 쓰기</h2>
         </div>
         <div className="modal-content">
-          <div className="modalImageBox">
-            <img src={snackImage} alt={snackName} className="snackImage" />
-          </div>
-          <label htmlFor="imageURLInput">이미지</label>
-          <br />
-          <input
-            type="text"
-            id="imageURLInput"
-            className="scrollRight"
-            onChange={handleImage}
-            data-testid="image-input"
-          ></input>
-          <br />
           <label htmlFor="nameInput">과자 이름</label>
           <br />
           <input

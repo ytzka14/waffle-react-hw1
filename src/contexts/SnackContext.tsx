@@ -22,11 +22,13 @@ export type Snack = {
 	snackRate: number;
 };
 export type ReviewInput = {
+	snackId: number;
 	reviewScore: number;
 	reviewText: string;
 };
 export type Review = {
 	reviewId: number;
+	snackId: number;
 	reviewScore: number;
 	reviewText: string;
 };
@@ -83,7 +85,7 @@ export function SnackProvider({ children }: { children: ReactNode }) {
 		return reviews.find((review: Review) => review.reviewId === id) || null;
 	}
 	const addReview = (review: ReviewInput) => {
-		const newReview = {reviewId: generateReviewId(), reviewScore: review.reviewScore, reviewText: review.reviewText};
+		const newReview = {reviewId: generateReviewId(), snackId: review.snackId, reviewScore: review.reviewScore, reviewText: review.reviewText};
 		setReviews([newReview, ...reviews]);
 		return newReview;
 	}
@@ -100,7 +102,7 @@ export function SnackProvider({ children }: { children: ReactNode }) {
 		if (targetReview === null) {
 			return null;
 		}
-		const fixedReview = {reviewId: id, reviewScore: targetReview.reviewScore, reviewText: text};
+		const fixedReview = {reviewId: id, snackId: targetReview.snackId, reviewScore: targetReview.reviewScore, reviewText: text};
 		setReviews(reviews.map(review => review.reviewId === id ? fixedReview : review));
 		return fixedReview;
 	}

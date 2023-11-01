@@ -1,31 +1,20 @@
 import { useState } from "react";
-import InitialData from "./InitialData";
 import WriteReviewModal from "./WriteReviewModal";
 import DeleteReviewModal from "./DeleteReviewModal";
 import iconDelete from "../assets/icon_delete.svg";
 import iconEdit from "../assets/icon_edit.svg";
 import iconQuit from "../assets/icon_quit.svg";
 import iconSave from "../assets/icon_save.svg";
+import { useSnackContext } from "../contexts/SnackContext.tsx";
 
-function createIncrementer() {
-  let counter = 104;
-
-  return function () {
-    return counter++;
-  };
-}
-
-const getNewId = createIncrementer();
-
-function ReviewPage() {
+const ReviewPage = () => {
   const [isWriteModalVisible, setIsWriteModalVisible] = useState(false);
-  const [items, setItems] = useState<
-    [number, string, string, number, string][]
-  >(InitialData());
   const [editID, setEditID] = useState<number | null>(null);
   const [deleteID, setDeleteID] = useState<number | null>(null);
   const [snackText, setSnackText] = useState("");
   const [editError, setEditError] = useState("");
+	
+	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
 
   const openWriteModal = (e: React.MouseEvent) => {
     e.preventDefault();

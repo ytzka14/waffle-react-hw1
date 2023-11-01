@@ -56,54 +56,54 @@ const SingleSnackPage = () => {
 	const rateBox = (review: Review) => {
 		return (
 			<>
-			<div className="text-box">
-        <span className="rate-span">★{review.reviewScore.toFixed(1)}</span>
-        {editId !== review.reviewId && <p>{review.reviewText}</p>}
-        {editId === review.reviewId && (
-          <textarea
-            rows={5}
-            className="edit-textarea"
-            onChange={handleText}
-            value={editText}
-          ></textarea>
-        )}
-        {editId === review.reviewId && editTextError !== "" && (
-          <span className="error-message">{editTextError}</span>
-        )}
-      </div>
-      {editId === null && (
-        <div className="hover-box">
-					<img
-						src={iconEdit}
-						className="small-icon"
-						onClick={() => {
-							setEditId(review.reviewId);
-							setEditText(review.reviewText);
-						}}
-					/>
-					<img
-						src={iconDelete}
-						className="small-icon"
-						onClick={handleDelete(review)}
-					/>
+				<div className="text-box">
+					<span className="rate-span">★{review.reviewScore.toFixed(1)}</span>
+					{editId !== review.reviewId && <p>{review.reviewText}</p>}
+					{editId === review.reviewId && (
+						<textarea
+							rows={5}
+							className="edit-textarea"
+							onChange={handleText}
+							value={editText}
+						></textarea>
+					)}
+					{editId === review.reviewId && editTextError !== "" && (
+						<span className="error-message">{editTextError}</span>
+					)}
 				</div>
-			)}
-			{editId === review.reviewId && (
-				<div className="alwaysHoverBox">
-					<img
-						src={iconSave}
-						className="smallIcon"
-						onClick={trySave}
-						data-testid="edit-review-save"
-					/>
-					<img
-						src={iconQuit}
-						className="smallIcon"
-						onClick={quitEdit}
-						data-testid="edit-review-cancel"
-					/>
-				</div>
-			)}
+				{editId === null && (
+					<div className="hover-box">
+						<img
+							src={iconEdit}
+							className="small-icon"
+							onClick={() => {
+								setEditId(review.reviewId);
+								setEditText(review.reviewText);
+							}}
+						/>
+						<img
+							src={iconDelete}
+							className="small-icon"
+							onClick={handleDelete(review)}
+						/>
+					</div>
+				)}
+				{editId === review.reviewId && (
+					<div className="alwaysHoverBox">
+						<img
+							src={iconSave}
+							className="smallIcon"
+							onClick={trySave}
+							data-testid="edit-review-save"
+						/>
+						<img
+							src={iconQuit}
+							className="smallIcon"
+							onClick={quitEdit}
+							data-testid="edit-review-cancel"
+						/>
+					</div>
+				)}
 			</>
 		)
 	}

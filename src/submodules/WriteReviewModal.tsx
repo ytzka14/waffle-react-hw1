@@ -1,19 +1,22 @@
 import { useState } from "react";
+import { Snack, useSnackContext } from "../contexts/SnackContext.tsx";
 
-function WriteReviewModal(props: {
+const WriteReviewModal = (props: {
   closeModal: (e: React.MouseEvent) => void;
-  addReview: (
-    snackName: string,
-    snackRate: number,
-    snackText: string,
+  saveReview: (
+    snack: Snack,
+    reviewScore: number,
+    reviewText: string,
   ) => void;
-}) {
+}) => {
   const [snackName, setSnackName] = useState("");
   const [snackRate, setSnackRate] = useState(0);
   const [snackText, setSnackText] = useState("");
   const [nameError, setNameError] = useState("");
   const [rateError, setRateError] = useState("");
   const [textError, setTextError] = useState("");
+
+	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSnackName(e.target.value);
@@ -57,7 +60,7 @@ function WriteReviewModal(props: {
     }
 
     if (!invalid) {
-      props.addReview(snackName, snackImage, snackRate, snackText);
+      props.saveReview(getSnackByName(snackName)!, snackRate, snackText);
     }
   }
 

@@ -1,20 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import WriteReviewModal from "./WriteReviewModal";
 import DeleteReviewModal from "./DeleteReviewModal";
 import iconDelete from "../assets/icon_delete.svg";
 import iconEdit from "../assets/icon_edit.svg";
 import iconQuit from "../assets/icon_quit.svg";
 import iconSave from "../assets/icon_save.svg";
+import iconSnack from "../assets/icon_snack.svg";
 import { Snack, Review, useSnackContext } from "../contexts/SnackContext.tsx";
+import { Link } from "react-router-dom";
 
 const ReviewPage = () => {
-  const [isWriteModalVisible, setIsWriteModalVisible] = useState(false);
-  const [editId, setEditId] = useState<number | null>(null);
-  const [deleteId, setDeleteId] = useState<number | null>(null);
-  const [editText, setEditText] = useState("");
-  const [editTextError, setEditTextError] = useState("");
+  const [ isWriteModalVisible, setIsWriteModalVisible ] = useState(false);
+	const [ isNewMenuVisible, setIsNewMenuVisible ] = useState(false);
+  const [ editId, setEditId ] = useState<number | null>(null);
+  const [ deleteId, setDeleteId ] = useState<number | null>(null);
+  const [ editText, setEditText ] = useState("");
+  const [ editTextError, setEditTextError ] = useState("");
 	
 	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
+
+	const useOutsideClick = (callback: () => void) => {
+		const ref = useRef<HTMLButtonElement | null>(null);
+
+		useEffect(() => {
+			const handleClick = (e: MouseEvent) => {
+				callback();
+			};
+
+			document.addEventListener("click", handleClick);
+
+			return () => {
+				document.removeEventListener("click", handleClick);
+			};
+		}, []);
+
+		return ref;
+	}
+
+	const openNewMenu = (e: React.MouseEvent) => {
+		e.preventDefault();
+		setIsNewMenuVisible(true);
+	}
+
+	const closeNewMenu = () => {
+		setIsNewMenuVisible(false);
+	}
 
   const openWriteModal = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -163,13 +193,43 @@ const ReviewPage = () => {
           />
         </div>
       )}
-      <button
-        className="addReviewButton"
-        onClick={openWriteModal}
-        data-testid="write-review"
-      >
-        +
-      </button>
+      {!isNewMenuVisible && (
+				<button
+					className="open-new-menu-button"
+					onClick={openNewMenu}
+				>
+					+
+				</button>
+			)}
+			{isNewMenuVisible && (
+				<>
+					<div className="new-menu-item">
+						<Link
+							to="/snacks/new"
+							className="new-link"
+						>
+							<span>새 과자</span>
+							<img src={iconSnack} className="small-icon"/>
+						</Link>
+					</div>
+					<div className="new-menu-item">
+						<div onClick={openWriteModal}>
+							<span>새 리뷰</span>
+							<img src={iconEdit} className="small-icon"/>
+						</div>
+					</div>
+					<button
+						className="close-new-menu-button"
+						ref={useOutsideClick(closeNewMenu)}
+						onClick={(e: React.MouseEvent) => {
+							e.preventDefault();
+							closeNewMenu();
+						}}
+					>
+						X
+					</button>
+				</>
+			)}
     </>
   );
 }

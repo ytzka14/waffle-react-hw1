@@ -6,8 +6,8 @@ function Header() {
     <>
       <header data-testid="header">
         <h1 className="header">
-          <div className="headerContent">
-            <a href="https://wafflestudio.com" className="invisibleLink">
+          <div className="header-content">
+            <a href="https://wafflestudio.com" className="invisible-link">
               <img
                 alt="logo"
                 src={waffleLogo}
@@ -16,8 +16,8 @@ function Header() {
                 data-testid="waffle-logo"
               />
             </a>
-            <a href="https://wafflestudio.com" className="invisibleLink">
-              <span className="headerText" data-testid="header-title">
+            <a href="https://wafflestudio.com" className="invisible-link">
+              <span className="header-text" data-testid="header-title">
                 과자 리뷰
               </span>
             </a>

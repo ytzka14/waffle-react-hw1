@@ -23,7 +23,7 @@ textarea {
   margin: 0px; /* for filling header to top */
 }
 
-.headerContent {
+.header-content {
   display: flex;
   align-items: center;
 }
@@ -34,14 +34,14 @@ textarea {
   margin: 10px;
 }
 
-.headerText {
+.header-text {
   vertical-align: middle;
   display: inline;
   font-weight: bolder;
   margin: 10px;
 }
 
-.invisibleLink {
+.invisible-link {
   /* hyperlink without changing color of text and underline */
   text-decoration: none;
   color: black;
@@ -50,11 +50,11 @@ textarea {
   width: fit-content;
 }
 
-.invisibleLink:hover {
+.invisible-link:hover {
   color: black;
 }
 
-.writingArea {
+.writing-area {
   width: 450px;
   margin: auto;
   text-align: left;
@@ -65,20 +65,20 @@ textarea::placeholder {
   color: gray;
 }
 
-.lineInput {
+.line-input {
   width: 350px;
   resize: none;
   overflow: hidden;
 }
 
-.scrollRight {
+.scroll-right {
   /* scroll to right */
   width: 350px;
   resize: none;
   white-space: pre;
 }
 
-.scrollDown {
+.scroll-down {
   width: 350px;
   resize: none;
   overflow-y: auto;
@@ -103,7 +103,7 @@ textarea::placeholder {
   position: relative;
 }
 
-.imageBox {
+.image-box {
   border: 2px solid orange;
   border-radius: 30px;
   width: 150px;
@@ -115,7 +115,7 @@ textarea::placeholder {
   float: left;
 }
 
-.modalImageBox {
+.modal-image-box {
   border: 2px solid orange;
   border-radius: 30px;
   width: 150px;
@@ -124,32 +124,32 @@ textarea::placeholder {
   overflow: hidden;
 }
 
-.textBox {
+.text-box {
   vertical-align: middle;
   text-align: left;
   margin-top: 10px;
 }
 
-.snackNameText {
+.snack-name-text {
   font-weight: bold;
 }
 
-.greyText {
+.grey-text {
   color: grey;
 }
 
-.snackImage {
+.snack-image {
   width: 100%;
   height: 100%;
   object-fit: cover; /* fit into imageBox */
 }
 
-.rateSpan {
+.rate-span {
   font-weight: bold;
   color: orange;
 }
 
-.reviewButton {
+.review-button {
   background-color: yellowgreen;
 }
 
@@ -208,7 +208,7 @@ textarea::placeholder {
   list-style: none;
 }
 
-.addReviewButton {
+.open-new-menu-button {
   background-color: green;
   color: white;
   font-weight: bolder;
@@ -226,25 +226,43 @@ textarea::placeholder {
   z-index: 9995;
 }
 
-.writeReviewButton {
+.close-new-menu-button {
+	background-color: red;
+  color: white;
+  font-weight: bolder;
+  font-size: 35px;
+  padding: 0 3px 5px 3px;
+  vertical-align: middle;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 25px;
+  transform: translateY(0px);
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 9995;
+}
+
+.write-review-button {
   background-color: yellowgreen;
   margin: 10px;
   margin-top: 20px;
 }
 
-.inactiveButton {
+.inactive-button {
   background-color: lightgray;
   margin: 10px;
   margin-top: 20px;
 }
 
-.closeModalButton {
+.close-modal-button {
   background-color: lightcoral;
   margin: 10px;
   margin-top: 20px;
 }
 
-.hoverBox {
+.hover-box {
   position: absolute;
   width: 100%;
   height: 100%;
@@ -255,7 +273,7 @@ textarea::placeholder {
   opacity: 0;
 }
 
-.alwaysHoverBox {
+.always-hover-box {
   position: absolute;
   top: 0px;
   right: 0px;
@@ -273,7 +291,7 @@ textarea::placeholder {
   opacity: 1;
 }
 
-.smallIcon {
+.small-icon {
   top: 0px;
   right: 0px;
   width: 20px;
@@ -282,13 +300,13 @@ textarea::placeholder {
   cursor: pointer;
 }
 
-.editTextarea {
+.edit-text-area {
   width: 60%;
   min-height: 100%;
   margin-top: 10px;
   resize: none;
 }
 
-.errorMessage {
+.error-message {
   color: red;
 }

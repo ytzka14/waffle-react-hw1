@@ -20,14 +20,13 @@ function DeleteReviewModal (props: {
         </div>
         <div className="modal-footer">
           <button
-            className="closeModalButton"
+            className="close-modal-button"
             onClick={() => removeReview(getReviewById(props.deleteReviewId)!)}
-            data-testid="delete-review-delete"
           >
             삭제
           </button>
           <button
-            className="inactiveButton"
+            className="inactive-button"
             onClick={props.closeModal}
             data-testid="delete-review-cancel"
           >

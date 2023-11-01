@@ -1,4 +1,3 @@
-import Header from "./Header.tsx";
 import { useSnackContext } from "../contexts/SnackContext.tsx";
 
 const SnacksPage = () => {
@@ -6,7 +5,6 @@ const SnacksPage = () => {
 
 	return (
 		<>
-			<Header />
 			<ul className="snack-list">
 				{
 					snacks.map((snack) => (

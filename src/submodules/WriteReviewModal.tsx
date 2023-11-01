@@ -32,12 +32,9 @@ const WriteReviewModal = (props: {
 
   function tryWrite() {
     let invalid = false;
-    if (snackName.length < 1 || snackName.length > 20) {
-      setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
-      invalid = true;
-    } else if (snackName !== snackName.trim()) {
-      setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
-      invalid = true;
+    if (getSnackByName(snackName) === null) {
+			setNameError("등록되지 않은 과자 이름입니다");
+			invalid = true;
     } else {
       setNameError("");
     }
@@ -61,6 +58,7 @@ const WriteReviewModal = (props: {
 
     if (!invalid) {
       props.saveReview(getSnackByName(snackName)!, snackRate, snackText);
+			return props.closeModal;
     }
   }
 
@@ -71,17 +69,24 @@ const WriteReviewModal = (props: {
           <h2>리뷰 쓰기</h2>
         </div>
         <div className="modal-content">
-          <label htmlFor="nameInput">과자 이름</label>
+          <label htmlFor="name-input">과자 이름</label>
           <br />
           <input
             type="text"
-            id="nameInput"
-            className="lineInput"
+            id="name-input"
+						list="snack-list"
+            className="line-input"
             onChange={handleName}
-            data-testid="name-input"
-          ></input>
+					/>
+					<datalist id="snack-list">
+						{
+							filterSnacksByName(snackName).map((snack) => (
+								<option value={snack.snackName} />
+							))
+						}
+					</datalist>
           <br />
-          <span className="errorMessage" data-testid="name-input-message">
+          <span className="error-message" data-testid="name-input-message">
             {nameError}
           </span>
           <br />
@@ -90,12 +95,12 @@ const WriteReviewModal = (props: {
           <input
             type="number"
             id="rateInput"
-            className="lineInput"
+            className="line-input"
             onChange={handleRate}
             data-testid="rating-input"
           ></input>
           <br />
-          <span className="errorMessage" data-testid="rating-input-message">
+          <span className="error-message" data-testid="rating-input-message">
             {rateError}
           </span>
           <br />
@@ -103,26 +108,26 @@ const WriteReviewModal = (props: {
           <br />
           <textarea
             id="reviewtextInput"
-            className="scrollDown"
+            className="scroll-down"
             onChange={handleText}
             data-testid="content-input"
           ></textarea>
           <br />
-          <span className="errorMessage" data-testid="content-input-message">
+          <span className="error-message" data-testid="content-input-message">
             {textError}
           </span>
           <br />
         </div>
         <div className="modal-footer">
           <button
-            className="writeReviewButton"
+            className="write-review-button"
             onClick={tryWrite}
             data-testid="submit-review"
           >
             작성
           </button>
           <button
-            className="closeModalButton"
+            className="close-modal-button"
             onClick={props.closeModal}
             data-testid="cancel-review"
           >

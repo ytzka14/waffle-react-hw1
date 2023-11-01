@@ -89,16 +89,16 @@ const SingleSnackPage = () => {
 					</div>
 				)}
 				{editId === review.reviewId && (
-					<div className="alwaysHoverBox">
+					<div className="always-hover-box">
 						<img
 							src={iconSave}
-							className="smallIcon"
+							className="small-icon"
 							onClick={trySave}
 							data-testid="edit-review-save"
 						/>
 						<img
 							src={iconQuit}
-							className="smallIcon"
+							className="small-icon"
 							onClick={quitEdit}
 							data-testid="edit-review-cancel"
 						/>

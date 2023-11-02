@@ -19,6 +19,7 @@ const ReviewPage = () => {
 	
 	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
 
+	/*
 	const useOutsideClick = (callback: () => void) => {
 		const ref = useRef<HTMLButtonElement | null>(null);
 
@@ -36,6 +37,7 @@ const ReviewPage = () => {
 
 		return ref;
 	}
+	*/
 
 	const openNewMenu = (e: React.MouseEvent) => {
 		e.preventDefault();
@@ -220,7 +222,7 @@ const ReviewPage = () => {
 					</div>
 					<button
 						className="close-new-menu-button"
-						ref={useOutsideClick(closeNewMenu)}
+						// ref={useOutsideClick(closeNewMenu)}
 						onClick={(e: React.MouseEvent) => {
 							e.preventDefault();
 							closeNewMenu();

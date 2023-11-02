@@ -1,5 +1,6 @@
 import waffleLogo from "../assets/icon_intro.svg";
 import { Link } from "react-router-dom";
+import "./css/Header.css";
 
 function Header(props: {
 	pageType: string
@@ -23,10 +24,10 @@ function Header(props: {
                 과자 리뷰
               </span>
             </a>
-						<Link to="/" className={props.pageType === "review" ? "bold-pagetype" : "thin-pagetype"}>
+						<Link to="/" className={props.pageType === "review" ? "bold-pagetype" : "light-pagetype"}>
 							리뷰
 						</Link>
-						<Link to="/snacks" className={props.pageType === "review" ? "thin-pagetype" : "bold-pagetype"}>
+						<Link to="/snacks" className={props.pageType === "review" ? "light-pagetype" : "bold-pagetype"}>
 							과자
 						</Link>
 					</div>

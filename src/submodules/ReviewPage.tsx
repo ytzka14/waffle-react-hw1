@@ -9,6 +9,7 @@ import iconSave from "../assets/icon_save.svg";
 import iconSnack from "../assets/icon_snack.svg";
 import { Snack, Review, useSnackContext } from "../contexts/SnackContext.tsx";
 import { Link } from "react-router-dom";
+import "./css/ReviewPage.css";
 
 const ReviewPage = () => {
   const [ isWriteModalVisible, setIsWriteModalVisible ] = useState(false);
@@ -207,31 +208,33 @@ const ReviewPage = () => {
 			)}
 			{isNewMenuVisible && (
 				<>
-					<div className="new-menu-item">
-						<Link
-							to="/snacks/new"
-							className="invisible-link"
-						>
-							<span>새 과자</span>
-							<img src={iconSnack} className="small-icon"/>
-						</Link>
-					</div>
-					<div className="new-menu-item">
-						<div onClick={openWriteModal}>
-							<span>새 리뷰</span>
-							<img src={iconEdit} className="small-icon"/>
+					<div className="new-menu-modal">
+						<div className="new-menu-item">
+							<Link
+								to="/snacks/new"
+								className="invisible-link"
+							>
+								<span>새 과자</span>
+								<img src={iconSnack} className="small-icon"/>
+							</Link>
 						</div>
+						<div className="new-menu-item">
+							<div onClick={openWriteModal}>
+								<span>새 리뷰</span>
+								<img src={iconEdit} className="small-icon"/>
+							</div>
+						</div>
+						<button
+							className="close-new-menu-button"
+							// ref={useOutsideClick(closeNewMenu)}
+							onClick={(e: React.MouseEvent) => {
+								e.preventDefault();
+								closeNewMenu();
+							}}
+						>
+							X
+						</button>
 					</div>
-					<button
-						className="close-new-menu-button"
-						// ref={useOutsideClick(closeNewMenu)}
-						onClick={(e: React.MouseEvent) => {
-							e.preventDefault();
-							closeNewMenu();
-						}}
-					>
-						X
-					</button>
 				</>
 			)}
     </>

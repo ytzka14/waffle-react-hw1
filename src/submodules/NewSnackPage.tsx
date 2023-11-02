@@ -2,6 +2,7 @@ import Header from "./Header.tsx";
 import { Link, useNavigate } from "react-router-dom";
 import { useSnackContext } from "../contexts/SnackContext.tsx";
 import { useState } from "react";
+import "./css/NewSnackPage.css"
 
 const NewSnackPage = () => {
 	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews } = useSnackContext();

@@ -1,6 +1,7 @@
 import Header from "./Header.tsx";
 import { useSnackContext } from "../contexts/SnackContext.tsx";
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
+import "./css/SnacksPage.css";
 
 const SnacksPage = () => {
 	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();

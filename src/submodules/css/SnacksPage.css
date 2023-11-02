@@ -1,0 +1,62 @@
+/*
+.snack-list
+*/
+
+.snack-block {
+	border: 2px solid darkgray; /* Add border to blocks */
+  box-shadow: 3px 6px 3px 0px #b0b0b0;
+  padding: 10px; /* Add padding for spacing */
+  margin: auto;
+  margin-bottom: 15px; /* Add margin between blocks */
+  width: 500px;
+  height: 160px;
+  text-align: center;
+  display: block;
+  position: relative;
+}
+
+.image-box {
+  border: 2px solid orange;
+  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  margin-right: 30px;
+  overflow: hidden; /* cut image at border */
+  display: block;
+  float: left;
+}
+
+.snack-image {
+	width: 100%;
+  height: 100%;
+  object-fit: cover; /* fit into image-box */
+}
+
+.text-box {
+  vertical-align: middle;
+  text-align: left;
+  margin-top: 10px;
+}
+
+.invisible-link {
+	/* hyperlink without changing color of text and underline */
+  text-decoration: none;
+  color: black;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+}
+
+.invisible-link:hover {
+	color: black;
+}
+
+.snack-name-text {
+	font-weight: bold;
+}
+
+.rate-span {
+	font-weight: bold;
+	color: orange;
+}

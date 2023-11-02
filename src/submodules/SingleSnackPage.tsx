@@ -7,6 +7,7 @@ import iconDelete from "../assets/icon_delete.svg";
 import iconEdit from "../assets/icon_edit.svg";
 import iconQuit from "../assets/icon_quit.svg";
 import iconSave from "../assets/icon_save.svg";
+import "./css/SingleSnackPage.css";
 
 const SingleSnackPage = () => {
 	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
@@ -62,7 +63,7 @@ const SingleSnackPage = () => {
 					{editId === review.reviewId && (
 						<textarea
 							rows={5}
-							className="edit-textarea"
+							className="edit-text-area"
 							onChange={handleText}
 							value={editText}
 						></textarea>

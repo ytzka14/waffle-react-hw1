@@ -81,7 +81,7 @@ const WriteReviewModal = (props: {
 					<datalist id="snack-list">
 						{
 							filterSnacksByName(snackName).map((snack) => (
-								<option value={snack.snackName} />
+								<option value={snack.snackName} key={snack.snackId} />
 							))
 						}
 					</datalist>

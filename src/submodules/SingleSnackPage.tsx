@@ -1,3 +1,4 @@
+import Header from "./Header.tsx";
 import DeleteReviewModal from "./DeleteReviewModal.tsx";
 import { useParams } from "react-router-dom";
 import { useSnackContext, Review } from "../contexts/SnackContext.tsx";
@@ -14,8 +15,8 @@ const SingleSnackPage = () => {
 	const [ editText, setEditText ] = useState("");
 	const [ editTextError, setEditTextError ] = useState("");
 
-	const { snackParam } = useParams();
-	const snack = getSnackById(Number(snackParam));
+	const { id } = useParams();
+	const snack = getSnackById(Number(id));
 
 	const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setEditText(e.target.value);
@@ -109,6 +110,7 @@ const SingleSnackPage = () => {
 
 	return (
 		<>
+			<Header pageType="snack"/>
 			<div className="snack-block" key={snack?.snackId}>
 				<div className="image-box">
 					<img src={snack?.snackImageUrl} alt={snack?.snackName} className="snack-image"/>

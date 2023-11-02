@@ -54,6 +54,36 @@ textarea {
   color: black;
 }
 
+.bold-pagetype {
+	text-decoration: none;
+	color: black;
+	display: inline-flex;
+	align-items: center;
+	width: fit-content;
+	font-weight: bold;
+	font-size: 32px;
+	margin: 16px;
+}
+
+.bold-pagetype:hover {
+	color: black;
+}
+
+.thin-pagetype {
+	text-decoration: none;
+	color: black;
+	display: inline-flex;
+	align-items: center;
+	width: fit-content;
+	font-weight: lighter;
+	font-size: 32px;
+	margin: 16px;
+}
+
+.thin-pagetype:hover {
+	color: black;
+}
+
 .writing-area {
   width: 450px;
   margin: auto;

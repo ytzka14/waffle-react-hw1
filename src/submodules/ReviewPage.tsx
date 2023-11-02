@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import Header from "./Header.tsx";
 import WriteReviewModal from "./WriteReviewModal";
 import DeleteReviewModal from "./DeleteReviewModal";
 import iconDelete from "../assets/icon_delete.svg";
@@ -171,6 +172,7 @@ const ReviewPage = () => {
 
   return (
     <>
+			<Header pageType="review"/>
       <ul className="review-list" data-testid="review-list">
         {reviews.map((review) => (
           <div className="block" key={review.reviewId} data-testid="review">
@@ -208,7 +210,7 @@ const ReviewPage = () => {
 					<div className="new-menu-item">
 						<Link
 							to="/snacks/new"
-							className="new-link"
+							className="invisible-link"
 						>
 							<span>새 과자</span>
 							<img src={iconSnack} className="small-icon"/>

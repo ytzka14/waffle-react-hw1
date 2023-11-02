@@ -47,6 +47,7 @@ const NewSnackPage = () => {
 
 	return (
 		<>
+			<Header pageType="snack"/>
 			<div className="body-title">
 				<h2>
 					새 과자

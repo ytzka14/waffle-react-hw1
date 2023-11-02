@@ -1,4 +1,3 @@
-import Header from "./Header.tsx";
 import DeleteReviewModal from "./DeleteReviewModal.tsx";
 import { useParams } from "react-router-dom";
 import { useSnackContext, Review } from "../contexts/SnackContext.tsx";
@@ -110,7 +109,6 @@ const SingleSnackPage = () => {
 
 	return (
 		<>
-			<Header/>
 			<div className="snack-block" key={snack?.snackId}>
 				<div className="image-box">
 					<img src={snack?.snackImageUrl} alt={snack?.snackName} className="snack-image"/>

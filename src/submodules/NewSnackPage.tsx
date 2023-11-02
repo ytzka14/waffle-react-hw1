@@ -1,5 +1,5 @@
 import Header from "./Header.tsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useSnackContext } from "../contexts/SnackContext.tsx";
 import { useState } from "react";
 
@@ -10,6 +10,8 @@ const NewSnackPage = () => {
 	const [ snackImageUrl, setSnackImageUrl ] = useState("");
 	const [ snackImageUrlError, setSnackImageUrlError ] = useState("");
 
+	const navigate = useNavigate();
+
 	const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSnackName(e.target.value);
   };
@@ -18,7 +20,7 @@ const NewSnackPage = () => {
     setSnackImageUrl(e.target.value);
   };
 
-  function tryWrite() {
+  const tryWrite = () => {
     let invalid = false;
     if (snackName.length < 1 || snackName.length > 20) {
       setSnackNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
@@ -38,7 +40,8 @@ const NewSnackPage = () => {
 		}
 
     if (!invalid) {
-      addSnack({snackName: snackName, snackImageUrl: snackImageUrl});
+      const newSnack = addSnack({snackName: snackName, snackImageUrl: snackImageUrl});
+			navigate("/snacks/" + newSnack!.snackId);
     }
   }
 
@@ -61,6 +64,10 @@ const NewSnackPage = () => {
 					onChange={handleImageUrl}
 			/>
 			<br/>
+			<span className="error-message">
+        {snackImageUrlError}
+      </span>
+			<br/>
 			<label htmlFor="name-input">과자 이름</label>
 			<br/>
 			<input
@@ -69,6 +76,10 @@ const NewSnackPage = () => {
 				className="line-input"
 				onChange={handleName}
 			/>
+			<br/>
+			<span className="error-message">
+        {snackNameError}
+      </span>
 			<br/>
 			<div className="modal-footer">
 				<button

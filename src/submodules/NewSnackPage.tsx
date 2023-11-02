@@ -9,15 +9,20 @@ const NewSnackPage = () => {
 	const [ snackNameError, setSnackNameError ] = useState("");
 	const [ snackImageUrl, setSnackImageUrl ] = useState("");
 	const [ snackImageUrlError, setSnackImageUrlError ] = useState("");
+	const [ isButtonDisabled, setIsButtonDisabled ] = useState(false);
 
 	const navigate = useNavigate();
 
 	const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setIsButtonDisabled(true);
     setSnackName(e.target.value);
+		setTimeout(() => setIsButtonDisabled(false), 1000);
   };
 
   const handleImageUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+		setIsButtonDisabled(true);
     setSnackImageUrl(e.target.value);
+		setTimeout(() => setIsButtonDisabled(false), 1000);
   };
 
   const tryWrite = () => {
@@ -28,7 +33,10 @@ const NewSnackPage = () => {
     } else if (snackName !== snackName.trim()) {
       setSnackNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
       invalid = true;
-    } else {
+    } else if (getSnackByName(snackName) !== null) {
+			setSnackNameError("이미 등록된 과자입니다")
+			invalid = true;
+		} else {
       setSnackNameError("");
     }
 
@@ -83,12 +91,19 @@ const NewSnackPage = () => {
       </span>
 			<br/>
 			<div className="modal-footer">
-				<button
-					className="write-review-button"
-					onClick={tryWrite}
-				>
-					작성
-				</button>
+				{!isButtonDisabled && (
+					<button
+						className="write-review-button"
+						onClick={tryWrite}
+					>
+						작성
+					</button>
+				)}
+				{isButtonDisabled && (
+					<button className="inactive-button">
+						작성
+					</button>
+				)}
 				<Link to="/">
 					<button className="quit-review-button">
 						취소

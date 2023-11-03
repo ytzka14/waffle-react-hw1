@@ -78,6 +78,7 @@ const WriteReviewModal = (props: {
 						list="snack-list"
             className="line-input"
             onChange={handleName}
+						data-testid="name-input"
 					/>
 					<datalist id="snack-list">
 						{

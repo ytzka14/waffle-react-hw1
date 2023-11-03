@@ -102,12 +102,12 @@ const ReviewPage = () => {
 			<>
 				<div className="review-box">
 					<div className="image-box">
-						<img src={snack.snackImageUrl} alt={snack.snackName} className="snack-image"/>
+						<img src={snack.snackImageUrl} alt={snack.snackName} className="snack-image" data-testid="snack-image"/>
 					</div>
 					<div className="review-title">
-						<span className="snack-name-text">{snack.snackName}</span>
+						<span className="snack-name-text" data-testid="snack-name">{snack.snackName}</span>
 						<span className="grey-text"> / </span>
-						<span className="rate-span">★{review.reviewScore.toFixed(1)}</span>
+						<span className="rate-span" data-testid="rating">★{review.reviewScore.toFixed(1)}</span>
 					</div>
 					{editId !== review.reviewId && <p>{review.reviewText}</p>}
           {editId === review.reviewId && (
@@ -116,6 +116,7 @@ const ReviewPage = () => {
               className="edit-text-area"
               onChange={handleText}
               value={editText}
+							data-testid="edit-review-content-input"
             ></textarea>
           )}
           {editId === review.reviewId && editTextError !== "" && (
@@ -131,11 +132,13 @@ const ReviewPage = () => {
                 setEditId(review.reviewId);
                 setEditText(review.reviewText);
               }}
+							data-testid="edit-review"
             />
             <img
               src={iconDelete}
               className="small-icon"
               onClick={openDeleteModal(review.reviewId)}
+							data-testid="delete-review"
             />
           </div>
         )}
@@ -145,11 +148,13 @@ const ReviewPage = () => {
               src={iconSave}
               className="small-icon"
               onClick={trySave}
+							data-testid="edit-review-save"
             />
             <img
               src={iconQuit}
               className="small-icon"
               onClick={quitEdit}
+							data-testid="edit-review-cancel"
             />
           </div>
         )}
@@ -202,6 +207,7 @@ const ReviewPage = () => {
 				<button
 					className="open-new-menu-button"
 					onClick={openNewMenu}
+					data-testid="open-menu"
 				>
 					+
 				</button>
@@ -213,13 +219,14 @@ const ReviewPage = () => {
 							<Link
 								to="/snacks/new"
 								className="invisible-link"
+								data-testid="new-snack"
 							>
 								<span>새 과자</span>
 								<img src={iconSnack} className="small-icon"/>
 							</Link>
 						</div>
 						<div className="new-menu-item">
-							<div onClick={openWriteModal}>
+							<div onClick={openWriteModal} data-testid="new-review">
 								<span>새 리뷰</span>
 								<img src={iconEdit} className="small-icon"/>
 							</div>
@@ -231,6 +238,7 @@ const ReviewPage = () => {
 								e.preventDefault();
 								closeNewMenu();
 							}}
+							data-testid="open-menu"
 						>
 							X
 						</button>

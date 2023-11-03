@@ -23,6 +23,7 @@ function DeleteReviewModal (props: {
           <button
             className="close-modal-button"
             onClick={() => removeReview(getReviewById(props.deleteReviewId)!)}
+						data-testid="delete-review-delete"
           >
             삭제
           </button>

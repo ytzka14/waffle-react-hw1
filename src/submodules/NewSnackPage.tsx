@@ -70,8 +70,9 @@ const NewSnackPage = () => {
       <input
         type="text"
 				id="image-url-input"
-					className="scroll-right"
-					onChange={handleImageUrl}
+				className="scroll-right"
+				onChange={handleImageUrl}
+				data-testid="image-input"
 			/>
 			<br/>
 			<span className="error-message">
@@ -85,9 +86,10 @@ const NewSnackPage = () => {
 				id="name-input"
 				className="line-input"
 				onChange={handleName}
+				data-testid="name-input"
 			/>
 			<br/>
-			<span className="error-message">
+			<span className="error-message" data-testid="snack-name-error">
         {snackNameError}
       </span>
 			<br/>
@@ -96,17 +98,18 @@ const NewSnackPage = () => {
 					<button
 						className="write-review-button"
 						onClick={tryWrite}
+						data-testid="add-button"
 					>
 						작성
 					</button>
 				)}
 				{isButtonDisabled && (
-					<button className="inactive-button">
+					<button className="inactive-button" data-testid="add-button">
 						작성
 					</button>
 				)}
 				<Link to="/">
-					<button className="quit-review-button">
+					<button className="quit-review-button" data-testid="cancel-button">
 						취소
 					</button>
 				</Link>

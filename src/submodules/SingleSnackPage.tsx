@@ -57,8 +57,8 @@ const SingleSnackPage = () => {
 	const rateBox = (review: Review) => {
 		return (
 			<>
-				<div className="text-box">
-					<span className="rate-span">★{review.reviewScore.toFixed(1)}</span>
+				<div className="text-box" data-testid="review">
+					<span className="rate-span" data-testid="rating">★{review.reviewScore.toFixed(1)}</span>
 					{editId !== review.reviewId && <p>{review.reviewText}</p>}
 					{editId === review.reviewId && (
 						<textarea
@@ -66,6 +66,7 @@ const SingleSnackPage = () => {
 							className="edit-text-area"
 							onChange={handleText}
 							value={editText}
+							data-testid="edit-review-content-input"
 						></textarea>
 					)}
 					{editId === review.reviewId && editTextError !== "" && (
@@ -81,11 +82,13 @@ const SingleSnackPage = () => {
 								setEditId(review.reviewId);
 								setEditText(review.reviewText);
 							}}
+							data-testid="edit-review"
 						/>
 						<img
 							src={iconDelete}
 							className="small-icon"
 							onClick={handleDelete(review)}
+							data-testid="delete-review"
 						/>
 					</div>
 				)}
@@ -112,16 +115,17 @@ const SingleSnackPage = () => {
 	return (
 		<>
 			<Header pageType="snack"/>
-			<div className="snack-block" key={snack?.snackId}>
+			<div className="snack-block" key={snack?.snackId} data-testid="snack-card">
 				<div className="image-box">
-					<img src={snack?.snackImageUrl} alt={snack?.snackName} className="snack-image"/>
+					<img src={snack?.snackImageUrl} alt={snack?.snackName} className="snack-image" data-testid="snack-image"/>
 				</div>
 				<div className="text-box">
-					<span className="snack-name-text">{snack?.snackName}</span>
-					<span className="rate-span">★{snack?.snackRate.toFixed(1)}</span>
+					<span className="snack-name-text" data-testid="snack-name">{snack?.snackName}</span>
+					<span className="grey-text"> / </span>
+					<span className="rate-span" data-testid="rating">★{snack?.snackRate.toFixed(1)}</span>
 				</div>
 			</div>
-			<ul className="review-list">
+			<ul className="review-list" data-testid="review-list">
 				{ reviews.filter((review) => (review.snackId === snack?.snackId)).map((review) => (rateBox(review))) }
       </ul>
       {deleteId && (

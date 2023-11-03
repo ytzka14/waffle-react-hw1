@@ -24,10 +24,10 @@ function Header(props: {
                 과자 리뷰
               </span>
             </a>
-						<Link to="/" className={props.pageType === "review" ? "bold-pagetype" : "light-pagetype"}>
+						<Link to="/" className={props.pageType === "review" ? "bold-pagetype" : "light-pagetype"} data-testid="review">
 							리뷰
 						</Link>
-						<Link to="/snacks" className={props.pageType === "review" ? "light-pagetype" : "bold-pagetype"}>
+						<Link to="/snacks" className={props.pageType === "review" ? "light-pagetype" : "bold-pagetype"} data-testid="snack">
 							과자
 						</Link>
 					</div>

@@ -52,6 +52,7 @@ const ReviewPage = () => {
 
   const openWriteModal = (e: React.MouseEvent) => {
     e.preventDefault();
+		setIsNewMenuVisible(false);
     setIsWriteModalVisible(true);
   };
 
@@ -96,18 +97,29 @@ const ReviewPage = () => {
 	}
 
 	const reviewBox = (review: Review) => {
-		const snack = getSnackById(review.snackId)!;
+		const snack = getSnackById(review.snackId);
+		if(snack === null){
+			removeReview(review);
+			return (
+				<></>
+			);
+		}
 
 		return (
 			<>
-				<div className="review-box">
+				<div className="review-box" data-testid="review" key={review.reviewId}>
 					<div className="image-box">
-						<img src={snack.snackImageUrl} alt={snack.snackName} className="snack-image" data-testid="snack-image"/>
+						<Link to={"/snacks/" + review.snackId}>
+							<img src={snack.snackImageUrl} alt={snack.snackName} className="snack-image" data-testid="snack-image"/>
+						</Link>
 					</div>
 					<div className="review-title">
-						<span className="snack-name-text" data-testid="snack-name">{snack.snackName}</span>
+						<Link to={"/snacks/" + review.snackId} className="invisible-link">
+							<span className="snack-name-text" data-testid="snack-name">{snack.snackName}</span>
+						</Link>
 						<span className="grey-text"> / </span>
-						<span className="rate-span" data-testid="rating">★{review.reviewScore.toFixed(1)}</span>
+						<span className="rate-span">★</span>
+						<span className="rate-span" data-testid="rating">{review.reviewScore.toFixed(1)}</span>
 					</div>
 					{editId !== review.reviewId && <p>{review.reviewText}</p>}
           {editId === review.reviewId && (
@@ -122,42 +134,42 @@ const ReviewPage = () => {
           {editId === review.reviewId && editTextError !== "" && (
             <span className="error-message">{editTextError}</span>
           )}
+					{editId === null && (
+						<div className="hover-box">
+							<img
+								src={iconEdit}
+								className="small-icon"
+								onClick={() => {
+									setEditId(review.reviewId);
+									setEditText(review.reviewText);
+								}}
+								data-testid="edit-review"
+							/>
+							<img
+								src={iconDelete}
+								className="small-icon"
+								onClick={openDeleteModal(review.reviewId)}
+								data-testid="delete-review"
+							/>
+						</div>
+					)}
+					{editId === review.reviewId && (
+						<div className="always-hover-box">
+							<img
+								src={iconSave}
+								className="small-icon"
+								onClick={trySave}
+								data-testid="edit-review-save"
+							/>
+							<img
+								src={iconQuit}
+								className="small-icon"
+								onClick={quitEdit}
+								data-testid="edit-review-cancel"
+							/>
+						</div>
+					)}
 				</div>
-				{editId === null && (
-          <div className="hover-box">
-            <img
-              src={iconEdit}
-              className="small-icon"
-              onClick={() => {
-                setEditId(review.reviewId);
-                setEditText(review.reviewText);
-              }}
-							data-testid="edit-review"
-            />
-            <img
-              src={iconDelete}
-              className="small-icon"
-              onClick={openDeleteModal(review.reviewId)}
-							data-testid="delete-review"
-            />
-          </div>
-        )}
-        {editId === review.reviewId && (
-          <div className="always-hover-box">
-            <img
-              src={iconSave}
-              className="small-icon"
-              onClick={trySave}
-							data-testid="edit-review-save"
-            />
-            <img
-              src={iconQuit}
-              className="small-icon"
-              onClick={quitEdit}
-							data-testid="edit-review-cancel"
-            />
-          </div>
-        )}
 			</>
 		)
 	}
@@ -171,20 +183,13 @@ const ReviewPage = () => {
 		setIsWriteModalVisible(false);
   };
 
-  const deleteReview = (review: Review) => {
-    removeReview(review);
-		setDeleteId(null);
-  };
-
   return (
     <>
 			<Header pageType="review"/>
       <ul className="review-list" data-testid="review-list">
-        {reviews.map((review) => (
-          <div className="block" key={review.reviewId} data-testid="review">
-            {reviewBox(review)}
-          </div>
-        ))}
+        {reviews.map((review) => 
+          reviewBox(review)
+				)}
       </ul>
       {isWriteModalVisible && (
         <div className="overlay">

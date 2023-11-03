@@ -14,15 +14,16 @@ const SnacksPage = () => {
 					snacks.map((snack) => (
 						<div className="snack-block" key={snack.snackId} data-testid="snack-card">
 							<div className="image-box">
-								<Link to={"snacks/" + snack.snackId}>
+								<Link to={"/snacks/" + snack.snackId}>
 									<img src={snack.snackImageUrl} alt={snack.snackName} className="snack-image" data-testid="snack-image"/>
 								</Link>
 							</div>
 							<div className="text-box">
-								<Link to={"snacks/" + snack.snackId} className="invisible-link">
-									<span className="snack-name-text" data-testid="snack-name">{snack.snackName}</span>
+								<Link to={"/snacks/" + snack.snackId} className="invisible-link" data-testid="snack-name">
+									<span className="snack-name-text">{snack.snackName}</span>
 								</Link>
-								<span className="rate-span" data-testid="rating">★{snack.snackRate.toFixed(1)}</span>
+								<span className="rate-span">★</span>
+								<span className="rate-span" data-testid="rating">{snack.snackRate.toFixed(1)}</span>
 							</div>
 						</div>
 					))

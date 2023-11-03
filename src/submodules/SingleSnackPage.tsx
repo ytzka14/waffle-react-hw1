@@ -57,57 +57,60 @@ const SingleSnackPage = () => {
 	const rateBox = (review: Review) => {
 		return (
 			<>
-				<div className="text-box" data-testid="review">
-					<span className="rate-span" data-testid="rating">★{review.reviewScore.toFixed(1)}</span>
-					{editId !== review.reviewId && <p>{review.reviewText}</p>}
-					{editId === review.reviewId && (
-						<textarea
-							rows={5}
-							className="edit-text-area"
-							onChange={handleText}
-							value={editText}
-							data-testid="edit-review-content-input"
-						></textarea>
+				<div className="review-box" data-testid="review">
+					<div className="text-box">
+						<span className="rate-span">★</span>
+						<span className="rate-span" data-testid="rating">{review.reviewScore.toFixed(1)}</span>
+						{editId !== review.reviewId && <p>{review.reviewText}</p>}
+						{editId === review.reviewId && (
+							<textarea
+								rows={5}
+								className="edit-text-area"
+								onChange={handleText}
+								value={editText}
+								data-testid="edit-review-content-input"
+							></textarea>
+						)}
+						{editId === review.reviewId && editTextError !== "" && (
+							<span className="error-message">{editTextError}</span>
+						)}
+					</div>
+					{editId === null && (
+						<div className="hover-box">
+							<img
+								src={iconEdit}
+								className="small-icon"
+								onClick={() => {
+									setEditId(review.reviewId);
+									setEditText(review.reviewText);
+								}}
+								data-testid="edit-review"
+							/>
+							<img
+								src={iconDelete}
+								className="small-icon"
+								onClick={handleDelete(review)}
+								data-testid="delete-review"
+							/>
+						</div>
 					)}
-					{editId === review.reviewId && editTextError !== "" && (
-						<span className="error-message">{editTextError}</span>
+					{editId === review.reviewId && (
+						<div className="always-hover-box">
+							<img
+								src={iconSave}
+								className="small-icon"
+								onClick={trySave}
+								data-testid="edit-review-save"
+							/>
+							<img
+								src={iconQuit}
+								className="small-icon"
+								onClick={quitEdit}
+								data-testid="edit-review-cancel"
+							/>
+						</div>
 					)}
 				</div>
-				{editId === null && (
-					<div className="hover-box">
-						<img
-							src={iconEdit}
-							className="small-icon"
-							onClick={() => {
-								setEditId(review.reviewId);
-								setEditText(review.reviewText);
-							}}
-							data-testid="edit-review"
-						/>
-						<img
-							src={iconDelete}
-							className="small-icon"
-							onClick={handleDelete(review)}
-							data-testid="delete-review"
-						/>
-					</div>
-				)}
-				{editId === review.reviewId && (
-					<div className="always-hover-box">
-						<img
-							src={iconSave}
-							className="small-icon"
-							onClick={trySave}
-							data-testid="edit-review-save"
-						/>
-						<img
-							src={iconQuit}
-							className="small-icon"
-							onClick={quitEdit}
-							data-testid="edit-review-cancel"
-						/>
-					</div>
-				)}
 			</>
 		)
 	}
@@ -122,7 +125,8 @@ const SingleSnackPage = () => {
 				<div className="text-box">
 					<span className="snack-name-text" data-testid="snack-name">{snack?.snackName}</span>
 					<span className="grey-text"> / </span>
-					<span className="rate-span" data-testid="rating">★{snack?.snackRate.toFixed(1)}</span>
+					<span className="rate-span">★</span>
+					<span className="rate-span" data-testid="rating">{snack?.snackRate.toFixed(1)}</span>
 				</div>
 			</div>
 			<ul className="review-list" data-testid="review-list">

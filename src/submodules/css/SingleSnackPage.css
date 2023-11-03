@@ -1,3 +1,25 @@
+.review-box {
+  border: 2px solid darkgray; /* Add border to blocks */
+  box-shadow: 3px 6px 3px 0px #b0b0b0;
+  padding: 10px; /* Add padding for spacing */
+  margin: auto;
+  margin-bottom: 15px; /* Add margin between blocks */
+  width: 500px;
+  height: 160px;
+  text-align: center;
+  display: block;
+  position: relative;
+}
+
+.review-box:hover .hover-box{
+	position: absolute;
+  width: 20%;
+  height: 20%;
+  display: block;
+  text-align: right;
+  opacity: 1;
+}
+
 .text-box {
 	vertical-align: middle;
 	text-align: left;

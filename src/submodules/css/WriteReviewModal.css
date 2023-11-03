@@ -55,3 +55,20 @@
   top: 0;
   background-color: rgba(0, 0, 0, 0.2);
 }
+
+.dropdown {
+	position: absolute;
+  border: 1px solid #ccc;
+  max-height: 150px;
+  overflow-y: auto;
+  background-color: white;
+}
+
+.dropdown-option {
+	padding: 5px;
+	cursor: pointer;
+}
+
+.dropdown-option:hover {
+	background-color: #f0f0f0;
+}

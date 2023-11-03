@@ -16,6 +16,7 @@ const WriteReviewModal = (props: {
   const [nameError, setNameError] = useState("");
   const [rateError, setRateError] = useState("");
   const [textError, setTextError] = useState("");
+	const [showDropdown, setShowDropdown] = useState(false);
 
 	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
 
@@ -31,10 +32,23 @@ const WriteReviewModal = (props: {
     setSnackText(e.target.value);
   };
 
+	const handleFocus = () => {
+		setShowDropdown(true);
+	}
+
+	const handleBlur = () => {
+		setTimeout(() => setShowDropdown(false), 200);
+	}
+
+	const handleOptionClick = (value: string) => {
+		setSnackName(value);
+		setShowDropdown(false);
+	}
+
   function tryWrite() {
     let invalid = false;
     if (getSnackByName(snackName) === null) {
-			setNameError("등록되지 않은 과자 이름입니다");
+			setNameError("해당 과자를 찾을 수 없습니다");
 			invalid = true;
     } else {
       setNameError("");
@@ -75,18 +89,28 @@ const WriteReviewModal = (props: {
           <input
             type="text"
             id="name-input"
-						list="snack-list"
             className="line-input"
+						value={snackName}
             onChange={handleName}
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+						autoComplete="off"
 						data-testid="name-input"
 					/>
-					<datalist id="snack-list">
-						{
-							filterSnacksByName(snackName).map((snack) => (
-								<option value={snack.snackName} key={snack.snackId} />
-							))
-						}
-					</datalist>
+					{showDropdown && (
+        		<div className="dropdown" data-testid="snack-name-compl-list">
+          	{filterSnacksByName(snackName)
+            	.map((snack) => (
+              	<div
+                	key={snack.snackId}
+                	className="dropdown-option"
+                	onClick={() => handleOptionClick(snack.snackName)}
+              	>
+                	{snack.snackName}
+              	</div>
+            	))}
+        		</div>
+      		)}
           <br />
           <span className="error-message" data-testid="name-input-message">
             {nameError}

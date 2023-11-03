@@ -73,7 +73,7 @@ export function SnackProvider({ children }: { children: ReactNode }) {
 	}
 	const addSnack = (snack: SnackInput) => {
 		if (getSnackByName(snack.snackName) === null) {
-			const newSnack = {snackId: generateSnackId(), snackName: snack.snackName, snackImageUrl: snack.snackImageUrl, snackRate: 0};
+			const newSnack = {snackId: generateSnackId(), snackName: snack.snackName, snackImageUrl: snack.snackImageUrl, snackRate: 5};
 			setSnacks([newSnack, ...snacks]);
 			return newSnack;
 		}

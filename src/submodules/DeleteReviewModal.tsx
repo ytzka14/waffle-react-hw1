@@ -8,6 +8,12 @@ function DeleteReviewModal (props: {
 }) {
 	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
 
+	const removeAndClose = (e: React.MouseEvent) => {
+		removeReview(getReviewById(props.deleteReviewId)!);
+		console.log("removed!");
+		return props.closeModal(e);
+	}
+
   return (
     <>
       <div className="modal-box-short">
@@ -22,7 +28,7 @@ function DeleteReviewModal (props: {
         <div className="modal-footer">
           <button
             className="close-modal-button"
-            onClick={() => removeReview(getReviewById(props.deleteReviewId)!)}
+            onClick={removeAndClose}
 						data-testid="delete-review-delete"
           >
             삭제

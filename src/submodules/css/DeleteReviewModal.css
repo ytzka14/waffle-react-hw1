@@ -5,7 +5,7 @@
 .modal-footer
 */
 
-.modal-box-short {
+.del-modal-box-short {
 	width: 400px;
 	height: 200px;
 	display: flex;
@@ -20,19 +20,19 @@
 	z-index: 10000;
 }
 
-.close-modal-button {
+.del-close-modal-button {
 	background-color: lightcoral;
 	margin: 10px;
 	margin-top: 20px;
 }
 
-.inactive-button {
+.del-inactive-button {
 	background-color: lightgray;
 	margin: 10px;
 	margin-top: 20px;
 }
 
-.backdrop {
+.del-backdrop {
 	width: 100vw;
 	height: 100vh;
 	position: fixed;

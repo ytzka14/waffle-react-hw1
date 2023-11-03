@@ -57,62 +57,66 @@ const NewSnackPage = () => {
 	return (
 		<>
 			<Header pageType="snack"/>
-			<div className="body-title">
-				<h2>
-					새 과자
-				</h2>
-			</div>
-			<div className="image-box">
-				<img src={snackImageUrl} alt={snackName} className="snack-image"/>
-			</div>
-			<label htmlFor="image-url-input">이미지</label>
-      <br/>
-      <input
-        type="text"
-				id="image-url-input"
-				className="scroll-right"
-				onChange={handleImageUrl}
-				data-testid="image-input"
-			/>
-			<br/>
-			<span className="error-message">
-        {snackImageUrlError}
-      </span>
-			<br/>
-			<label htmlFor="name-input">과자 이름</label>
-			<br/>
-			<input
-				type="text"
-				id="name-input"
-				className="line-input"
-				onChange={handleName}
-				data-testid="name-input"
-			/>
-			<br/>
-			<span className="error-message" data-testid="snack-name-error">
-        {snackNameError}
-      </span>
-			<br/>
-			<div className="modal-footer">
-				{!isButtonDisabled && (
-					<button
-						className="write-review-button"
-						onClick={tryWrite}
-						data-testid="add-button"
-					>
-						작성
-					</button>
-				)}
-				{isButtonDisabled && (
-					<button className="inactive-button">
-						작성
-					</button>
-				)}
-				<Link to="/">
-					<button className="quit-review-button" data-testid="cancel-button">
-						취소
-					</button>
-				</Link>
+			<div className="nsp-new-snack-page">
+				<div className="nsp-body-title">
+					<h2>
+						새 과자
+					</h2>
+				</div>
+				<div className="nsp-body-body">
+					<div className="nsp-image-box">
+						<img src={snackImageUrl} alt={snackName} className="nsp-snack-image"/>
+					</div>
+					<br/>
+					<div className="nsp-input-section">
+						<label htmlFor="image-url-input">이미지</label>
+						<input
+							type="text"
+							id="image-url-input"
+							className="nsp-scroll-right"
+							onChange={handleImageUrl}
+							data-testid="image-input"
+						/>
+						<br/>
+						<span className="nsp-error-message">
+							{snackImageUrlError}
+						</span>
+						<br/>
+						<label htmlFor="name-input">과자 이름</label>
+						<input
+							type="text"
+							id="name-input"
+							className="nsp-line-input"
+							onChange={handleName}
+							data-testid="name-input"
+						/>
+						<br/>
+						<span className="nsp-error-message" data-testid="snack-name-error">
+							{snackNameError}
+						</span>
+					</div>
+					<div className="nsp-modal-footer">
+						{!isButtonDisabled && (
+							<button
+								className="nsp-write-review-button"
+								onClick={tryWrite}
+								data-testid="add-button"
+							>
+								작성
+							</button>
+						)}
+						{isButtonDisabled && (
+							<button className="nsp-inactive-button">
+								작성
+							</button>
+						)}
+						<Link to="/">
+							<button className="nsp-quit-review-button" data-testid="cancel-button">
+								취소
+							</button>
+						</Link>
+					</div>
+				</div>
 			</div>
 		</>
 	)

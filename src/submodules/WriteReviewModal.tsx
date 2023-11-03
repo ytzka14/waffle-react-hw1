@@ -18,7 +18,7 @@ const WriteReviewModal = (props: {
   const [textError, setTextError] = useState("");
 	const [showDropdown, setShowDropdown] = useState(false);
 
-	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
+	const { getSnackByName, filterSnacksByName } = useSnackContext();
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSnackName(e.target.value);
@@ -79,17 +79,17 @@ const WriteReviewModal = (props: {
 
   return (
     <>
-      <div className="modal-box" data-testid="write-review-modal">
-        <div className="modal-header">
+      <div className="wrm-modal-box" data-testid="write-review-modal">
+        <div className="wrm-modal-header">
           <h2>리뷰 쓰기</h2>
         </div>
-        <div className="modal-content">
+        <div className="wrm-modal-content">
           <label htmlFor="name-input">과자 이름</label>
           <br />
           <input
             type="text"
             id="name-input"
-            className="line-input"
+            className="wrm-line-input"
 						value={snackName}
             onChange={handleName}
 						onFocus={handleFocus}
@@ -98,12 +98,12 @@ const WriteReviewModal = (props: {
 						data-testid="name-input"
 					/>
 					{showDropdown && (
-        		<div className="dropdown" data-testid="snack-name-compl-list">
+        		<div className="wrm-dropdown" data-testid="snack-name-compl-list">
           	{filterSnacksByName(snackName)
             	.map((snack) => (
               	<div
                 	key={snack.snackId}
-                	className="dropdown-option"
+                	className="wrm-dropdown-option"
                 	onClick={() => handleOptionClick(snack.snackName)}
               	>
                 	{snack.snackName}
@@ -112,7 +112,7 @@ const WriteReviewModal = (props: {
         		</div>
       		)}
           <br />
-          <span className="error-message" data-testid="name-input-message">
+          <span className="wrm-error-message" data-testid="name-input-message">
             {nameError}
           </span>
           <br />
@@ -121,12 +121,12 @@ const WriteReviewModal = (props: {
           <input
             type="number"
             id="rateInput"
-            className="line-input"
+            className="wrm-line-input"
             onChange={handleRate}
             data-testid="rating-input"
           ></input>
           <br />
-          <span className="error-message" data-testid="rating-input-message">
+          <span className="wrm-error-message" data-testid="rating-input-message">
             {rateError}
           </span>
           <br />
@@ -134,26 +134,26 @@ const WriteReviewModal = (props: {
           <br />
           <textarea
             id="reviewtextInput"
-            className="scroll-down"
+            className="wrm-scroll-down"
             onChange={handleText}
             data-testid="content-input"
           ></textarea>
           <br />
-          <span className="error-message" data-testid="content-input-message">
+          <span className="wrm-error-message" data-testid="content-input-message">
             {textError}
           </span>
           <br />
         </div>
-        <div className="modal-footer">
+        <div className="wrm-modal-footer">
           <button
-            className="write-review-button"
+            className="wrm-write-review-button"
             onClick={tryWrite}
             data-testid="submit-review"
           >
             작성
           </button>
           <button
-            className="close-modal-button"
+            className="wrm-close-modal-button"
             onClick={props.closeModal}
             data-testid="cancel-review"
           >
@@ -162,7 +162,7 @@ const WriteReviewModal = (props: {
         </div>
       </div>
       <div
-        className="backdrop"
+        className="wrm-backdrop"
         onClick={(e: React.MouseEvent) => {
           e.preventDefault();
 

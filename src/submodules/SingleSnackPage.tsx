@@ -10,7 +10,7 @@ import iconSave from "../assets/icon_save.svg";
 import "./css/SingleSnackPage.css";
 
 const SingleSnackPage = () => {
-	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
+	const { getSnackById, reviews, getReviewById, editReview } = useSnackContext();
 	const [ editId, setEditId ] = useState<number | null>(null);
 	const [ deleteId, setDeleteId ] = useState<number | null>(null);
 	const [ editText, setEditText ] = useState("");
@@ -57,29 +57,29 @@ const SingleSnackPage = () => {
 	const rateBox = (review: Review) => {
 		return (
 			<>
-				<div className="review-box" data-testid="review">
-					<div className="text-box">
-						<span className="rate-span">★</span>
-						<span className="rate-span" data-testid="rating">{review.reviewScore.toFixed(1)}</span>
+				<div className="ssp-review-box" data-testid="review">
+					<div className="ssp-rate-box">
+						<span className="ssp-rate-span">★</span>
+						<span className="ssp-rate-span" data-testid="rating">{review.reviewScore.toFixed(1)}</span>
 						{editId !== review.reviewId && <p>{review.reviewText}</p>}
 						{editId === review.reviewId && (
 							<textarea
 								rows={5}
-								className="edit-text-area"
+								className="ssp-edit-text-area"
 								onChange={handleText}
 								value={editText}
 								data-testid="edit-review-content-input"
 							></textarea>
 						)}
 						{editId === review.reviewId && editTextError !== "" && (
-							<span className="error-message">{editTextError}</span>
+							<span className="ssp-error-message">{editTextError}</span>
 						)}
 					</div>
 					{editId === null && (
-						<div className="hover-box">
+						<div className="ssp-hover-box">
 							<img
 								src={iconEdit}
-								className="small-icon"
+								className="ssp-small-icon"
 								onClick={() => {
 									setEditId(review.reviewId);
 									setEditText(review.reviewText);
@@ -88,23 +88,23 @@ const SingleSnackPage = () => {
 							/>
 							<img
 								src={iconDelete}
-								className="small-icon"
+								className="ssp-small-icon"
 								onClick={handleDelete(review)}
 								data-testid="delete-review"
 							/>
 						</div>
 					)}
 					{editId === review.reviewId && (
-						<div className="always-hover-box">
+						<div className="ssp-always-hover-box">
 							<img
 								src={iconSave}
-								className="small-icon"
+								className="ssp-small-icon"
 								onClick={trySave}
 								data-testid="edit-review-save"
 							/>
 							<img
 								src={iconQuit}
-								className="small-icon"
+								className="ssp-small-icon"
 								onClick={quitEdit}
 								data-testid="edit-review-cancel"
 							/>
@@ -118,22 +118,22 @@ const SingleSnackPage = () => {
 	return (
 		<>
 			<Header pageType="snack"/>
-			<div className="snack-block" key={snack?.snackId} data-testid="snack-card">
-				<div className="image-box">
-					<img src={snack?.snackImageUrl} alt={snack?.snackName} className="snack-image" data-testid="snack-image"/>
+			<div className="ssp-snack-block" key={snack?.snackId} data-testid="snack-card">
+				<div className="ssp-image-box">
+					<img src={snack?.snackImageUrl} alt={snack?.snackName} className="ssp-snack-image" data-testid="snack-image"/>
 				</div>
-				<div className="text-box">
-					<span className="snack-name-text" data-testid="snack-name">{snack?.snackName}</span>
-					<span className="grey-text"> / </span>
-					<span className="rate-span">★</span>
-					<span className="rate-span" data-testid="rating">{snack?.snackRate.toFixed(1)}</span>
+				<div className="ssp-text-box">
+					<span className="ssp-snack-name-text" data-testid="snack-name">{snack?.snackName}</span>
+					<br/>
+					<span className="ssp-rate-span">★</span>
+					<span className="ssp-rate-span" data-testid="rating">{snack?.snackRate.toFixed(1)}</span>
 				</div>
 			</div>
-			<ul className="review-list" data-testid="review-list">
+			<ul className="ssp-review-list" data-testid="review-list">
 				{ reviews.filter((review) => (review.snackId === snack?.snackId)).map((review) => (rateBox(review))) }
       </ul>
       {deleteId && (
-        <div className="overlay">
+        <div className="ssp-overlay">
           <DeleteReviewModal
             closeModal={closeDeleteModal}
             deleteReviewId={deleteId}

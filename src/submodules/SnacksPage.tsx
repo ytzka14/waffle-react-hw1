@@ -4,26 +4,27 @@ import { Link } from "react-router-dom";
 import "./css/SnacksPage.css";
 
 const SnacksPage = () => {
-	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
+	const { snacks } = useSnackContext();
 
 	return (
 		<>
 			<Header pageType="snack"/>
-			<ul className="snack-list">
+			<ul className="snk-snack-list">
 				{
 					snacks.map((snack) => (
-						<div className="snack-block" key={snack.snackId} data-testid="snack-card">
-							<div className="image-box">
+						<div className="snk-snack-block" key={snack.snackId} data-testid="snack-card">
+							<div className="snk-image-box">
 								<Link to={"/snacks/" + snack.snackId}>
-									<img src={snack.snackImageUrl} alt={snack.snackName} className="snack-image" data-testid="snack-image"/>
+									<img src={snack.snackImageUrl} alt={snack.snackName} className="snk-snack-image" data-testid="snack-image"/>
 								</Link>
 							</div>
-							<div className="text-box">
-								<Link to={"/snacks/" + snack.snackId} className="invisible-link" data-testid="snack-name">
-									<span className="snack-name-text">{snack.snackName}</span>
+							<div className="snk-text-box">
+								<Link to={"/snacks/" + snack.snackId} className="snk-invisible-link" data-testid="snack-name">
+									<span className="snk-snack-name-text">{snack.snackName}</span>
 								</Link>
-								<span className="rate-span">★</span>
-								<span className="rate-span" data-testid="rating">{snack.snackRate.toFixed(1)}</span>
+								<br/>
+								<span className="snk-rate-span">★</span>
+								<span className="snk-rate-span" data-testid="rating">{snack.snackRate.toFixed(1)}</span>
 							</div>
 						</div>
 					))

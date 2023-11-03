@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 import Header from "./Header.tsx";
 import WriteReviewModal from "./WriteReviewModal";
 import DeleteReviewModal from "./DeleteReviewModal";
@@ -19,30 +19,11 @@ const ReviewPage = () => {
   const [ editText, setEditText ] = useState("");
   const [ editTextError, setEditTextError ] = useState("");
 	
-	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
-
-	/*
-	const useOutsideClick = (callback: () => void) => {
-		const ref = useRef<HTMLButtonElement | null>(null);
-
-		useEffect(() => {
-			const handleClick = (e: MouseEvent) => {
-				callback();
-			};
-
-			document.addEventListener("click", handleClick);
-
-			return () => {
-				document.removeEventListener("click", handleClick);
-			};
-		}, []);
-
-		return ref;
-	}
-	*/
+	const { getSnackById, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
 
 	const openNewMenu = (e: React.MouseEvent) => {
 		e.preventDefault();
+		if(isWriteModalVisible) return;
 		setIsNewMenuVisible(true);
 	}
 
@@ -107,38 +88,38 @@ const ReviewPage = () => {
 
 		return (
 			<>
-				<div className="review-box" data-testid="review" key={review.reviewId}>
-					<div className="image-box">
+				<div className="rev-review-box" data-testid="review" key={review.reviewId}>
+					<div className="rev-image-box">
 						<Link to={"/snacks/" + review.snackId}>
-							<img src={snack.snackImageUrl} alt={snack.snackName} className="snack-image" data-testid="snack-image"/>
+							<img src={snack.snackImageUrl} alt={snack.snackName} className="rev-snack-image" data-testid="snack-image"/>
 						</Link>
 					</div>
-					<div className="review-title">
-						<Link to={"/snacks/" + review.snackId} className="invisible-link">
-							<span className="snack-name-text" data-testid="snack-name">{snack.snackName}</span>
+					<div className="rev-review-title">
+						<Link to={"/snacks/" + review.snackId} className="rev-invisible-link">
+							<span className="rev-snack-name-text" data-testid="snack-name">{snack.snackName}</span>
 						</Link>
-						<span className="grey-text"> / </span>
-						<span className="rate-span">★</span>
-						<span className="rate-span" data-testid="rating">{review.reviewScore.toFixed(1)}</span>
+						<span className="rev-grey-text"> / </span>
+						<span className="rev-rate-span">★</span>
+						<span className="rev-rate-span" data-testid="rating">{review.reviewScore.toFixed(1)}</span>
 					</div>
 					{editId !== review.reviewId && <p>{review.reviewText}</p>}
           {editId === review.reviewId && (
             <textarea
               rows={5}
-              className="edit-text-area"
+              className="rev-edit-text-area"
               onChange={handleText}
               value={editText}
 							data-testid="edit-review-content-input"
             ></textarea>
           )}
           {editId === review.reviewId && editTextError !== "" && (
-            <span className="error-message">{editTextError}</span>
+            <span className="rev-error-message">{editTextError}</span>
           )}
 					{editId === null && (
-						<div className="hover-box">
+						<div className="rev-hover-box">
 							<img
 								src={iconEdit}
-								className="small-icon"
+								className="rev-small-icon"
 								onClick={() => {
 									setEditId(review.reviewId);
 									setEditText(review.reviewText);
@@ -147,23 +128,23 @@ const ReviewPage = () => {
 							/>
 							<img
 								src={iconDelete}
-								className="small-icon"
+								className="rev-small-icon"
 								onClick={openDeleteModal(review.reviewId)}
 								data-testid="delete-review"
 							/>
 						</div>
 					)}
 					{editId === review.reviewId && (
-						<div className="always-hover-box">
+						<div className="rev-always-hover-box">
 							<img
 								src={iconSave}
-								className="small-icon"
+								className="rev-small-icon"
 								onClick={trySave}
 								data-testid="edit-review-save"
 							/>
 							<img
 								src={iconQuit}
-								className="small-icon"
+								className="rev-small-icon"
 								onClick={quitEdit}
 								data-testid="edit-review-cancel"
 							/>
@@ -186,13 +167,13 @@ const ReviewPage = () => {
   return (
     <>
 			<Header pageType="review"/>
-      <ul className="review-list" data-testid="review-list">
+      <ul className="rev-review-list" data-testid="review-list">
         {reviews.map((review) => 
           reviewBox(review)
 				)}
       </ul>
       {isWriteModalVisible && (
-        <div className="overlay">
+        <div className="rev-overlay">
           <WriteReviewModal
             closeModal={closeWriteModal}
             saveReview={saveReview}
@@ -200,7 +181,7 @@ const ReviewPage = () => {
         </div>
       )}
       {deleteId !== null && (
-        <div className="overlay">
+        <div className="rev-overlay">
           <DeleteReviewModal
             closeModal={closeDeleteModal}
             deleteReviewId={deleteId}
@@ -208,37 +189,42 @@ const ReviewPage = () => {
           />
         </div>
       )}
-      {!isNewMenuVisible && (
+      {!isNewMenuVisible && !isWriteModalVisible && (
 				<button
-					className="open-new-menu-button"
+					className="rev-open-new-menu-button"
 					onClick={openNewMenu}
 					data-testid="open-menu"
 				>
 					+
 				</button>
 			)}
+			{!isNewMenuVisible && isWriteModalVisible && (
+				<button
+					className="rev-open-new-menu-button"
+					onClick={closeWriteModal}
+				>
+					+
+				</button>
+			)}
 			{isNewMenuVisible && (
 				<>
-					<div className="new-menu-modal">
-						<div className="new-menu-item">
+					<div className="rev-new-menu-modal">
+						<div className="rev-new-menu-item">
 							<Link
 								to="/snacks/new"
-								className="invisible-link"
+								className="rev-invisible-link-wide"
 								data-testid="new-snack"
 							>
-								<span>새 과자</span>
-								<img src={iconSnack} className="small-icon"/>
+								<span className="rev-auto-margin-text">새 과자</span>
+								<img src={iconSnack} className="rev-small-icon"/>
 							</Link>
 						</div>
-						<div className="new-menu-item">
-							<div onClick={openWriteModal} data-testid="new-review">
-								<span>새 리뷰</span>
-								<img src={iconEdit} className="small-icon"/>
-							</div>
+						<div onClick={openWriteModal} className="rev-new-menu-item" data-testid="new-review">
+							<span className="rev-auto-margin-text">새 리뷰</span>
+							<img src={iconEdit} className="rev-small-icon"/>
 						</div>
 						<button
-							className="close-new-menu-button"
-							// ref={useOutsideClick(closeNewMenu)}
+							className="rev-close-new-menu-button"
 							onClick={(e: React.MouseEvent) => {
 								e.preventDefault();
 								closeNewMenu();
@@ -248,6 +234,14 @@ const ReviewPage = () => {
 							X
 						</button>
 					</div>
+					<div
+        		className="rev-backdrop"
+        		onClick={(e: React.MouseEvent) => {
+          		e.preventDefault();
+
+          		setIsNewMenuVisible(false);
+        		}}
+      		/>
 				</>
 			)}
     </>

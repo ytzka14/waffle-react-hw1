@@ -1,44 +1,53 @@
-/*
-.review-title
-*/
+.rev-review-title {
+	display: flex;
+	vertical-align: top;
+	min-width: 60%;
+}
 
-.image-box {
+.rev-image-box {
 	border: 2px solid orange;
   border-radius: 30px;
   width: 150px;
   height: 150px;
   margin: auto;
-  margin-right: 30px;
+	margin-right: 30px;
   overflow: hidden; /* cut image at border */
   display: block;
-  float: left;
+	float: left;
 }
 
-.snack-name-text {
+.rev-snack-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* fit into image-box */
+}
+
+.rev-snack-name-text {
 	font-weight: bold;
 }
 
-.grey-text {
+.rev-grey-text {
 	color: grey;
+	margin: 0 5px;
 }
 
-.rate-span {
+.rev-rate-span {
 	font-weight: bold;
 	color: orange;
 }
 
-.edit-text-area {
+.rev-edit-text-area {
 	width: 60%;
-	min-height: 100%;
+	max-height: 60%;
 	margin-top: 10px;
 	resize: none;
 }
 
-.error-message {
+.rev-error-message {
 	color: red;
 }
 
-.hover-box {
+.rev-hover-box {
 	position: absolute;
   width: 20%;
   height: 20%;
@@ -49,7 +58,7 @@
   opacity: 0;
 }
 
-.always-hover-box {
+.rev-always-hover-box {
 	position: absolute;
   top: 0px;
   right: 0px;
@@ -58,23 +67,26 @@
   opacity: 1;
 }
 
-.small-icon {
+.rev-small-icon {
   top: 0px;
   right: 0px;
   width: 20px;
   height: 20px;
   margin: 5px;
   cursor: pointer;
+	flex: 2;
 }
 
-.review-list {
+.rev-review-list {
 	width: 100vw;
 	height: 100vh;
 	overflow: auto;
+	margin: 0;
+	padding: 0;
 	list-style: none;
 }
 
-.review-box {
+.rev-review-box {
   border: 2px solid darkgray; /* Add border to blocks */
   box-shadow: 3px 6px 3px 0px #b0b0b0;
   padding: 10px; /* Add padding for spacing */
@@ -82,12 +94,12 @@
   margin-bottom: 15px; /* Add margin between blocks */
   width: 500px;
   height: 160px;
-  text-align: center;
+  text-align: left;
   display: block;
   position: relative;
 }
 
-.review-box:hover .hover-box{
+.rev-review-box:hover .rev-hover-box{
 	position: absolute;
   width: 20%;
   height: 20%;
@@ -96,7 +108,7 @@
   opacity: 1;
 }
 
-.overlay {
+.rev-overlay {
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -105,7 +117,7 @@
   position: fixed;
 }
 
-.open-new-menu-button {
+.rev-open-new-menu-button {
 	background-color: green;
   color: white;
   font-weight: bolder;
@@ -120,10 +132,10 @@
   position: fixed;
   bottom: 30px;
   right: 30px;
-  z-index: 9995;
+  z-index: 9990;
 }
 
-.close-new-menu-button {
+.rev-close-new-menu-button {
 	background-color: red;
   color: white;
   font-weight: bolder;
@@ -135,37 +147,76 @@
   height: 50px;
   border-radius: 25px;
   transform: translateY(0px);
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
   z-index: 9995;
 }
 
-.new-menu-modal {
+.rev-new-menu-modal {
 	display: flex;
 	flex-direction: column;
-	align-items: center;
+	align-items: end;
 	border: none;
 	box-sizing: border-box;
 	background-color: transparent;
 	position: fixed;
+  bottom: 30px;
+  right: 30px;
 	z-index: 10000;
 }
 
-.new-menu-item {
+.rev-new-menu-item {
 	background-color: white;
+	border-radius: 5px;
+	width: 80px;
+	line-height: 32px;
+	height: 32px;
 	vertical-align: middle;
+	align-items: center;
+	display: flex;
+	border: 1px solid black;
+	padding: -5px;
+	margin: 3px;
+	z-index: 9999;
 }
 
-.invisible-link {
+.rev-auto-margin-text {
+	margin: auto;
+	margin-left: 2px;
+	display: inline;
+	flex: 5;
+}
+
+.rev-invisible-link {
 	/* hyperlink without changing color of text and underline */
   text-decoration: none;
   color: black;
   display: inline-flex;
   align-items: center;
-  width: fit-content;
+	cursor: pointer;
 }
 
-.invisible-link:hover {
+.rev-invisible-link-wide {
+	/* hyperlink without changing color of text and underline */
+  text-decoration: none;
+  color: black;
+  display: inline-flex;
+  align-items: center;
+	width: 100%;
+	cursor: pointer;
+}
+
+.rev-invisible-link:hover {
 	color: black;
+}
+
+.rev-invisible-link-wide:hover {
+	color: black;
+}
+
+.rev-backdrop {
+	width: 100vw;
+  height: 100vh;
+  position: fixed;
+  z-index: 9995;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.2);
 }

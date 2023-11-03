@@ -5,7 +5,7 @@ import { useState } from "react";
 import "./css/NewSnackPage.css"
 
 const NewSnackPage = () => {
-	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews } = useSnackContext();
+	const { getSnackByName, addSnack } = useSnackContext();
 	const [ snackName, setSnackName ] = useState("");
 	const [ snackNameError, setSnackNameError ] = useState("");
 	const [ snackImageUrl, setSnackImageUrl ] = useState("");

@@ -6,7 +6,7 @@ function DeleteReviewModal (props: {
   deleteReviewId: number;
   deleteName: string;
 }) {
-	const { snacks, getSnackById, getSnackByName, filterSnacksByName, addSnack, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
+	const { getReviewById, removeReview } = useSnackContext();
 
 	const removeAndClose = (e: React.MouseEvent) => {
 		removeReview(getReviewById(props.deleteReviewId)!);

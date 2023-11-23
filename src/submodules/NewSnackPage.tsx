@@ -35,7 +35,7 @@ const NewSnackPage = () => {
       setSnackNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
       invalid = true;
     } else if (getSnackByName(snackName) !== null) {
-			setSnackNameError("이미 존재하는 과자 이름입니다")
+			setSnackNameError("이미 존재하는 과자 이름입니다");
 			invalid = true;
 		} else {
       setSnackNameError("");
@@ -50,7 +50,11 @@ const NewSnackPage = () => {
 
     if (!invalid) {
       const newSnack = addSnack({snackName: snackName, snackImageUrl: snackImageUrl});
-			navigate("/snacks/" + newSnack!.snackId);
+			if (!newSnack) {
+				setSnackNameError("이미 존재하는 과자 이름입니다");
+				return;
+			}
+			navigate("/snacks/" + newSnack.snackId);
     }
   }
 

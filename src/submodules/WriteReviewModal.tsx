@@ -72,7 +72,12 @@ const WriteReviewModal = (props: {
     }
 
     if (!invalid) {
-      props.saveReview(getSnackByName(snackName)!, snackRate, snackText);
+			const targetSnack = getSnackByName(snackName);
+			if (!targetSnack) {
+				setNameError("해당 과자를 찾을 수 없습니다");
+				return;
+			}
+      props.saveReview(targetSnack, snackRate, snackText);
 			props.closeModal(e);
 		}
   }

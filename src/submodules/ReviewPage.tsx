@@ -178,7 +178,9 @@ const ReviewPage = () => {
           <DeleteReviewModal
             closeModal={closeDeleteModal}
             deleteReviewId={deleteId}
-            deleteName={getSnackById(getReviewById(deleteId)!.snackId)!.snackName}
+            deleteName={
+							getSnackById(getReviewById(deleteId)!.snackId)!.snackName
+						}
           />
         </div>
       )}

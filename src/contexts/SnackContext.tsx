@@ -36,28 +36,35 @@ export type SnackContextData = {
   snacks: Snack[];
   getSnackById: (id: number) => Snack | null;
   getSnackByName: (name: string) => Snack | null;
-  filterSnacksByName: (query: string) => Snack[];
+  filterSnacksByName: (name: string) => Snack[];
   addSnack: (snack: SnackInput) => Snack | null;
 
   reviews: Review[];
 	getReviewById: (id: number) => Review | null;
-	addReview: (review: ReviewInput) => Review | null;
+	addReview: (review: ReviewInput) => Review;
 	removeReview: (review: Review) => number | null;
 	editReview: (id: number, text: string) => Review | null;
 };
 
+const emptyReview = {
+	reviewId: 0,
+	snackId: 0,
+	reviewScore: 0,
+	reviewText: ""
+}
+
 const SnackContext = createContext<SnackContextData>({
 	snacks: [],
-	getSnackById: (_: number) => null,
-	getSnackByName: (_: string) => null,
-	filterSnacksByName: (_: string) => [],
-	addSnack: (_: SnackInput) => null,
+	getSnackById: () => null,
+	getSnackByName: () => null,
+	filterSnacksByName: () => [],
+	addSnack: () => null,
 
 	reviews: [],
-	getReviewById: (_: number) => null,
-	addReview: (_: ReviewInput) => null,
-	removeReview: (_: Review) => null,
-	editReview: (_: number, __: string) => null
+	getReviewById: () => null,
+	addReview: () => emptyReview,
+	removeReview: () => null,
+	editReview: () => null
 })
 
 export function SnackProvider({ children }: { children: ReactNode }) {

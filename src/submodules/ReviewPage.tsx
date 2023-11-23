@@ -19,10 +19,9 @@ const ReviewPage = () => {
   const [ editText, setEditText ] = useState("");
   const [ editTextError, setEditTextError ] = useState("");
 	
-	const { getSnackById, reviews, getReviewById, addReview, removeReview, editReview } = useSnackContext();
+	const { getSnackById, reviews, getReviewById, addReview, editReview } = useSnackContext();
 
-	const openNewMenu = (e: React.MouseEvent) => {
-		e.preventDefault();
+	const openNewMenu = () => {
 		if(isWriteModalVisible) return;
 		setIsNewMenuVisible(true);
 	}
@@ -31,26 +30,20 @@ const ReviewPage = () => {
 		setIsNewMenuVisible(false);
 	}
 
-  const openWriteModal = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const openWriteModal = () => {
 		setIsNewMenuVisible(false);
     setIsWriteModalVisible(true);
   };
 
-  const closeWriteModal = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const closeWriteModal = () => {
     setIsWriteModalVisible(false);
   };
 
-  function openDeleteModal(id: number) {
-    return (e: React.MouseEvent) => {
-      setDeleteId(id);
-      e.preventDefault();
-    };
+  const openDeleteModal = (id: number) => () => {
+    setDeleteId(id);
   }
 
-  const closeDeleteModal = (e: React.MouseEvent) => {
-    e.preventDefault();
+  const closeDeleteModal = () => {
     setDeleteId(null);
   };
 
@@ -79,8 +72,8 @@ const ReviewPage = () => {
 
 	const reviewBox = (review: Review) => {
 		const snack = getSnackById(review.snackId);
+		
 		if(snack === null){
-			removeReview(review);
 			return (
 				<></>
 			);

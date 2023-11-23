@@ -9,8 +9,12 @@ function DeleteReviewModal (props: {
 	const { getReviewById, removeReview } = useSnackContext();
 
 	const removeAndClose = (e: React.MouseEvent) => {
-		removeReview(getReviewById(props.deleteReviewId)!);
-		console.log("removed!");
+		const targetReview = getReviewById(props.deleteReviewId);
+		if (!targetReview) {
+			alert("Review with target deleteReviewId doesn't exist");
+			return;
+		}
+		removeReview(targetReview);
 		return props.closeModal(e);
 	}
 

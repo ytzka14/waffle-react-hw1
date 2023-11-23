@@ -45,7 +45,7 @@ const WriteReviewModal = (props: {
 		setShowDropdown(false);
 	}
 
-  function tryWrite() {
+  function tryWrite(e: React.MouseEvent) {
     let invalid = false;
     if (getSnackByName(snackName) === null) {
 			setNameError("해당 과자를 찾을 수 없습니다");
@@ -73,8 +73,8 @@ const WriteReviewModal = (props: {
 
     if (!invalid) {
       props.saveReview(getSnackByName(snackName)!, snackRate, snackText);
-			return props.closeModal;
-    }
+			props.closeModal(e);
+		}
   }
 
   return (

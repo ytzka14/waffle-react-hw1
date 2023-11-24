@@ -54,6 +54,14 @@ const SingleSnackPage = () => {
     setDeleteId(null);
   };
 
+	const getSnackNameByReviewId = (id: number) => {
+		const review = getReviewById(id);
+		if (!review) return "";
+		const snack = getSnackById(review.snackId);
+		if (!snack) return "";
+		return snack.snackName;
+	}
+
 	const rateBox = (review: Review) => {
 		return (
 			<>
@@ -137,7 +145,7 @@ const SingleSnackPage = () => {
           <DeleteReviewModal
             closeModal={closeDeleteModal}
             deleteReviewId={deleteId}
-            deleteName={getSnackById(getReviewById(deleteId)!.snackId)!.snackName}
+            deleteName={getSnackNameByReviewId(deleteId)}
           />
         </div>
       )}

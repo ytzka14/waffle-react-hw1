@@ -1,0 +1,132 @@
+.ssp-review-box {
+  border: 2px solid darkgray; /* Add border to blocks */
+  box-shadow: 3px 6px 3px 0px #b0b0b0;
+  padding: 10px; /* Add padding for spacing */
+  margin: auto;
+  margin-bottom: 15px; /* Add margin between blocks */
+  width: 500px;
+  text-align: center;
+  display: block;
+  position: relative;
+}
+
+.ssp-review-box:hover .ssp-hover-box{
+	position: absolute;
+  width: 20%;
+  height: 20%;
+  display: block;
+  text-align: right;
+  opacity: 1;
+}
+
+.ssp-text-box {
+	vertical-align: middle;
+	text-align: center;
+	margin-top: 10px;
+}
+
+.ssp-rate-box {
+	text-align: left;
+	margin: auto;
+	padding-left: 10px;
+}
+
+.ssp-rate-span {
+	font-weight: bold;
+	color: orange;
+}
+
+.ssp-edit-text-area {
+	width: 90%;
+	min-height: 100%;
+	margin-top: 10px;
+	resize: none;
+	display: block;
+}
+
+.ssp-error-message {
+	color: red;
+}
+
+.ssp-hover-box {
+	position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  right: 0px;
+  display: none;
+  text-align: right;
+  opacity: 0;
+}
+
+.ssp-always-hover-box {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  display: block;
+  text-align: right;
+  opacity: 1;
+}
+
+.ssp-small-icon {
+  top: 0px;
+  right: 0px;
+  width: 20px;
+  height: 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.ssp-snack-block {
+	border: 2px solid darkgray; /* Add border to blocks */
+  box-shadow: 3px 6px 3px 0px #b0b0b0;
+  padding: 10px; /* Add padding for spacing */
+  margin: auto;
+  margin-bottom: 15px; /* Add margin between blocks */
+  width: 180px;
+  height: 240px;
+  text-align: center;
+  display: flex;
+	flex-direction: column;
+  position: relative;
+	align-items: center;
+}
+
+.ssp-image-box {
+	border: 2px solid orange;
+  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  overflow: hidden; /* cut image at border */
+  display: block;
+  float: left;
+}
+
+.ssp-snack-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* fit into image-box */
+}
+
+.ssp-snack-name-text {
+	font-weight: bold;
+}
+
+.ssp-review-list {
+	width: 100vw;
+	height: 100vh;
+	overflow: auto;
+	list-style: none;
+	align-items: center;
+	padding: 0;
+}
+
+.ssp-overlay {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+}

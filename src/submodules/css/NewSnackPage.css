@@ -1,0 +1,77 @@
+/*
+.body-title
+.modal-footer
+*/
+
+.nsp-new-snack-page {
+	display: flex;
+	flex-direction: column;
+	width: 30vw;
+	position: relative;
+	margin: auto;
+	margin-top: 0px;
+}
+
+.nsp-body-body {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+}
+
+.nsp-input-section {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.nsp-image-box {
+  border: 2px solid orange;
+  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  margin: auto;
+  overflow: hidden; /* cut image at border */
+  display: block;
+	text-align: center;
+}
+
+.nsp-snack-image {
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* fit into image-box */
+}
+
+.nsp-scroll-right {
+	width: 350px;
+	resize: none;
+	white-space: pre;
+}
+
+.nsp-line-input {
+	width: 350px;
+	resize: none;
+	overflow: hidden;
+}
+
+.nsp-error-message {
+	color: red;
+}
+
+.nsp-write-review-button {
+	background-color: yellowgreen;
+	margin: 10px;
+	margin-top: 20px;
+}
+
+.nsp-quit-review-button {
+	background-color: lightcoral;
+	margin: 10px;
+	margin-top: 20px;
+}
+
+.nsp-inactive-button {
+	background-color: lightgray;
+	margin: 10px;
+	margin-top: 20px;
+}

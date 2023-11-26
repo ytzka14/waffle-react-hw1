@@ -1,28 +1,27 @@
 import { useState } from "react";
+import { Snack, useSnackContext } from "../contexts/SnackContext.tsx";
+import "./css/WriteReviewModal.css";
 
-function WriteReviewModal(props: {
+const WriteReviewModal = (props: {
   closeModal: (e: React.MouseEvent) => void;
-  addReview: (
-    snackName: string,
-    snackImage: string,
-    snackRate: number,
-    snackText: string,
+  saveReview: (
+    snack: Snack,
+    reviewScore: number,
+    reviewText: string,
   ) => void;
-}) {
+}) => {
   const [snackName, setSnackName] = useState("");
-  const [snackImage, setSnackImage] = useState("");
   const [snackRate, setSnackRate] = useState(0);
   const [snackText, setSnackText] = useState("");
   const [nameError, setNameError] = useState("");
   const [rateError, setRateError] = useState("");
   const [textError, setTextError] = useState("");
+	const [showDropdown, setShowDropdown] = useState(false);
+
+	const { getSnackByName, filterSnacksByName } = useSnackContext();
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSnackName(e.target.value);
-  };
-
-  const handleImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSnackImage(e.target.value);
   };
 
   const handleRate = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -33,14 +32,24 @@ function WriteReviewModal(props: {
     setSnackText(e.target.value);
   };
 
-  function tryWrite() {
+	const handleFocus = () => {
+		setShowDropdown(true);
+	}
+
+	const handleBlur = () => {
+		setTimeout(() => setShowDropdown(false), 200);
+	}
+
+	const handleOptionClick = (value: string) => {
+		setSnackName(value);
+		setShowDropdown(false);
+	}
+
+  function tryWrite(e: React.MouseEvent) {
     let invalid = false;
-    if (snackName.length < 1 || snackName.length > 20) {
-      setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
-      invalid = true;
-    } else if (snackName !== snackName.trim()) {
-      setNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
-      invalid = true;
+    if (getSnackByName(snackName) === null) {
+			setNameError("해당 과자를 찾을 수 없습니다");
+			invalid = true;
     } else {
       setNameError("");
     }
@@ -63,41 +72,52 @@ function WriteReviewModal(props: {
     }
 
     if (!invalid) {
-      props.addReview(snackName, snackImage, snackRate, snackText);
-    }
+			const targetSnack = getSnackByName(snackName);
+			if (!targetSnack) {
+				setNameError("해당 과자를 찾을 수 없습니다");
+				return;
+			}
+      props.saveReview(targetSnack, snackRate, snackText);
+			props.closeModal(e);
+		}
   }
 
   return (
     <>
-      <div className="modal-box" data-testid="write-review-modal">
-        <div className="modal-header">
+      <div className="wrm-modal-box" data-testid="write-review-modal">
+        <div className="wrm-modal-header">
           <h2>리뷰 쓰기</h2>
         </div>
-        <div className="modal-content">
-          <div className="modalImageBox">
-            <img src={snackImage} alt={snackName} className="snackImage" />
-          </div>
-          <label htmlFor="imageURLInput">이미지</label>
+        <div className="wrm-modal-content">
+          <label htmlFor="name-input">과자 이름</label>
           <br />
           <input
             type="text"
-            id="imageURLInput"
-            className="scrollRight"
-            onChange={handleImage}
-            data-testid="image-input"
-          ></input>
-          <br />
-          <label htmlFor="nameInput">과자 이름</label>
-          <br />
-          <input
-            type="text"
-            id="nameInput"
-            className="lineInput"
+            id="name-input"
+            className="wrm-line-input"
+						value={snackName}
             onChange={handleName}
-            data-testid="name-input"
-          ></input>
+						onFocus={handleFocus}
+						onBlur={handleBlur}
+						autoComplete="off"
+						data-testid="name-input"
+					/>
+					{showDropdown && (
+        		<div className="wrm-dropdown" data-testid="snack-name-compl-list">
+          	{filterSnacksByName(snackName)
+            	.map((snack) => (
+              	<div
+                	key={snack.snackId}
+                	className="wrm-dropdown-option"
+                	onClick={() => handleOptionClick(snack.snackName)}
+              	>
+                	{snack.snackName}
+              	</div>
+            	))}
+        		</div>
+      		)}
           <br />
-          <span className="errorMessage" data-testid="name-input-message">
+          <span className="wrm-error-message" data-testid="name-input-message">
             {nameError}
           </span>
           <br />
@@ -106,12 +126,12 @@ function WriteReviewModal(props: {
           <input
             type="number"
             id="rateInput"
-            className="lineInput"
+            className="wrm-line-input"
             onChange={handleRate}
             data-testid="rating-input"
           ></input>
           <br />
-          <span className="errorMessage" data-testid="rating-input-message">
+          <span className="wrm-error-message" data-testid="rating-input-message">
             {rateError}
           </span>
           <br />
@@ -119,26 +139,26 @@ function WriteReviewModal(props: {
           <br />
           <textarea
             id="reviewtextInput"
-            className="scrollDown"
+            className="wrm-scroll-down"
             onChange={handleText}
             data-testid="content-input"
           ></textarea>
           <br />
-          <span className="errorMessage" data-testid="content-input-message">
+          <span className="wrm-error-message" data-testid="content-input-message">
             {textError}
           </span>
           <br />
         </div>
-        <div className="modal-footer">
+        <div className="wrm-modal-footer">
           <button
-            className="writeReviewButton"
+            className="wrm-write-review-button"
             onClick={tryWrite}
             data-testid="submit-review"
           >
             작성
           </button>
           <button
-            className="closeModalButton"
+            className="wrm-close-modal-button"
             onClick={props.closeModal}
             data-testid="cancel-review"
           >
@@ -147,7 +167,7 @@ function WriteReviewModal(props: {
         </div>
       </div>
       <div
-        className="backdrop"
+        className="wrm-backdrop"
         onClick={(e: React.MouseEvent) => {
           e.preventDefault();
 

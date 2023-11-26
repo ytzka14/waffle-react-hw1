@@ -33,7 +33,7 @@ jobs:
       - name: Run Playwright tests
         run: |
           cd ./seminar-2023
-          cd ./react/1/hw-test
+          cd ./react/2/hw-test
           yarn
           yarn test
 
@@ -42,5 +42,6 @@ jobs:
         if: always()
         with:
           name: test-results
-          path: ./seminar-2023/react/1/hw-test/test-results
+          path: ./seminar-2023/react/2/hw-test/test-results
           retention-days: 1
+          

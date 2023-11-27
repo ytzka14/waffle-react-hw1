@@ -1,21 +1,67 @@
 import Header from "../Header/Header.tsx";
 import LoginPage from "../LoginPage/LoginPage.tsx";
 import { Link, useNavigate } from "react-router-dom";
-import { useSnackContext } from "../../contexts/SnackContext.tsx";
+import { Snack, SnackInput } from "../../contexts/SnackContext.tsx";
 import { useState } from "react";
 import "./NewSnackPage.css"
 import { useLoginContext } from "../../contexts/LoginContext.tsx";
 
 const NewSnackPage = () => {
-	const { getSnackByName, addSnack } = useSnackContext();
-	const { loggedIn } = useLoginContext();
+	const { loggedIn, getAccessToken } = useLoginContext();
 	const [ snackName, setSnackName ] = useState("");
 	const [ snackNameError, setSnackNameError ] = useState("");
 	const [ snackImageUrl, setSnackImageUrl ] = useState("");
 	const [ snackImageUrlError, setSnackImageUrlError ] = useState("");
 	const [ isButtonDisabled, setIsButtonDisabled ] = useState(false);
+	const [ snacks, setSnacks ] = useState<Snack[]>([]);
+	const [ nameSnack, setNameSnack ] = useState<Snack | null>(null);
 
 	const navigate = useNavigate();
+
+	const addSnack = (snackInput: SnackInput) => {
+		fetch("https://seminar-react-api.wafflestudio.com/snacks/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+			body: JSON.stringify({
+				"name": snackInput.snackName,
+				"image": snackInput.snackImageUrl,
+			}),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				setSnacks([...snacks, res]);
+				return res;
+			})
+			.then((res) => {
+				navigate("/snacks/"+res.id);
+			})
+			.catch(() => {
+				alert("Cannot add snack!");
+			});
+	};
+
+	const getSnackByName = (name: string) => {
+		fetch("https://seminar-react-api.wafflestudio.com/snacks/", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+			body: JSON.stringify({
+				"string": name,
+			}),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				setNameSnack(res);
+			})
+			.catch(() => {
+				setNameSnack(null);
+			})
+	}
 
 	const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setIsButtonDisabled(true);
@@ -37,12 +83,15 @@ const NewSnackPage = () => {
     } else if (snackName !== snackName.trim()) {
       setSnackNameError("첫글자와 끝글자가 공백이 아닌 1~20자 문자열로 써주세요");
       invalid = true;
-    } else if (getSnackByName(snackName) !== null) {
-			setSnackNameError("이미 존재하는 과자 이름입니다");
-			invalid = true;
-		} else {
-      setSnackNameError("");
-    }
+    } else {
+			getSnackByName(snackName);
+			if (nameSnack !== null) {
+				setSnackNameError("이미 존재하는 과자 이름입니다");
+				invalid = true;
+			} else {
+      	setSnackNameError("");
+    	}
+		}
 
 		if (snackImageUrl.length < 1) {
 			setSnackImageUrlError("반드시 1자 이상의 문자열로 작성해야 합니다");
@@ -52,12 +101,7 @@ const NewSnackPage = () => {
 		}
 
     if (!invalid) {
-      const newSnack = addSnack({snackName: snackName, snackImageUrl: snackImageUrl});
-			if (!newSnack) {
-				setSnackNameError("이미 존재하는 과자 이름입니다");
-				return;
-			}
-			navigate("/snacks/" + newSnack.snackId);
+      addSnack({snackName: snackName, snackImageUrl: snackImageUrl});
     }
   }
 

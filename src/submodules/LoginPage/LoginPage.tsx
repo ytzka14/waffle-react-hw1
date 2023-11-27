@@ -28,13 +28,10 @@ const LoginPage = () => {
 		})
 			.then((res) => res.json())
 			.then((res) => {
-				if(!res.user) {
-					throw Error("Login Failed!");
-				}
-				return res;
-			})
-			.then((res) => {
 				login(res);
+			})
+			.catch(() => {
+				alert("Login Failed!");
 			});
 	};
 

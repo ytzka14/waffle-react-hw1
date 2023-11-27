@@ -8,7 +8,7 @@ import iconEdit from "../../assets/icon_edit.svg";
 import iconQuit from "../../assets/icon_quit.svg";
 import iconSave from "../../assets/icon_save.svg";
 import iconSnack from "../../assets/icon_snack.svg";
-import { Snack, Review, useSnackContext } from "../../contexts/SnackContext.tsx";
+import { Snack, Review, ReviewInput } from "../../contexts/SnackContext.tsx";
 import { useLoginContext } from "../../contexts/LoginContext.tsx";
 import { Link } from "react-router-dom";
 import "./ReviewPage.css";
@@ -20,9 +20,75 @@ const ReviewPage = () => {
   const [ deleteId, setDeleteId ] = useState<number | null>(null);
   const [ editText, setEditText ] = useState("");
   const [ editTextError, setEditTextError ] = useState("");
+	const [ reviews, setReviews ] = useState<Review[]>([]);
+	const [ snack, setSnack ] = useState<Snack | null>(null);
 	
-	const { getSnackById, reviews, getReviewById, addReview, editReview } = useSnackContext();
-	const { loggedIn } = useLoginContext();
+	const { getAccessToken, loggedIn } = useLoginContext();
+
+	const getSnackById = (id: number) => {
+		fetch("https://seminar-react-api.wafflestudio.com/snacks/" + id, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				const retrieved: Snack = {
+					snackId: res.id,
+					snackName: res.name,
+					snackImageUrl: res.image,
+					snackRate: res.rating
+				};
+				setSnack(retrieved);
+			})
+			.catch(() => {
+				alert("Cannot find snack!");
+			});
+	};
+	
+	const addReview = (review: ReviewInput) => {
+		fetch("https://seminar-react-api.wafflestudio.com/reviews/", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+			body: JSON.stringify({
+				"content": review.reviewText,
+				"rating": review.reviewScore,
+				"snack": review.snackId,
+			}),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				setReviews([...reviews, res]);
+			})
+			.catch(() => {
+				alert("Cannot add review!");
+			});
+	};
+
+	const editReview = (id: number, text: string) => {
+		fetch("https://seminar-react-api.wafflestudio.com/reviews/" + id, {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+			body: JSON.stringify({
+				"content": text,
+			}),
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				setReviews([...reviews, res]);
+			})
+			.catch(() => {
+				alert("Cannot edit review!");
+			});
+	};
 
 	const openNewMenu = () => {
 		if(isWriteModalVisible) return;
@@ -74,7 +140,7 @@ const ReviewPage = () => {
 	};
 
 	const reviewBox = (review: Review) => {
-		const snack = getSnackById(review.snackId);
+		getSnackById(review.snackId);
 		
 		if(snack === null){
 			return (
@@ -160,14 +226,6 @@ const ReviewPage = () => {
 		setIsWriteModalVisible(false);
   };
 
-	const getSnackNameByReviewId = (id: number) => {
-		const review = getReviewById(id);
-		if (!review) return "";
-		const snack = getSnackById(review.snackId);
-		if (!snack) return "";
-		return snack.snackName;
-	};
-
 	if (loggedIn) {
 		return (
 			<>
@@ -190,7 +248,6 @@ const ReviewPage = () => {
 						<DeleteReviewModal
 							closeModal={closeDeleteModal}
 							deleteReviewId={deleteId}
-							deleteName={getSnackNameByReviewId(deleteId)}
 						/>
 					</div>
 				)}

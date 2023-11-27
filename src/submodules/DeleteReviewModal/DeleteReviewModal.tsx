@@ -4,7 +4,6 @@ import "./DeleteReviewModal.css";
 function DeleteReviewModal (props: {
   closeModal: (e: React.MouseEvent) => void;
   deleteReviewId: number;
-  deleteName: string;
 }) {
 	const { getReviewById, removeReview } = useSnackContext();
 
@@ -26,7 +25,7 @@ function DeleteReviewModal (props: {
         </div>
         <div className="del-modal-content">
           <span className="del-text-with-margin-bottom">
-            "{props.deleteName}"에 대한 리뷰를 삭제하시겠습니까?
+            리뷰를 삭제하시겠습니까?
           </span>
         </div>
         <div className="del-modal-footer">

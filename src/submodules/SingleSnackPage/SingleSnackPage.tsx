@@ -12,7 +12,7 @@ import iconSave from "../../assets/icon_save.svg";
 import "./SingleSnackPage.css";
 
 const SingleSnackPage = () => {
-	const { getSnackById, reviews, getReviewById, editReview } = useSnackContext();
+	const { getSnackById, reviews, editReview } = useSnackContext();
 	const { loggedIn } = useLoginContext();
 	const [ editId, setEditId ] = useState<number | null>(null);
 	const [ deleteId, setDeleteId ] = useState<number | null>(null);
@@ -56,14 +56,6 @@ const SingleSnackPage = () => {
     e.preventDefault();
     setDeleteId(null);
   };
-
-	const getSnackNameByReviewId = (id: number) => {
-		const review = getReviewById(id);
-		if (!review) return "";
-		const snack = getSnackById(review.snackId);
-		if (!snack) return "";
-		return snack.snackName;
-	}
 
 	const rateBox = (review: Review) => {
 		return (
@@ -149,7 +141,6 @@ const SingleSnackPage = () => {
 						<DeleteReviewModal
 							closeModal={closeDeleteModal}
 							deleteReviewId={deleteId}
-							deleteName={getSnackNameByReviewId(deleteId)}
 						/>
 					</div>
 				)}

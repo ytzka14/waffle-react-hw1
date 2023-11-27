@@ -1,16 +1,19 @@
 import Header from "../Header/Header.tsx";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal.tsx";
+import LoginPage from "../LoginPage/LoginPage.tsx";
 import { useParams } from "react-router-dom";
 import { useSnackContext, Review } from "../../contexts/SnackContext.tsx";
+import { useLoginContext } from "../../contexts/LoginContext.tsx";
 import { useState } from "react";
-import iconDelete from "../assets/icon_delete.svg";
-import iconEdit from "../assets/icon_edit.svg";
-import iconQuit from "../assets/icon_quit.svg";
-import iconSave from "../assets/icon_save.svg";
+import iconDelete from "../../assets/icon_delete.svg";
+import iconEdit from "../../assets/icon_edit.svg";
+import iconQuit from "../../assets/icon_quit.svg";
+import iconSave from "../../assets/icon_save.svg";
 import "./SingleSnackPage.css";
 
 const SingleSnackPage = () => {
 	const { getSnackById, reviews, getReviewById, editReview } = useSnackContext();
+	const { loggedIn } = useLoginContext();
 	const [ editId, setEditId ] = useState<number | null>(null);
 	const [ deleteId, setDeleteId ] = useState<number | null>(null);
 	const [ editText, setEditText ] = useState("");
@@ -123,34 +126,40 @@ const SingleSnackPage = () => {
 		)
 	}
 
-	return (
-		<>
-			<Header pageType="snack"/>
-			<div className="ssp-snack-block" key={snack?.snackId} data-testid="snack-card">
-				<div className="ssp-image-box">
-					<img src={snack?.snackImageUrl} alt={snack?.snackName} className="ssp-snack-image" data-testid="snack-image"/>
+	if (loggedIn) {
+		return (
+			<>
+				<Header pageType="snack"/>
+				<div className="ssp-snack-block" key={snack?.snackId} data-testid="snack-card">
+					<div className="ssp-image-box">
+						<img src={snack?.snackImageUrl} alt={snack?.snackName} className="ssp-snack-image" data-testid="snack-image"/>
+					</div>
+					<div className="ssp-text-box">
+						<span className="ssp-snack-name-text" data-testid="snack-name">{snack?.snackName}</span>
+						<br/>
+						<span className="ssp-rate-span">★</span>
+						<span className="ssp-rate-span" data-testid="rating">{snack?.snackRate.toFixed(1)}</span>
+					</div>
 				</div>
-				<div className="ssp-text-box">
-					<span className="ssp-snack-name-text" data-testid="snack-name">{snack?.snackName}</span>
-					<br/>
-					<span className="ssp-rate-span">★</span>
-					<span className="ssp-rate-span" data-testid="rating">{snack?.snackRate.toFixed(1)}</span>
-				</div>
-			</div>
-			<ul className="ssp-review-list" data-testid="review-list">
-				{ reviews.filter((review) => (review.snackId === snack?.snackId)).map((review) => (rateBox(review))) }
-      </ul>
-      {deleteId && (
-        <div className="ssp-overlay">
-          <DeleteReviewModal
-            closeModal={closeDeleteModal}
-            deleteReviewId={deleteId}
-            deleteName={getSnackNameByReviewId(deleteId)}
-          />
-        </div>
-      )}
-		</>
-	)
+				<ul className="ssp-review-list" data-testid="review-list">
+					{ reviews.filter((review) => (review.snackId === snack?.snackId)).map((review) => (rateBox(review))) }
+				</ul>
+				{deleteId && (
+					<div className="ssp-overlay">
+						<DeleteReviewModal
+							closeModal={closeDeleteModal}
+							deleteReviewId={deleteId}
+							deleteName={getSnackNameByReviewId(deleteId)}
+						/>
+					</div>
+				)}
+			</>
+		);
+	} else {
+		return (
+			<LoginPage/>
+		);
+	}
 };
 
 export default SingleSnackPage;

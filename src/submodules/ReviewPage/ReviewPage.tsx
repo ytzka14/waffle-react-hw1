@@ -1,13 +1,15 @@
 import { useState } from "react";
 import Header from "../Header/Header.tsx";
+import LoginPage from "../LoginPage/LoginPage.tsx";
 import WriteReviewModal from "../WriteReviewModal/WriteReviewModal.tsx";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal.tsx";
-import iconDelete from "../assets/icon_delete.svg";
-import iconEdit from "../assets/icon_edit.svg";
-import iconQuit from "../assets/icon_quit.svg";
-import iconSave from "../assets/icon_save.svg";
-import iconSnack from "../assets/icon_snack.svg";
+import iconDelete from "../../assets/icon_delete.svg";
+import iconEdit from "../../assets/icon_edit.svg";
+import iconQuit from "../../assets/icon_quit.svg";
+import iconSave from "../../assets/icon_save.svg";
+import iconSnack from "../../assets/icon_snack.svg";
 import { Snack, Review, useSnackContext } from "../../contexts/SnackContext.tsx";
+import { useLoginContext } from "../../contexts/LoginContext.tsx";
 import { Link } from "react-router-dom";
 import "./ReviewPage.css";
 
@@ -20,6 +22,7 @@ const ReviewPage = () => {
   const [ editTextError, setEditTextError ] = useState("");
 	
 	const { getSnackById, reviews, getReviewById, addReview, editReview } = useSnackContext();
+	const { loggedIn } = useLoginContext();
 
 	const openNewMenu = () => {
 		if(isWriteModalVisible) return;
@@ -165,88 +168,92 @@ const ReviewPage = () => {
 		return snack.snackName;
 	};
 
-  return (
-    <>
-			<Header pageType="review"/>
-      <ul className="rev-review-list" data-testid="review-list">
-        {reviews.map((review) => 
-          reviewBox(review)
+	if (loggedIn) {
+		return (
+			<>
+				<Header pageType="review"/>
+				<ul className="rev-review-list" data-testid="review-list">
+					{reviews.map((review) => 
+						reviewBox(review)
+					)}
+				</ul>
+				{isWriteModalVisible && (
+					<div className="rev-overlay">
+						<WriteReviewModal
+							closeModal={closeWriteModal}
+							saveReview={saveReview}
+						/>
+					</div>
 				)}
-      </ul>
-      {isWriteModalVisible && (
-        <div className="rev-overlay">
-          <WriteReviewModal
-            closeModal={closeWriteModal}
-            saveReview={saveReview}
-          />
-        </div>
-      )}
-      {deleteId !== null && (
-        <div className="rev-overlay">
-          <DeleteReviewModal
-            closeModal={closeDeleteModal}
-            deleteReviewId={deleteId}
-            deleteName={getSnackNameByReviewId(deleteId)}
-          />
-        </div>
-      )}
-      {!isNewMenuVisible && !isWriteModalVisible && (
-				<button
-					className="rev-open-new-menu-button"
-					onClick={openNewMenu}
-					data-testid="open-menu"
-				>
-					+
-				</button>
-			)}
-			{!isNewMenuVisible && isWriteModalVisible && (
-				<button
-					className="rev-open-new-menu-button"
-					onClick={closeWriteModal}
-				>
-					+
-				</button>
-			)}
-			{isNewMenuVisible && (
-				<>
-					<div className="rev-new-menu-modal">
-						<div className="rev-new-menu-item">
-							<Link
-								to="/snacks/new"
-								className="rev-invisible-link-wide"
-								data-testid="new-snack"
+				{deleteId !== null && (
+					<div className="rev-overlay">
+						<DeleteReviewModal
+							closeModal={closeDeleteModal}
+							deleteReviewId={deleteId}
+							deleteName={getSnackNameByReviewId(deleteId)}
+						/>
+					</div>
+				)}
+				{!isNewMenuVisible && !isWriteModalVisible && (
+					<button
+						className="rev-open-new-menu-button"
+						onClick={openNewMenu}
+						data-testid="open-menu"
+					>
+						+
+					</button>
+				)}
+				{!isNewMenuVisible && isWriteModalVisible && (
+					<button
+						className="rev-open-new-menu-button"
+						onClick={closeWriteModal}
+					>
+						+
+					</button>
+				)}
+				{isNewMenuVisible && (
+					<>
+						<div className="rev-new-menu-modal">
+							<div className="rev-new-menu-item">
+								<Link
+									to="/snacks/new"
+									className="rev-invisible-link-wide"
+									data-testid="new-snack"
+								>
+									<span className="rev-auto-margin-text">새 과자</span>
+									<img src={iconSnack} className="rev-small-icon"/>
+								</Link>
+							</div>
+							<div onClick={openWriteModal} className="rev-new-menu-item" data-testid="new-review">
+								<span className="rev-auto-margin-text">새 리뷰</span>
+								<img src={iconEdit} className="rev-small-icon"/>
+							</div>
+							<button
+								className="rev-close-new-menu-button"
+								onClick={(e: React.MouseEvent) => {
+									e.preventDefault();
+									closeNewMenu();
+								}}
+								data-testid="open-menu"
 							>
-								<span className="rev-auto-margin-text">새 과자</span>
-								<img src={iconSnack} className="rev-small-icon"/>
-							</Link>
+								X
+							</button>
 						</div>
-						<div onClick={openWriteModal} className="rev-new-menu-item" data-testid="new-review">
-							<span className="rev-auto-margin-text">새 리뷰</span>
-							<img src={iconEdit} className="rev-small-icon"/>
-						</div>
-						<button
-							className="rev-close-new-menu-button"
+						<div
+							className="rev-backdrop"
 							onClick={(e: React.MouseEvent) => {
 								e.preventDefault();
-								closeNewMenu();
-							}}
-							data-testid="open-menu"
-						>
-							X
-						</button>
-					</div>
-					<div
-        		className="rev-backdrop"
-        		onClick={(e: React.MouseEvent) => {
-          		e.preventDefault();
 
-          		setIsNewMenuVisible(false);
-        		}}
-      		/>
-				</>
-			)}
-    </>
-  );
+								setIsNewMenuVisible(false);
+							}}
+						/>
+					</>
+				)}
+			</>
+		);
+	} else return (
+		<LoginPage/>
+	);
 }
 
 export default ReviewPage;

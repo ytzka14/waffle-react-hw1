@@ -1,13 +1,43 @@
 import Header from "../Header/Header.tsx";
 import LoginPage from "../LoginPage/LoginPage.tsx";
-import { useSnackContext } from "../../contexts/SnackContext.tsx";
+import { Snack } from "../../contexts/SnackContext.tsx";
 import { useLoginContext } from "../../contexts/LoginContext.tsx";
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import "./SnacksPage.css";
 
 const SnacksPage = () => {
-	const { snacks } = useSnackContext();
-	const { loggedIn } = useLoginContext();
+	const { loggedIn, getAccessToken } = useLoginContext();
+	const [ snacks, setSnacks ] = useState<Snack[]>([]);
+
+	useEffect(() => {
+		fetch("https://seminar-react-api.wafflestudio.com/snacks/", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+		})
+			.then((res) => res.json())
+			.then((reslist) => {
+				return reslist.map((res) => {
+					const retrieved: Snack = {
+						snackId: res.id,
+						snackName: res.name,
+						snackImageUrl: res.image,
+						snackRate: res.rating
+					};
+					return retrieved;
+				});
+			})
+			.then((res) => {
+				setSnacks(res);
+			})
+			.catch(() => {
+				alert("Cannot get snack list!");
+				setSnacks([]);
+			});
+	}, []);
 
 	if (loggedIn) {
 		return (

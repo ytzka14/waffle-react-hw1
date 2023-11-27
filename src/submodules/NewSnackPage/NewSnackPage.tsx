@@ -56,7 +56,8 @@ const NewSnackPage = () => {
 		})
 			.then((res) => res.json())
 			.then((res) => {
-				setNameSnack(res);
+				if(res.length > 0) setNameSnack(res[0]);
+				else setNameSnack(null);
 			})
 			.catch(() => {
 				setNameSnack(null);

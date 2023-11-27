@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Header from "../Header/Header.tsx";
 import LoginPage from "../LoginPage/LoginPage.tsx";
 import WriteReviewModal from "../WriteReviewModal/WriteReviewModal.tsx";
@@ -24,6 +24,35 @@ const ReviewPage = () => {
 	const [ snack, setSnack ] = useState<Snack | null>(null);
 	
 	const { getAccessToken, loggedIn } = useLoginContext();
+
+	useEffect(() => {
+		fetch("https://seminar-react-api.wafflestudio.com/reviews/", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+		})
+			.then((res) => res.json())
+			.then((reslist) => {
+				return reslist.map((res) => {
+					const retrieved: Review = {
+						reviewId: res.id,
+						snackId: res.snack.id,
+						reviewScore: res.rating,
+						reviewText: res.content
+					};
+					return retrieved;
+				});
+			})
+			.then((res) => {
+				setReviews(res);
+			})
+			.catch(() => {
+				alert("Cannot get review list!");
+				setReviews([]);
+			})
+	}, []);
 
 	const getSnackById = (id: number) => {
 		fetch("https://seminar-react-api.wafflestudio.com/snacks/" + id, {
@@ -63,6 +92,15 @@ const ReviewPage = () => {
 		})
 			.then((res) => res.json())
 			.then((res) => {
+				const newReview: Review = {
+					reviewId: res.id,
+					snackId: res.snack.id,
+					reviewScore: res.rating,
+					reviewText: res.content
+				};
+				return newReview;
+			})
+			.then((res) => {
 				setReviews([...reviews, res]);
 			})
 			.catch(() => {
@@ -82,6 +120,15 @@ const ReviewPage = () => {
 			}),
 		})
 			.then((res) => res.json())
+			.then((res) => {
+				const newReview: Review = {
+					reviewId: res.id,
+					snackId: res.snack.id,
+					reviewScore: res.rating,
+					reviewText: res.content
+				};
+				return newReview;
+			})
 			.then((res) => {
 				setReviews([...reviews, res]);
 			})

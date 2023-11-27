@@ -1,8 +1,8 @@
-import Header from "./Header.tsx";
+import Header from "../Header/Header.tsx";
 import { Link, useNavigate } from "react-router-dom";
-import { useSnackContext } from "../contexts/SnackContext.tsx";
+import { useSnackContext } from "../../contexts/SnackContext.tsx";
 import { useState } from "react";
-import "./css/NewSnackPage.css"
+import "./NewSnackPage.css"
 
 const NewSnackPage = () => {
 	const { getSnackByName, addSnack } = useSnackContext();

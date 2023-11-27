@@ -67,7 +67,7 @@ const SnackContext = createContext<SnackContextData>({
 	editReview: () => null
 })
 
-export function SnackProvider({ children }: { children: ReactNode }) {
+export const SnackProvider = ({ children }: { children: ReactNode }) => {
 	const [ snacks, setSnacks ] = useState<Snack[]>([]);
 	const getSnackById = (id: number) => {
 		return snacks.find((snack: Snack) => snack.snackId === id) || null;

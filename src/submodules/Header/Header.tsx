@@ -1,10 +1,10 @@
 import waffleLogo from "../assets/icon_intro.svg";
 import { Link } from "react-router-dom";
-import "./css/Header.css";
+import "./Header.css";
 
-function Header(props: {
+const Header = (props: {
 	pageType: string
-}) {
+}) => {
   return (
     <>
       <header data-testid="header">

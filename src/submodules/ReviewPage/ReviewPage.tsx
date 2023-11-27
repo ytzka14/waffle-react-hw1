@@ -1,15 +1,15 @@
 import { useState } from "react";
-import Header from "./Header.tsx";
-import WriteReviewModal from "./WriteReviewModal";
-import DeleteReviewModal from "./DeleteReviewModal";
+import Header from "../Header/Header.tsx";
+import WriteReviewModal from "../WriteReviewModal/WriteReviewModal.tsx";
+import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal.tsx";
 import iconDelete from "../assets/icon_delete.svg";
 import iconEdit from "../assets/icon_edit.svg";
 import iconQuit from "../assets/icon_quit.svg";
 import iconSave from "../assets/icon_save.svg";
 import iconSnack from "../assets/icon_snack.svg";
-import { Snack, Review, useSnackContext } from "../contexts/SnackContext.tsx";
+import { Snack, Review, useSnackContext } from "../../contexts/SnackContext.tsx";
 import { Link } from "react-router-dom";
-import "./css/ReviewPage.css";
+import "./ReviewPage.css";
 
 const ReviewPage = () => {
   const [ isWriteModalVisible, setIsWriteModalVisible ] = useState(false);
@@ -24,11 +24,11 @@ const ReviewPage = () => {
 	const openNewMenu = () => {
 		if(isWriteModalVisible) return;
 		setIsNewMenuVisible(true);
-	}
+	};
 
 	const closeNewMenu = () => {
 		setIsNewMenuVisible(false);
-	}
+	};
 
   const openWriteModal = () => {
 		setIsNewMenuVisible(false);
@@ -41,7 +41,7 @@ const ReviewPage = () => {
 
   const openDeleteModal = (id: number) => () => {
     setDeleteId(id);
-  }
+  };
 
   const closeDeleteModal = () => {
     setDeleteId(null);
@@ -49,7 +49,7 @@ const ReviewPage = () => {
 
 	const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setEditText(e.target.value);
-	}
+	};
 
 	const trySave = () => {
 		if(editId === null) return;
@@ -63,12 +63,12 @@ const ReviewPage = () => {
 		editReview(editId, editText);
 		setEditId(null);
 		setEditText("");
-	}
+	};
 
 	const quitEdit = () => {
 		setEditId(null);
 		setEditText("");
-	}
+	};
 
 	const reviewBox = (review: Review) => {
 		const snack = getSnackById(review.snackId);
@@ -146,7 +146,7 @@ const ReviewPage = () => {
 				</div>
 			</>
 		)
-	}
+	};
 
   const saveReview = (
     snack: Snack,
@@ -163,7 +163,7 @@ const ReviewPage = () => {
 		const snack = getSnackById(review.snackId);
 		if (!snack) return "";
 		return snack.snackName;
-	}
+	};
 
   return (
     <>

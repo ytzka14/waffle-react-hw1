@@ -1,13 +1,13 @@
-import Header from "./Header.tsx";
-import DeleteReviewModal from "./DeleteReviewModal.tsx";
+import Header from "../Header/Header.tsx";
+import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal.tsx";
 import { useParams } from "react-router-dom";
-import { useSnackContext, Review } from "../contexts/SnackContext.tsx";
+import { useSnackContext, Review } from "../../contexts/SnackContext.tsx";
 import { useState } from "react";
 import iconDelete from "../assets/icon_delete.svg";
 import iconEdit from "../assets/icon_edit.svg";
 import iconQuit from "../assets/icon_quit.svg";
 import iconSave from "../assets/icon_save.svg";
-import "./css/SingleSnackPage.css";
+import "./SingleSnackPage.css";
 
 const SingleSnackPage = () => {
 	const { getSnackById, reviews, getReviewById, editReview } = useSnackContext();

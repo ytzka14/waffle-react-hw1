@@ -1,5 +1,5 @@
-import { useSnackContext } from "../contexts/SnackContext.tsx";
-import "./css/DeleteReviewModal.css";
+import { useSnackContext } from "../../contexts/SnackContext.tsx";
+import "./DeleteReviewModal.css";
 
 function DeleteReviewModal (props: {
   closeModal: (e: React.MouseEvent) => void;

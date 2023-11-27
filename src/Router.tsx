@@ -1,8 +1,8 @@
 import { Navigate, createBrowserRouter } from "react-router-dom";
-import ReviewPage from "./submodules/ReviewPage.tsx";
-import SnacksPage from "./submodules/SnacksPage.tsx";
-import NewSnackPage from "./submodules/NewSnackPage.tsx";
-import SingleSnackPage from "./submodules/SingleSnackPage.tsx";
+import ReviewPage from "./submodules/ReviewPage/ReviewPage.tsx";
+import SnacksPage from "./submodules/SnacksPage/SnacksPage.tsx";
+import NewSnackPage from "./submodules/NewSnackPage/NewSnackPage.tsx";
+import SingleSnackPage from "./submodules/SingleSnackPage/SingleSnackPage.tsx";
 import App from "./App.tsx";
 
 const router = createBrowserRouter([

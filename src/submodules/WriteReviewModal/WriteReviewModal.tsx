@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Snack, useSnackContext } from "../contexts/SnackContext.tsx";
-import "./css/WriteReviewModal.css";
+import { Snack, useSnackContext } from "../../contexts/SnackContext.tsx";
+import "./WriteReviewModal.css";
 
 const WriteReviewModal = (props: {
   closeModal: (e: React.MouseEvent) => void;

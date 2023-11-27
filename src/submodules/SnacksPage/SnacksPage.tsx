@@ -1,7 +1,7 @@
-import Header from "./Header.tsx";
-import { useSnackContext } from "../contexts/SnackContext.tsx";
+import Header from "../Header/Header.tsx";
+import { useSnackContext } from "../../contexts/SnackContext.tsx";
 import { Link } from "react-router-dom";
-import "./css/SnacksPage.css";
+import "./SnacksPage.css";
 
 const SnacksPage = () => {
 	const { snacks } = useSnackContext();

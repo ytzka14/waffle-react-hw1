@@ -2,9 +2,9 @@ import Header from "../Header/Header.tsx";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal.tsx";
 import LoginPage from "../LoginPage/LoginPage.tsx";
 import { useParams } from "react-router-dom";
-import { useSnackContext, Review } from "../../contexts/SnackContext.tsx";
+import { useSnackContext, Review, Snack} from "../../contexts/SnackContext.tsx";
 import { useLoginContext } from "../../contexts/LoginContext.tsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import iconDelete from "../../assets/icon_delete.svg";
 import iconEdit from "../../assets/icon_edit.svg";
 import iconQuit from "../../assets/icon_quit.svg";
@@ -12,15 +12,92 @@ import iconSave from "../../assets/icon_save.svg";
 import "./SingleSnackPage.css";
 
 const SingleSnackPage = () => {
-	const { getSnackById, reviews, editReview } = useSnackContext();
-	const { loggedIn } = useLoginContext();
+	const { loggedIn, getAccessToken } = useLoginContext();
 	const [ editId, setEditId ] = useState<number | null>(null);
 	const [ deleteId, setDeleteId ] = useState<number | null>(null);
 	const [ editText, setEditText ] = useState("");
 	const [ editTextError, setEditTextError ] = useState("");
+	const [ snack, setSnack ] = useState<Snack | null>(null);
+	const [ reviews, setReviews ] = useState<Review[]>([]);
 
 	const { id } = useParams();
-	const snack = getSnackById(Number(id));
+	const idNum = Number(id);
+	const getSnackById = (id: number) => {
+		fetch("https://seminar-react-api.wafflestudio.com/snacks/" + id, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+		})
+			.then((res) => res.json())
+			.then((res) => {
+				const retrieved: Snack = {
+					snackId: res.id,
+					snackName: res.name,
+					snackImageUrl: res.image,
+					snackRate: res.rating
+				};
+				setSnack(retrieved);
+			})
+			.catch(() => {
+				alert("Cannot find snack!");
+			});
+	};
+	const fetchReviews = (id: number) => {
+		fetch("https://seminar-react-api.wafflestudio.com/reviews/", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+			body: JSON.stringify({
+				"snack": id,
+			}),
+		})
+			.then((res) => res.json())
+			.then((reslist) => {
+				return reslist.map((res) => {
+					const retrieved: Review = {
+						reviewId: res.id,
+						snackId: res.snack.id,
+						reviewScore: res.rating,
+						reviewText: res.content
+					};
+					return retrieved;
+				});
+			})
+			.then((res) => {
+				setReviews(res);
+			})
+			.catch(() => {
+				alert("Cannot get review list!");
+				setReviews([]);
+			});
+	};
+
+	useEffect(() => {
+		getSnackById(idNum);
+		fetchReviews(idNum);
+	}, []);
+
+	const editReview = (editId: number, editText: string) => {
+		fetch("https://seminar-react-api.wafflestudio.com/reviews/" + editId, {
+			method: "PATCH",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+			body: JSON.stringify({
+				"content": editText
+			}),
+		})
+			.then((res) => res.json())
+			.then(() => fetchReviews(idNum))
+			.catch(() => {
+				alert("Cannot edit review!");
+			})
+	}
 
 	const handleText = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setEditText(e.target.value);
@@ -134,7 +211,7 @@ const SingleSnackPage = () => {
 					</div>
 				</div>
 				<ul className="ssp-review-list" data-testid="review-list">
-					{ reviews.filter((review) => (review.snackId === snack?.snackId)).map((review) => (rateBox(review))) }
+					{ reviews.map((review) => (rateBox(review))) }
 				</ul>
 				{deleteId && (
 					<div className="ssp-overlay">

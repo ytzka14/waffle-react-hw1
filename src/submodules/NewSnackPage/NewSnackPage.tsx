@@ -51,7 +51,7 @@ const NewSnackPage = () => {
 				"Authorization": "Bearer " + getAccessToken(),
 			},
 			body: JSON.stringify({
-				"string": name,
+				"search": name,
 			}),
 		})
 			.then((res) => res.json())

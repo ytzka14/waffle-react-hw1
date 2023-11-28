@@ -45,15 +45,12 @@ const SingleSnackPage = () => {
 			});
 	};
 	const fetchReviews = (id: number) => {
-		fetch("https://seminar-react-api.wafflestudio.com/reviews/", {
+		fetch("https://seminar-react-api.wafflestudio.com/reviews/?snack=" + id, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
 				"Authorization": "Bearer " + getAccessToken(),
 			},
-			body: JSON.stringify({
-				"snack": id,
-			}),
 		})
 			.then((res) => res.json())
 			.then((reslist) => {
@@ -141,12 +138,15 @@ const SingleSnackPage = () => {
 			)
 		}
 
+		let notNullRating = review.reviewScore;
+		if(!notNullRating) notNullRating = 0;
+
 		return (
 			<>
 				<div className="ssp-review-box" data-testid="review">
 					<div className="ssp-rate-box">
 						<span className="ssp-rate-span">★</span>
-						<span className="ssp-rate-span" data-testid="rating">{review.reviewScore.toFixed(1)}</span>
+						<span className="ssp-rate-span" data-testid="rating">{notNullRating.toFixed(1)}</span>
 						{editId !== review.reviewId && <p>{review.reviewText}</p>}
 						{editId === review.reviewId && (
 							<textarea
@@ -201,21 +201,34 @@ const SingleSnackPage = () => {
 		)
 	}
 
+	const nonNullSnack = (prob: Snack | null) => {
+		if(!prob) {
+			return (
+				<></>
+			)
+		}
+		let nonNullRate = prob.snackRate;
+		if(!nonNullRate) nonNullRate = 0;
+		return (
+			<div className="ssp-snack-block" key={prob.snackId} data-testid="snack-card">
+				<div className="ssp-image-box">
+					<img src={prob.snackImageUrl} alt={prob.snackName} className="ssp-snack-image" data-testid="snack-image"/>
+				</div>
+				<div className="ssp-text-box">
+					<span className="ssp-snack-name-text" data-testid="snack-name">{prob.snackName}</span>
+					<br/>
+					<span className="ssp-rate-span">★</span>
+					<span className="ssp-rate-span" data-testid="rating">{nonNullRate.toFixed(1)}</span>
+				</div>
+			</div>
+		)
+	}
+
 	if (loggedIn) {
 		return (
 			<>
 				<Header pageType="snack"/>
-				<div className="ssp-snack-block" key={snack?.snackId} data-testid="snack-card">
-					<div className="ssp-image-box">
-						<img src={snack?.snackImageUrl} alt={snack?.snackName} className="ssp-snack-image" data-testid="snack-image"/>
-					</div>
-					<div className="ssp-text-box">
-						<span className="ssp-snack-name-text" data-testid="snack-name">{snack?.snackName}</span>
-						<br/>
-						<span className="ssp-rate-span">★</span>
-						<span className="ssp-rate-span" data-testid="rating">{snack?.snackRate.toFixed(1)}</span>
-					</div>
-				</div>
+				{ nonNullSnack(snack) }
 				<ul className="ssp-review-list" data-testid="review-list">
 					{ reviews.map((review) => (rateBox(review))) }
 				</ul>

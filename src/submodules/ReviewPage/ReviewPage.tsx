@@ -194,7 +194,7 @@ const ReviewPage = () => {
 
 		return (
 			<>
-				<div className="rev-review-box" data-testid="review" key={review.reviewId}>
+				<li className="rev-review-box" data-testid="review" key={review.reviewId}>
 					<div className="rev-image-box">
 						<Link to={"/snacks/" + review.snackId}>
 							<img src={targetSnack.snackImageUrl} alt={targetSnack.snackName} className="rev-snack-image" data-testid="snack-image"/>
@@ -256,7 +256,7 @@ const ReviewPage = () => {
 							/>
 						</div>
 					)}
-				</div>
+				</li>
 			</>
 		)
 	};
@@ -284,6 +284,7 @@ const ReviewPage = () => {
 						<WriteReviewModal
 							closeModal={closeWriteModal}
 							saveReview={saveReview}
+							snacks={snacks}
 						/>
 					</div>
 				)}

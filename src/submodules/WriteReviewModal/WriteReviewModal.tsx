@@ -10,6 +10,7 @@ const WriteReviewModal = (props: {
     reviewScore: number,
     reviewText: string,
   ) => void;
+	snacks: Snack[]
 }) => {
   const [snackName, setSnackName] = useState("");
   const [snackRate, setSnackRate] = useState(0);
@@ -19,11 +20,10 @@ const WriteReviewModal = (props: {
   const [textError, setTextError] = useState("");
 	const [showDropdown, setShowDropdown] = useState(false);
 	const [targetSnack, setTargetSnack] = useState<Snack | null>(null);
-	const [snacks, setSnacks] = useState<Snack[]>([]);
 	const { getAccessToken } = useLoginContext();
 
 	const getSnackByName = (name: string) => {
-		fetch("https://seminar-react-api.wafflestudio.com/snacks/"+name, {
+		fetch("https://seminar-react-api.wafflestudio.com/snacks/?search=" + name, {
 			method: "GET",
 			headers: {
 				"Content-Type": "applications/json",
@@ -32,8 +32,17 @@ const WriteReviewModal = (props: {
 		})
 			.then((res) => res.json())
 			.then((reslist) => {
-				if(reslist.length > 1){
-					setTargetSnack(reslist[0]);
+				if(reslist.length > 0){
+					let remNull = reslist[0].rating;
+					if(!reslist[0].rating) remNull = 0;
+					const retrieved: Snack = {
+						snackId: reslist[0].id,
+						snackName: reslist[0].name,
+						snackImageUrl: reslist[0].image,
+						snackRate: remNull
+					};
+					console.log(retrieved);
+					setTargetSnack(retrieved);
 				} else {
 					setTargetSnack(null);
 				}
@@ -43,37 +52,8 @@ const WriteReviewModal = (props: {
 			});
 	};
 
-	const getSnacks = () => {
-		fetch("https://seminar-react-api.wafflestudio.com/snacks/", {
-			method: "GET",
-			headers: {
-				"Content-Type": "applications/json",
-				"Authorization": "Bearer " + getAccessToken(),
-			},
-		})
-			.then((res) => res.json())
-			.then((reslist) => {
-				return reslist.map((res: { id: any; name: any; image: any; rating: any; }) => {
-					const retrieved: Snack = {
-						snackId: res.id,
-						snackName: res.name,
-						snackImageUrl: res.image,
-						snackRate: res.rating
-					};
-					return retrieved;
-				});
-			})
-			.then((res) => {
-				setSnacks(res);
-			})
-			.catch(() => {
-				alert("Cannot get snacks!");
-			});
-	};
-
 	const filterSnacksByName = (query: string) => {
-		getSnacks();
-		return snacks.filter((snack: Snack) => snack.snackName.replace(' ', '').includes(query.replace(' ', '')));
+		return props.snacks.filter((snack: Snack) => snack.snackName.replace(' ', '').includes(query.replace(' ', '')));
 	}
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -104,6 +84,8 @@ const WriteReviewModal = (props: {
   function tryWrite(e: React.MouseEvent) {
     let invalid = false;
 		getSnackByName(snackName);
+		console.log("Barrier");
+		console.log(targetSnack);
     if (targetSnack === null) {
 			setNameError("해당 과자를 찾을 수 없습니다");
 			invalid = true;

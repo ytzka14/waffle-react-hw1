@@ -35,7 +35,7 @@ const ReviewPage = () => {
 		})
 			.then((res) => res.json())
 			.then((reslist) => {
-				return reslist.map((res) => {
+				return reslist.map((res: { id: any; snack: { id: any; }; rating: any; content: any; }) => {
 					const retrieved: Review = {
 						reviewId: res.id,
 						snackId: res.snack.id,

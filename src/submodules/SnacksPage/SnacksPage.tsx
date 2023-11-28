@@ -20,7 +20,7 @@ const SnacksPage = () => {
 		})
 			.then((res) => res.json())
 			.then((reslist) => {
-				return reslist.map((res) => {
+				return reslist.map((res: { id: any; name: any; image: any; rating: any; }) => {
 					const retrieved: Snack = {
 						snackId: res.id,
 						snackName: res.name,

@@ -2,7 +2,7 @@ import Header from "../Header/Header.tsx";
 import DeleteReviewModal from "../DeleteReviewModal/DeleteReviewModal.tsx";
 import LoginPage from "../LoginPage/LoginPage.tsx";
 import { useParams } from "react-router-dom";
-import { useSnackContext, Review, Snack} from "../../contexts/SnackContext.tsx";
+import { Review, Snack} from "../../contexts/SnackContext.tsx";
 import { useLoginContext } from "../../contexts/LoginContext.tsx";
 import { useState, useEffect } from "react";
 import iconDelete from "../../assets/icon_delete.svg";
@@ -57,7 +57,7 @@ const SingleSnackPage = () => {
 		})
 			.then((res) => res.json())
 			.then((reslist) => {
-				return reslist.map((res) => {
+				return reslist.map((res: { id: any; snack: { id: any; }; rating: any; content: any; }) => {
 					const retrieved: Review = {
 						reviewId: res.id,
 						snackId: res.snack.id,

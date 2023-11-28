@@ -1,8 +1,8 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import { ReactNode, SetStateAction, createContext, useContext, useState } from "react";
 
 export type LoginContextData = {
 	loggedIn: boolean;
-	login: (res: Promise<any>) => void;
+	login: (res: { user: { id: SetStateAction<number | null>; name: SetStateAction<string>; }; access_token: SetStateAction<string>; }) => void;
 	getAuthorId: () => number | null;
 	getAuthorName: () => string | null;
 	getAccessToken: () => string | null;
@@ -22,7 +22,7 @@ export const LoginProvider = ({ children }: { children: ReactNode }) => {
 	const [ authorName, setAuthorName ] = useState("");
 	const [ accessToken, setAccessToken ] = useState("");
 
-	const login = (res: any) => { // how to not use any?
+	const login = (res: { user: { id: SetStateAction<number | null>; name: SetStateAction<string>; }; access_token: SetStateAction<string>; }) => {
 		setAuthorId(res.user.id);
 		setAuthorName(res.user.name);
 		setAccessToken(res.access_token);

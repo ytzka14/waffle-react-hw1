@@ -25,7 +25,7 @@ const ReviewPage = () => {
 	
 	const { getAccessToken, loggedIn } = useLoginContext();
 
-	useEffect(() => {
+	const fetchReviews = () => {
 		fetch("https://seminar-react-api.wafflestudio.com/reviews/", {
 			method: "GET",
 			headers: {
@@ -52,6 +52,10 @@ const ReviewPage = () => {
 				alert("Cannot get review list!");
 				setReviews([]);
 			})
+	}
+
+	useEffect(() => {
+		fetchReviews();
 	}, []);
 
 	const getSnackById = (id: number) => {
@@ -91,17 +95,8 @@ const ReviewPage = () => {
 			}),
 		})
 			.then((res) => res.json())
-			.then((res) => {
-				const newReview: Review = {
-					reviewId: res.id,
-					snackId: res.snack.id,
-					reviewScore: res.rating,
-					reviewText: res.content
-				};
-				return newReview;
-			})
-			.then((res) => {
-				setReviews([...reviews, res]);
+			.then(() => {
+				fetchReviews();
 			})
 			.catch(() => {
 				alert("Cannot add review!");
@@ -120,17 +115,8 @@ const ReviewPage = () => {
 			}),
 		})
 			.then((res) => res.json())
-			.then((res) => {
-				const newReview: Review = {
-					reviewId: res.id,
-					snackId: res.snack.id,
-					reviewScore: res.rating,
-					reviewText: res.content
-				};
-				return newReview;
-			})
-			.then((res) => {
-				setReviews([...reviews, res]);
+			.then(() => {
+				fetchReviews();
 			})
 			.catch(() => {
 				alert("Cannot edit review!");
@@ -295,6 +281,7 @@ const ReviewPage = () => {
 						<DeleteReviewModal
 							closeModal={closeDeleteModal}
 							deleteReviewId={deleteId}
+							reload={fetchReviews}
 						/>
 					</div>
 				)}

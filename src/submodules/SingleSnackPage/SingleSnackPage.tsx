@@ -218,6 +218,7 @@ const SingleSnackPage = () => {
 						<DeleteReviewModal
 							closeModal={closeDeleteModal}
 							deleteReviewId={deleteId}
+							reload={() => fetchReviews(idNum)}
 						/>
 					</div>
 				)}

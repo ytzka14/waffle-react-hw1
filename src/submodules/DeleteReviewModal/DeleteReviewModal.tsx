@@ -1,19 +1,32 @@
-import { useSnackContext } from "../../contexts/SnackContext.tsx";
+import { useLoginContext } from "../../contexts/LoginContext.tsx";
 import "./DeleteReviewModal.css";
 
-function DeleteReviewModal (props: {
+const DeleteReviewModal = (props: {
   closeModal: (e: React.MouseEvent) => void;
   deleteReviewId: number;
-}) {
-	const { getReviewById, removeReview } = useSnackContext();
+	reload: () => void;
+}) => {
+	const { getAccessToken } = useLoginContext();
+
+	const removeReview = (id: number) => {
+		fetch("https://seminar-react-api.wafflestudio.com/reviews/"+id, {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+			body: JSON.stringify({
+				"id": id,
+			}),
+		})
+			.catch(() => {
+				alert("Cannot remove review!");
+			});
+	}
 
 	const removeAndClose = (e: React.MouseEvent) => {
-		const targetReview = getReviewById(props.deleteReviewId);
-		if (!targetReview) {
-			alert("Review with target deleteReviewId doesn't exist");
-			return;
-		}
-		removeReview(targetReview);
+		removeReview(props.deleteReviewId);
+		props.reload();
 		return props.closeModal(e);
 	}
 

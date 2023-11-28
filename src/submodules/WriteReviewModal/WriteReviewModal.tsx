@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Snack, useSnackContext } from "../../contexts/SnackContext.tsx";
+import { Snack } from "../../contexts/SnackContext.tsx";
+import { useLoginContext } from "../../contexts/LoginContext.tsx";
 import "./WriteReviewModal.css";
 
 const WriteReviewModal = (props: {
@@ -17,8 +18,63 @@ const WriteReviewModal = (props: {
   const [rateError, setRateError] = useState("");
   const [textError, setTextError] = useState("");
 	const [showDropdown, setShowDropdown] = useState(false);
+	const [targetSnack, setTargetSnack] = useState<Snack | null>(null);
+	const [snacks, setSnacks] = useState<Snack[]>([]);
+	const { getAccessToken } = useLoginContext();
 
-	const { getSnackByName, filterSnacksByName } = useSnackContext();
+	const getSnackByName = (name: string) => {
+		fetch("https://seminar-react-api.wafflestudio.com/snacks/"+name, {
+			method: "GET",
+			headers: {
+				"Content-Type": "applications/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+		})
+			.then((res) => res.json())
+			.then((reslist) => {
+				if(reslist.length > 1){
+					setTargetSnack(reslist[0]);
+				} else {
+					setTargetSnack(null);
+				}
+			})
+			.catch(() => {
+				alert("Cannot get snack by name!");
+			});
+	};
+
+	const getSnacks = () => {
+		fetch("https://seminar-react-api.wafflestudio.com/snacks/", {
+			method: "GET",
+			headers: {
+				"Content-Type": "applications/json",
+				"Authorization": "Bearer " + getAccessToken(),
+			},
+		})
+			.then((res) => res.json())
+			.then((reslist) => {
+				return reslist.map((res) => {
+					const retrieved: Snack = {
+						snackId: res.id,
+						snackName: res.name,
+						snackImageUrl: res.image,
+						snackRate: res.rating
+					};
+					return retrieved;
+				});
+			})
+			.then((res) => {
+				setSnacks(res);
+			})
+			.catch(() => {
+				alert("Cannot get snacks!");
+			});
+	};
+
+	const filterSnacksByName = (query: string) => {
+		getSnacks();
+		return snacks.filter((snack: Snack) => snack.snackName.replace(' ', '').includes(query.replace(' ', '')));
+	}
 
   const handleName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSnackName(e.target.value);
@@ -47,7 +103,8 @@ const WriteReviewModal = (props: {
 
   function tryWrite(e: React.MouseEvent) {
     let invalid = false;
-    if (getSnackByName(snackName) === null) {
+		getSnackByName(snackName);
+    if (targetSnack === null) {
 			setNameError("해당 과자를 찾을 수 없습니다");
 			invalid = true;
     } else {
@@ -72,7 +129,6 @@ const WriteReviewModal = (props: {
     }
 
     if (!invalid) {
-			const targetSnack = getSnackByName(snackName);
 			if (!targetSnack) {
 				setNameError("해당 과자를 찾을 수 없습니다");
 				return;

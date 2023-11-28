@@ -21,7 +21,7 @@ const ReviewPage = () => {
   const [ editText, setEditText ] = useState("");
   const [ editTextError, setEditTextError ] = useState("");
 	const [ reviews, setReviews ] = useState<Review[]>([]);
-	const [ snack, setSnack ] = useState<Snack | null>(null);
+	const [ snacks, setSnacks ] = useState<Snack[]>([]);
 	
 	const { getAccessToken, loggedIn } = useLoginContext();
 
@@ -54,31 +54,41 @@ const ReviewPage = () => {
 			})
 	}
 
-	useEffect(() => {
-		fetchReviews();
-	}, []);
-
-	const getSnackById = (id: number) => {
-		fetch("https://seminar-react-api.wafflestudio.com/snacks/" + id, {
+	const getSnacks = () => {
+		fetch("https://seminar-react-api.wafflestudio.com/snacks/", {
 			method: "GET",
 			headers: {
-				"Content-Type": "application/json",
+				"Content-Type": "applications/json",
 				"Authorization": "Bearer " + getAccessToken(),
 			},
 		})
 			.then((res) => res.json())
+			.then((reslist) => {
+				return reslist.map((res: { id: any; name: any; image: any; rating: any; }) => {
+					const retrieved: Snack = {
+						snackId: res.id,
+						snackName: res.name,
+						snackImageUrl: res.image,
+						snackRate: res.rating
+					};
+					return retrieved;
+				});
+			})
 			.then((res) => {
-				const retrieved: Snack = {
-					snackId: res.id,
-					snackName: res.name,
-					snackImageUrl: res.image,
-					snackRate: res.rating
-				};
-				setSnack(retrieved);
+				setSnacks(res);
 			})
 			.catch(() => {
-				alert("Cannot find snack!");
+				alert("Cannot get snacks!");
 			});
+	};
+
+	useEffect(() => {
+		fetchReviews();
+		getSnacks();
+	}, []);
+
+	const getSnackById = (id: number) => {
+		return snacks.find((ss: Snack) => ss.snackId === id) || null;
 	};
 	
 	const addReview = (review: ReviewInput) => {
@@ -173,9 +183,9 @@ const ReviewPage = () => {
 	};
 
 	const reviewBox = (review: Review) => {
-		getSnackById(review.snackId);
+		const targetSnack = getSnackById(review.snackId);
 		
-		if(snack === null){
+		if(targetSnack === null){
 			return (
 				<></>
 			);
@@ -186,12 +196,12 @@ const ReviewPage = () => {
 				<div className="rev-review-box" data-testid="review" key={review.reviewId}>
 					<div className="rev-image-box">
 						<Link to={"/snacks/" + review.snackId}>
-							<img src={snack.snackImageUrl} alt={snack.snackName} className="rev-snack-image" data-testid="snack-image"/>
+							<img src={targetSnack.snackImageUrl} alt={targetSnack.snackName} className="rev-snack-image" data-testid="snack-image"/>
 						</Link>
 					</div>
 					<div className="rev-review-title">
 						<Link to={"/snacks/" + review.snackId} className="rev-invisible-link">
-							<span className="rev-snack-name-text" data-testid="snack-name">{snack.snackName}</span>
+							<span className="rev-snack-name-text" data-testid="snack-name">{targetSnack.snackName}</span>
 						</Link>
 						<span className="rev-grey-text"> / </span>
 						<span className="rev-rate-span">★</span>

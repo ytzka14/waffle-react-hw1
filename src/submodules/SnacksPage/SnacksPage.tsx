@@ -10,11 +10,11 @@ const SnacksPage = () => {
 	const { loggedIn, getAccessToken } = useLoginContext();
 	const [ snacks, setSnacks ] = useState<Snack[]>([]);
 
-	useEffect(() => {
+	const getSnacks = () => {
 		fetch("https://seminar-react-api.wafflestudio.com/snacks/", {
 			method: "GET",
 			headers: {
-				"Content-Type": "application/json",
+				"Content-Type": "applications/json",
 				"Authorization": "Bearer " + getAccessToken(),
 			},
 		})
@@ -34,9 +34,12 @@ const SnacksPage = () => {
 				setSnacks(res);
 			})
 			.catch(() => {
-				alert("Cannot get snack list!");
-				setSnacks([]);
+				alert("Cannot get snacks!");
 			});
+	};
+
+	useEffect(() => {
+		getSnacks();
 	}, []);
 
 	if (loggedIn) {

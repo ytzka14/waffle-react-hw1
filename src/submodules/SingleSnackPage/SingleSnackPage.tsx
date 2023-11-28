@@ -135,6 +135,12 @@ const SingleSnackPage = () => {
   };
 
 	const rateBox = (review: Review) => {
+		if(review.reviewId === undefined){
+			return (
+				<></>
+			)
+		}
+
 		return (
 			<>
 				<div className="ssp-review-box" data-testid="review">

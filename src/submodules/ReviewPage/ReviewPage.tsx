@@ -79,6 +79,7 @@ const ReviewPage = () => {
 			})
 			.catch(() => {
 				alert("Cannot get snacks!");
+				setSnacks([]);
 			});
 	};
 

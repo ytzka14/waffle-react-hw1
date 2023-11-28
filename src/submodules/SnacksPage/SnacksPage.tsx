@@ -21,11 +21,13 @@ const SnacksPage = () => {
 			.then((res) => res.json())
 			.then((reslist) => {
 				return reslist.map((res: { id: any; name: any; image: any; rating: any; }) => {
+					let remNull = res.rating;
+					if(!res.rating) remNull = 0;
 					const retrieved: Snack = {
 						snackId: res.id,
 						snackName: res.name,
 						snackImageUrl: res.image,
-						snackRate: res.rating
+						snackRate: remNull
 					};
 					return retrieved;
 				});
@@ -35,6 +37,7 @@ const SnacksPage = () => {
 			})
 			.catch(() => {
 				alert("Cannot get snacks!");
+				setSnacks([]);
 			});
 	};
 
@@ -42,14 +45,17 @@ const SnacksPage = () => {
 		getSnacks();
 	}, []);
 
-	if (loggedIn) {
+	const snackBox = (snack: Snack) => {
+		if(snack === null){
+			return (
+				<></>
+			);
+		}
+
+		console.log(snack.snackRate);
+
 		return (
-			<>
-				<Header pageType="snack"/>
-				<ul className="snk-snack-list">
-					{
-						snacks.map((snack) => (
-							<div className="snk-snack-block" key={snack.snackId} data-testid="snack-card">
+			<li className="snk-snack-block" key={snack.snackId} data-testid="snack-card">
 								<div className="snk-image-box">
 									<Link to={"/snacks/" + snack.snackId}>
 										<img src={snack.snackImageUrl} alt={snack.snackName} className="snk-snack-image" data-testid="snack-image"/>
@@ -63,8 +69,17 @@ const SnacksPage = () => {
 									<span className="snk-rate-span">★</span>
 									<span className="snk-rate-span" data-testid="rating">{snack.snackRate.toFixed(1)}</span>
 								</div>
-							</div>
-						))
+							</li>
+		)
+	}
+
+	if (loggedIn) {
+		return (
+			<>
+				<Header pageType="snack"/>
+				<ul className="snk-snack-list">
+					{
+						snacks.map((snack) => snackBox(snack))
 					}
 				</ul>
 			</>
